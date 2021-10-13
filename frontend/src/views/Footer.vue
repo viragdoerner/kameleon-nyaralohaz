@@ -38,10 +38,10 @@
           >
             8636, Balatonszemes, Semmelweis u.
           </p>
-          <v-btn key="5" class="mx-4 footer-element" icon>
+          <v-btn key="5" class="mx-4 footer-element" icon href="https://www.facebook.com/kameleonnyaralohaz" target="blank">
             <v-icon size="24px" color="blue darken-3"> fa-facebook </v-icon>
           </v-btn>
-          <v-btn  key="6" class="mx-4 footer-element" icon>
+          <v-btn  key="6" class="mx-4 footer-element" icon href="mailto:mail.dorner.eva@gmail.com">
             <v-icon size="24px" color="red darken-3"> fa-envelope </v-icon>
           </v-btn>
         </transition-group>
