@@ -1,57 +1,26 @@
 <template>
-    <div>
-        <v-app-bar
-      color="primary"
-      dark
-    >
-      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+  <v-parallax src="../assets/bg.png">
+    <v-row align="center" justify="left" class="pa-16 ma-16">
+      <v-col  cols="7">
+        
+          <img src="../assets/cim_feher.svg" />
+          <h3 class="secondary--text">BALATONSZEMES</h3>
 
-      <v-toolbar-title>Title</v-toolbar-title>
-    </v-app-bar>
-
-    <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      temporary
-    >
-      <v-list
-        nav
-        dense
-      >
-        <v-list-item-group
-          v-model="group"
-          active-class="deep-purple--text text--accent-4"
-        >
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-account</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Account</v-list-item-title>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-navigation-drawer>
-    </div>
+      </v-col>
+    </v-row></v-parallax
+  >
 </template>
 
 <script>
+export default {
+  name: "CHeader",
 
-  export default {
-    name: 'CHeader',
-
-    components: {
-
-    },
-    data: () => ({
-      drawer: false,
-      group: null,
-    }),
-  }
+  components: {},
+  data: () => ({}),
+};
 </script>
+<style scoped>
+.header-title-container {
+  opacity: 0.4;
+}
+</style>

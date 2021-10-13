@@ -1,24 +1,23 @@
 <template>
   <v-app>
-    <c-header></c-header>
+    <c-app-bar></c-app-bar>
     <v-main>
-      <router-view/>
+      <router-view />
     </v-main>
     <c-footer></c-footer>
   </v-app>
 </template>
 
 <script>
-
-import CFooter from './views/Footer.vue';
-import CHeader from './views/Header.vue';
+import CFooter from "./views/Footer.vue";
+import CAppBar from "./views/AppBar.vue";
 
 export default {
-  components: { 
+  components: {
     CFooter,
-    CHeader
+    CAppBar,
   },
-  name: 'App',
+  name: "App",
 
   data: () => ({
     //
