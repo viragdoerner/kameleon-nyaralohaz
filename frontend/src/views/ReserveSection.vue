@@ -39,7 +39,9 @@
 <script>
 export default {
   name: "CReserveSection",
-
+data: () => ({
+    dateRangeText: null
+  }),
   components: {},
 };
 </script>
