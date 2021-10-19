@@ -1,6 +1,18 @@
 <template>
-  <v-container class="d-flex  px-16" fluid>
-    <v-card width="80%" class="pa-10 ma-10">
+  <v-container class="d-flex px-16 col-10" fluid>
+    <v-card width="50%" class="pa-10 ma-10">
+      <v-card-title class="text-h3 zabatana primary--text" color="primary">Foglalj apartmant</v-card-title>
+      <v-card-text class="roboto font-weight-light pb-2">
+        Reggeli madárfütty-koncert, hűs falak, árnyékos teraszok, hosszú
+        pancsolások és esti sütögetések Mi ezek miatt szeretünk annyira a
+        balatonszemesi nyaralónkban lenni.
+      </v-card-text>
+      <v-card-text class="roboto font-weight-regular">
+        Idén nyáron pedig várunk Titeket is sok szeretettel a Kaméleon
+        Nyaralóházban, csak 2 perc sétára a strandtól!
+      </v-card-text>
+    </v-card>
+    <v-card width="50%" class="pa-10 ma-10">
       <v-card-text>
         <v-row>
           <v-text-field
@@ -16,18 +28,9 @@
         <v-row>
           <v-combobox filled solo></v-combobox>
         </v-row>
-      </v-card-text>
-    </v-card>
-    <v-card width="100%" class="pa-10 ma-10">
-      <v-card-title>Foglalj apartmant</v-card-title>
-      <v-card-text>
-        Reggeli madárfütty-koncert, hűs falak, árnyékos teraszok, hosszú
-        pancsolások és esti sütögetések Mi ezek miatt szeretünk annyira a
-        balatonszemesi nyaralónkban lenni.
-      </v-card-text>
-      <v-card-text>
-        Idén nyáron pedig várunk Titeket is sok szeretettel a Kaméleon
-        Nyaralóházban, csak 2 perc sétára a strandtól!
+        <v-row>
+          <v-btn elevation="2" x-large color=secondary >FOGLALÁS </v-btn>
+        </v-row>
       </v-card-text>
     </v-card>
   </v-container>

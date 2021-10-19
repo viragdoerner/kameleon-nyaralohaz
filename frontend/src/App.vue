@@ -24,3 +24,14 @@ export default {
   }),
 };
 </script>
+
+
+<style>
+
+@font-face {
+  font-family: "Zabatana";
+  src: local("Zabatana"),
+   url(./assets/fonts/Zabatana-Poster.ttf) format("truetype");
+}
+
+</style>
