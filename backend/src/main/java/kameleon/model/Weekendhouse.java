@@ -27,6 +27,9 @@ public class Weekendhouse {
     @NotNull
     @Size(min=2, max=50)
     private String email;
+    @NotNull
+    @Size(min=2, max=1000000)
+    private String description;
 
 
 
@@ -35,13 +38,15 @@ public class Weekendhouse {
         this.address = null;
         this.phone_number = null;
         this.email = null;
+        this.description = null;
     }
 
-    public Weekendhouse(@JsonProperty("address") String address, @JsonProperty("phone_number") String phone_number, @JsonProperty("email") String email,  @JsonProperty("properties") ArrayList<String> properties){
+    public Weekendhouse(@JsonProperty("address") String address, @JsonProperty("phone_number") String phone_number, @JsonProperty("email") String email, @JsonProperty("description") String description, @JsonProperty("properties") ArrayList<String> properties){
         this.properties = properties;
         this.address = address;
         this.phone_number = phone_number;
         this.email = email;
+        this.description = description;
     }
 
     public Long getId() {
@@ -82,5 +87,13 @@ public class Weekendhouse {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -3,9 +3,7 @@
     <v-card width="50%" class="pa-10 ma-10">
       <v-card-title class="text-h3 zabatana cgreen--text" >Foglalj apartmant</v-card-title>
       <v-card-text class="roboto font-weight-light pb-2">
-        Reggeli madárfütty-koncert, hűs falak, árnyékos teraszok, hosszú
-        pancsolások és esti sütögetések Mi ezek miatt szeretünk annyira a
-        balatonszemesi nyaralónkban lenni.
+        {{description}}
       </v-card-text>
       <v-card-text class="roboto font-weight-regular">
         Idén nyáron pedig várunk Titeket is sok szeretettel a Kaméleon
@@ -43,5 +41,11 @@ data: () => ({
     dateRangeText: null
   }),
   components: {},
+  props: {
+    description: {
+      type: String,
+      required: true,
+    },
+  },
 };
 </script>

@@ -1,14 +1,14 @@
 <template>
   <v-container class="d-flex justify-space-around px-16 icons-container" fluid>
     <div
-      v-for="n in 5"
-      :key="n"
+      v-for="p in properties"
+      :key="p"
       class="pa-2 d-flex flex-column align-center my-16"
     >
       <div class="align-self-center">
         <v-icon x-large size="24px" color="purple darken-3"> fa-paw </v-icon>
       </div>
-      <div class="align-self-center cgreen--text">szöveg</div>
+      <div class="align-self-center cgreen--text">{{p}}</div>
     </div>
   </v-container>
 </template>
@@ -16,7 +16,12 @@
 <script>
 export default {
   name: "CIconList",
-
+props: {
+    properties: {
+      type: Array,
+      required: true,
+    },
+  },
   components: {},
 };
 </script>
