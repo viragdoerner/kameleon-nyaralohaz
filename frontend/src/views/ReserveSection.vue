@@ -1,7 +1,7 @@
 <template>
   <v-container class="d-flex px-16 col-10" fluid>
     <v-card width="50%" class="pa-10 ma-10">
-      <v-card-title class="text-h3 zabatana primary--text" color="primary">Foglalj apartmant</v-card-title>
+      <v-card-title class="text-h3 zabatana cgreen--text" >Foglalj apartmant</v-card-title>
       <v-card-text class="roboto font-weight-light pb-2">
         Reggeli madárfütty-koncert, hűs falak, árnyékos teraszok, hosszú
         pancsolások és esti sütögetések Mi ezek miatt szeretünk annyira a
@@ -29,7 +29,7 @@
           <v-combobox filled solo></v-combobox>
         </v-row>
         <v-row>
-          <v-btn elevation="2" x-large color=secondary >FOGLALÁS </v-btn>
+          <v-btn elevation="2" x-large color="corange" class="white--text">FOGLALÁS </v-btn>
         </v-row>
       </v-card-text>
     </v-card>

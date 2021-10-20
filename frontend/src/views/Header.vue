@@ -4,7 +4,7 @@
       <v-col  cols="7">
         
           <img src="../assets/cim_feher.svg" />
-          <h3 class="secondary--text">BALATONSZEMES</h3>
+          <h3 class="corange--text">BALATONSZEMES</h3>
 
       </v-col>
     </v-row></v-parallax

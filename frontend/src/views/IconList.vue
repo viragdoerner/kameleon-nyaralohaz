@@ -8,7 +8,7 @@
       <div class="align-self-center">
         <v-icon x-large size="24px" color="purple darken-3"> fa-paw </v-icon>
       </div>
-      <div class="align-self-center primary--text">szöveg</div>
+      <div class="align-self-center cgreen--text">szöveg</div>
     </div>
   </v-container>
 </template>

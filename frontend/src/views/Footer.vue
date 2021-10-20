@@ -1,6 +1,6 @@
 <template>
   <v-footer padless>
-    <v-card flat tile width="100%" class="secondary text-center">
+    <v-card flat tile width="100%" class="corange text-center">
       <v-card-text>
         <transition-group class="footer-elements">
           <v-btn key="1"
