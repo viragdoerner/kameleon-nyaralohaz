@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import CHeader from "./Header.vue";
-import CReserveSection from "./ReserveSection.vue";
-import CReserveApartmentSection from "./ReserveApartmentSection.vue";
-import CIconList from "./IconList.vue";
+import CHeader from "../components/home/Header.vue";
+import CReserveSection from "../components/home/ReserveSection.vue";
+import CReserveApartmentSection from "../components/home/ReserveApartmentSection.vue";
+import CIconList from "../components/home/IconList.vue";
 
 export default {
   name: "Home",

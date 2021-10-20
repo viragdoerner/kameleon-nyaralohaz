@@ -1,9 +1,9 @@
 <template>
-  <v-parallax src="../assets/bg.png">
+  <v-parallax src="../../assets/bg.png">
     <v-row align="center" class="pa-16 ma-16">
       <v-col  cols="7">
         
-          <img src="../assets/cim_feher.svg" />
+          <img src="../../assets/cim_feher.svg" />
           <h3 class="corange--text">BALATONSZEMES</h3>
 
       </v-col>

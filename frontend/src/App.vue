@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import CFooter from "./views/Footer.vue";
-import CAppBar from "./views/AppBar.vue";
+import CFooter from "./components/Footer.vue";
+import CAppBar from "./components/AppBar.vue";
 
 export default {
   components: {
