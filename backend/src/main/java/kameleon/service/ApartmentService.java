@@ -26,7 +26,8 @@ public class ApartmentService {
         return repository.getById(id);
     }
 
-    public Apartment updateApartment(Apartment apartment) {
+    public Apartment updateApartment(Apartment apartment)
+    {
         return repository.save(apartment);
     }
 }

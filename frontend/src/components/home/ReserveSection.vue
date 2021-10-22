@@ -41,11 +41,6 @@ data: () => ({
     dateRangeText: null
   }),
   components: {},
-  props: {
-    description: {
-      type: String,
-      required: true,
-    },
-  },
+  props: ["description"],
 };
 </script>

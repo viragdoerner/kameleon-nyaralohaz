@@ -1,5 +1,6 @@
 package kameleon.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 import javax.validation.constraints.Size;
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table
@@ -16,8 +18,10 @@ public class Weekendhouse {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @ElementCollection
-    private List<String> properties;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "weekendhouse",cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Property> properties;
     @NotNull
     @Size(min=2, max=50)
     private String address;
@@ -41,7 +45,8 @@ public class Weekendhouse {
         this.description = null;
     }
 
-    public Weekendhouse(@JsonProperty("address") String address, @JsonProperty("phone_number") String phone_number, @JsonProperty("email") String email, @JsonProperty("description") String description, @JsonProperty("properties") ArrayList<String> properties){
+    public Weekendhouse(@JsonProperty("address") String address, @JsonProperty("phone_number") String phone_number, @JsonProperty("email") String email, @JsonProperty("description") String description, @JsonProperty("properties") List<Property> properties){
+
         this.properties = properties;
         this.address = address;
         this.phone_number = phone_number;
@@ -57,11 +62,12 @@ public class Weekendhouse {
         this.id = id;
     }
 
-    public List<String> getProperties() {
+    public List<Property> getProperties() {
         return properties;
     }
 
-    public void setProperties(List<String> properties) {
+    public void setProperties(List<Property> properties) {
+
         this.properties = properties;
     }
 

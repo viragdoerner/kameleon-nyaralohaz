@@ -26,6 +26,7 @@ public class WeekendhouseService {
     }
 
     public Weekendhouse updateWeekendhouse(Weekendhouse house){
+        house.getProperties().forEach(p -> p.setWeekendhouse(house));
         return repository.save(house);
     }
 }

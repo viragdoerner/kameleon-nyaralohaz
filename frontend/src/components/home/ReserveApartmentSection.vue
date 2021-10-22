@@ -13,12 +13,12 @@
         height="100%"
       >
         <v-list class="px-16 py-10 align-stretch" color="transparent">
-          <v-list-item v-for="item in items" :key="item.title">
+          <v-list-item v-for="item in apartment.properties" :key="item.title">
             <v-list-item-icon>
               <v-icon color="clightgreen"> fa-chevron-circle-right </v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title v-text="item.title"></v-list-item-title>
+              <v-list-item-title v-text="item"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -30,7 +30,7 @@
           <v-col class="text-center" cols="12">
             <v-overlay absolute color="cgreen">
               <v-card-title class="text-h3 zabatana white--text">
-                kép és foglalás {{ index }}</v-card-title
+                {{apartment.name}}</v-card-title
               >
               <v-btn elevation="2" x-large color="corange" class="ma-2"
                 >FOGLALÁS
@@ -49,12 +49,7 @@
 <script>
 export default {
   name: "CReserveApartmentSection",
-  props: {
-    index: {
-      type: Number,
-      required: true,
-    },
-  },
+  props: ["index", "apartment"],
   components: {},
   data: () => ({
     items: [

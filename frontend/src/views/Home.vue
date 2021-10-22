@@ -7,6 +7,7 @@
       v-for="(apartment, index) in apartments"
       v-bind:key="apartment.id"
       v-bind:index="index"
+      v-bind:apartment="apartment"
     ></c-reserve-apartment-section>
   </div>
 </template>
@@ -29,16 +30,13 @@ export default {
   },
   data: () => ({
     weekendhouse: {},
-    apartments: [
-      { name: "Földszinti apartman", id: 1 },
-      { name: "Emeleti apartman", id: 2 },
-      { name: "Harmadik apartman", id: 3 },
-    ],
+    apartments: [    ],
   }),
   created() {},
   mounted() {
     console.log("Home component has been created!");
     this.getWeekendhouse();
+    this.getApartments();
   },
   methods: {
     getWeekendhouse() {
@@ -48,6 +46,18 @@ export default {
           if(!response.data)
             throw "empty list";
           this.weekendhouse = response.data;
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    },
+    getApartments() {
+      axios
+        .get("http://localhost:8080/apartment")
+        .then((response) => {
+          if(!response.data)
+            throw "empty list";
+          this.apartments = response.data;
         })
         .catch((error) => {
           alert(error);
