@@ -1,9 +1,10 @@
 <template>
   <v-footer padless>
     <v-card flat tile width="100%" class="corange text-center">
-      <v-card-text>
+      <v-card-text v-if="!$store.state.admin">
         <transition-group class="footer-elements">
-          <v-btn key="1"
+          <v-btn
+            key="1"
             class="mx-4 footer-element"
             icon
             @click="expand_address = !expand_address"
@@ -11,16 +12,18 @@
             <v-icon size="24px" color="green darken-3"> fa-home </v-icon>
           </v-btn>
 
-          <p key="2"
+          <p
+            key="2"
             d-flex
             style="display: inline"
             v-show="expand_address"
             class="white--text footer-element"
           >
-            8636, Balatonszemes, Semmelweis u.
+            {{ weekendhouse.address }}
           </p>
 
-          <v-btn key="3"
+          <v-btn
+            key="3"
             transition="slide-x-transition"
             class="mx-4 footer-element"
             icon
@@ -30,21 +33,78 @@
               fa-phone
             </v-icon>
           </v-btn>
-          <p key="4"
+          <p
+            key="4"
             d-flex
             style="display: inline"
             v-show="expand_phone"
             class="white--text footer-element"
           >
-            8636, Balatonszemes, Semmelweis u.
+            {{ weekendhouse.phone_number }}
           </p>
-          <v-btn key="5" class="mx-4 footer-element" icon href="https://www.facebook.com/kameleonnyaralohaz" target="blank">
+          <v-btn
+            key="5"
+            class="mx-4 footer-element"
+            icon
+            :href="weekendhouse.facebook"
+            target="blank"
+          >
             <v-icon size="24px" color="blue darken-3"> fa-facebook </v-icon>
           </v-btn>
-          <v-btn  key="6" class="mx-4 footer-element" icon href="mailto:mail.dorner.eva@gmail.com">
+          <v-btn
+            key="6"
+            class="mx-4 footer-element"
+            icon
+            :href="'mailto:' + weekendhouse.email"
+          >
             <v-icon size="24px" color="red darken-3"> fa-envelope </v-icon>
           </v-btn>
         </transition-group>
+      </v-card-text>
+
+      <v-card-text
+        class="pt-16"
+        v-if="$store.state.admin && currentRouteName == 'Home'"
+      >
+        <v-row justify="center">
+          <v-col cols="12" sm="6" md="3">
+            <v-text-field
+              solo
+              v-model="weekendhouse.address"
+              v-on:change="saveWeekendhouse()"
+              prepend-icon="fa-home"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <v-text-field
+              solo
+              v-model="weekendhouse.phone_number"
+              v-on:change="saveWeekendhouse()"
+              label="Prepend"
+              prepend-icon="fa-phone"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row justify="center">
+          <v-col cols="12" sm="6" md="3">
+            <v-text-field
+              solo
+              v-model="weekendhouse.facebook"
+              v-on:change="saveWeekendhouse()"
+              label="Prepend"
+              prepend-icon="fa-facebook"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <v-text-field
+              solo
+              v-model="weekendhouse.email"
+              v-on:change="saveWeekendhouse()"
+              label="Prepend"
+              prepend-icon="fa-envelope"
+            ></v-text-field>
+          </v-col>
+        </v-row>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -57,12 +117,47 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "CFooter",
   data: () => ({
     expand_address: false,
     expand_phone: false,
+    weekendhouse: {},
   }),
+  computed: {
+    currentRouteName() {
+      return this.$route.name;
+    },
+  },
+  mounted() {
+    this.getWeekendhouse();
+  },
+  methods: {
+    getWeekendhouse() {
+      axios
+        .get(this.$store.state.baseURL + "weekendhouse")
+        .then((response) => {
+          if (!response.data) throw "empty list";
+          this.weekendhouse = response.data;
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    },
+    saveWeekendhouse() {
+      console.log(this.weekendhouse);
+      axios
+        .put(this.$store.state.baseURL + "weekendhouse", this.weekendhouse)
+        .then((response) => {
+          if (!response.data) throw "empty list";
+          this.weekendhouse = response.data;
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    },
+  },
 };
 </script>
 
@@ -70,12 +165,16 @@ export default {
 .footer-element {
   transition: all 1s;
 }
-.footer-elements-enter, .footer-elements-leave-to,.footer-elements-leave, .footer-elements-enter-to {
+.footer-elements-enter,
+.footer-elements-leave-to,
+.footer-elements-leave,
+.footer-elements-enter-to {
   opacity: 0;
   transform: translateX(30px);
 }
 
-.footer-elements-leave-active, .footer-elements-enter-active {
+.footer-elements-leave-active,
+.footer-elements-enter-active {
   position: absolute;
 }
 </style>

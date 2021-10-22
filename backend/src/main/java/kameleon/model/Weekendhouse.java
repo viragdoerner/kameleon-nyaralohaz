@@ -32,6 +32,9 @@ public class Weekendhouse {
     @Size(min=2, max=50)
     private String email;
     @NotNull
+    @Size(min=2, max=50)
+    private String facebook;
+    @NotNull
     @Size(min=2, max=1000000)
     private String description;
 
@@ -43,15 +46,17 @@ public class Weekendhouse {
         this.phone_number = null;
         this.email = null;
         this.description = null;
+        this.facebook = null;
     }
 
-    public Weekendhouse(@JsonProperty("address") String address, @JsonProperty("phone_number") String phone_number, @JsonProperty("email") String email, @JsonProperty("description") String description, @JsonProperty("properties") List<Property> properties){
+    public Weekendhouse(@JsonProperty("address") String address, @JsonProperty("phone_number") String phone_number, @JsonProperty("email") String email, @JsonProperty("facebook") String facebook, @JsonProperty("description") String description, @JsonProperty("properties") List<Property> properties){
 
         this.properties = properties;
         this.address = address;
         this.phone_number = phone_number;
         this.email = email;
         this.description = description;
+        this.facebook=facebook;
     }
 
     public Long getId() {
@@ -101,5 +106,13 @@ public class Weekendhouse {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getFacebook() {
+        return facebook;
+    }
+
+    public void setFacebook(String facebook) {
+        this.facebook = facebook;
     }
 }

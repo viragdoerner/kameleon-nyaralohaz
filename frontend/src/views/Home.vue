@@ -32,16 +32,15 @@ export default {
     weekendhouse: {},
     apartments: [    ],
   }),
-  created() {},
   mounted() {
-    console.log("Home component has been created!");
     this.getWeekendhouse();
     this.getApartments();
   },
   methods: {
     getWeekendhouse() {
+      console.log(this.$store.state.baseURL );
       axios
-        .get("http://localhost:8080/weekendhouse")
+        .get(this.$store.state.baseURL +"weekendhouse")
         .then((response) => {
           if(!response.data)
             throw "empty list";
@@ -53,7 +52,7 @@ export default {
     },
     getApartments() {
       axios
-        .get("http://localhost:8080/apartment")
+        .get(this.$store.state.baseURL +"apartment")
         .then((response) => {
           if(!response.data)
             throw "empty list";
