@@ -75,7 +75,7 @@
                 v-model="newProperty.icon_name"
                 label="Ikon"
                 solo
-                hint="pl.: swimming-pool"
+                hint="pl.: fa-swimming-pool"
                 persistent-hint
               ></v-text-field>
             </v-col>
