@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    admin: true,
+    admin: false,
     baseURL: "http://localhost:8080/"
   },
   mutations: {

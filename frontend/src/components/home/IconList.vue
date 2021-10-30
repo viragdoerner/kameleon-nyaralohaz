@@ -6,15 +6,12 @@
         :key="p.id"
         class="pa-2 d-flex flex-column align-center my-16"
       >
-        <div class="align-self-center">
-          <v-icon
-            x-large
-            size="24px"
-            v-bind:style="{ color: colors[index % 5] }"
-          >
-            {{ p.icon_name }}
-          </v-icon>
-        </div>
+      <v-btn
+          icon x-large
+          class="align-self-center"
+          v-bind:style="{ color: colors[index % 5] }"
+          ><v-icon  x-large >  {{ p.icon_name }} </v-icon>
+        </v-btn>
         <div class="align-self-center cgreen--text">{{ p.name }}</div>
         <v-btn
           v-if="$store.state.admin"
