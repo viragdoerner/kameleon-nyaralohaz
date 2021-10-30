@@ -58,7 +58,10 @@
             >
               innen
             </v-btn>
-            <p class="align-self-center ma-0">lehet keresni. A kiválasztott ikon neve elé kell írni a "fa-" kifejezést.</p>
+            <p class="align-self-center ma-0">
+              lehet keresni. A kiválasztott ikon neve elé kell írni a "fa-"
+              kifejezést.
+            </p>
           </div>
           <v-row>
             <v-col cols="12" sm="6" md="6">
@@ -70,7 +73,7 @@
                 solo
               ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="6" md="6">
+            <v-col cols="12" sm="6" md="5">
               <v-text-field
                 v-model="newProperty.icon_name"
                 label="Ikon"
@@ -78,6 +81,15 @@
                 hint="pl.: fa-swimming-pool"
                 persistent-hint
               ></v-text-field>
+            </v-col>
+            <v-col cols="6" sm="6" md="1">
+              <v-icon
+                large
+                size="24px"
+                color="cgreen"
+              >
+                {{ newProperty.icon_name }}
+              </v-icon>
             </v-col>
           </v-row>
         </v-card-text>
@@ -110,7 +122,7 @@ export default {
       icon_name: "",
     },
     dialog: false,
-    propertyToBeRemoved: null
+    propertyToBeRemoved: null,
   }),
   methods: {
     deleteProperty() {
@@ -125,10 +137,10 @@ export default {
         icon_name: "",
       };
     },
-    openDialog(p){
+    openDialog(p) {
       this.dialog = true;
       this.propertyToBeRemoved = p;
-    }
+    },
   },
 };
 </script>
