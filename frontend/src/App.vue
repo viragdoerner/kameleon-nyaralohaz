@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <c-app-bar></c-app-bar>
-    <v-main>
+    <v-main  class="app">
       <router-view />
     </v-main>
     <c-footer></c-footer>
@@ -75,5 +75,8 @@ export default {
   font-family: "Zabatana";
   src: local("Zabatana"),
     url(./assets/fonts/Zabatana-Poster.ttf) format("truetype");
+}
+.app {
+  background-color: #d4ecdd;
 }
 </style>
