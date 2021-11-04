@@ -25,17 +25,26 @@
       </v-card>
     </v-col>
     <v-col v-bind:class="{ 'order-1': index % 2 == 1 }" cols="6">
-      <v-parallax dark height="350" src="https://cdn.vuetifyjs.com/images/cards/house.jpg">
+      <v-parallax
+        dark
+        height="350"
+        src="https://cdn.vuetifyjs.com/images/cards/house.jpg"
+      >
         <v-row align="center" justify="center">
           <v-col class="text-center" cols="12">
             <v-overlay absolute color="cgreen">
               <v-card-title class="text-h3 zabatana white--text">
-                {{apartment.name}}</v-card-title
+                {{ apartment.name }}</v-card-title
               >
-              <v-btn elevation="2" x-large color="corange" class="ma-2"
+              <v-btn
+                to="/reserve"
+                elevation="2"
+                x-large
+                color="corange"
+                class="ma-2"
                 >FOGLALÁS
               </v-btn>
-              <v-btn elevation="2" x-large color="cyellow" class="ma-2"
+              <v-btn  :to="getRoute" elevation="2" x-large color="cyellow" class="ma-2"
                 >BŐVEBBEN
               </v-btn>
             </v-overlay>
@@ -51,7 +60,31 @@ export default {
   name: "CReserveApartmentSection",
   props: ["index", "apartment"],
   components: {},
-  data: () => ({
-  }),
+  data: () => ({}),
+  methods: {
+    slugifyString: function (str) {
+      str = str.replace(/^\s+|\s+$/g, ""); // trim
+      str = str.toLowerCase();
+
+      // remove accents, swap ñ for n, etc
+      var from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;";
+      var to = "aaaaaeeeeeiiiiooooouuuunc------";
+      for (var i = 0, l = from.length; i < l; i++) {
+        str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
+      }
+
+      str = str
+        .replace(/[^a-z0-9 -]/g, "") // remove invalid chars
+        .replace(/\s+/g, "-") // collapse whitespace and replace by -
+        .replace(/-+/g, "-"); // collapse dashes
+
+      return str;
+    },
+  },
+  computed: {
+    getRoute(){
+      return "/" + this.slugifyString(this.apartment.name);
+    }
+  },
 };
 </script>
