@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <c-app-bar></c-app-bar>
-    <v-main  class="app">
+    <v-main class="app">
       <router-view />
     </v-main>
     <c-footer></c-footer>
@@ -34,23 +34,24 @@ export default {
     },
 
     processData: ({ data }) => {
-     var  slugifyString = function(str) {
-      str = str.replace(/^\s+|\s+$/g, ''); // trim
-      str = str.toLowerCase();
+      var slugifyString = function (str) {
+        str = str.replace(/^\s+|\s+$/g, ""); // trim
+        str = str.toLowerCase();
 
-      // remove accents, swap ñ for n, etc
-      var from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;";
-      var to = "aaaaaeeeeeiiiiooooouuuunc------";
-      for (var i = 0, l = from.length; i < l; i++) {
-        str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-      }
+        // remove accents, swap ñ for n, etc
+        var from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;";
+        var to = "aaaaaeeeeeiiiiooooouuuunc------";
+        for (var i = 0, l = from.length; i < l; i++) {
+          str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
+        }
 
-      str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-        .replace(/\s+/g, '-') // collapse whitespace and replace by -
-        .replace(/-+/g, '-'); // collapse dashes
+        str = str
+          .replace(/[^a-z0-9 -]/g, "") // remove invalid chars
+          .replace(/\s+/g, "-") // collapse whitespace and replace by -
+          .replace(/-+/g, "-"); // collapse dashes
 
-      return str;
-    }
+        return str;
+      };
       data.forEach((apartment) => {
         let newRoute = {
           path: `/${slugifyString(apartment.name)}`,
@@ -60,7 +61,7 @@ export default {
         };
         router.addRoute(newRoute);
       });
-    }
+    },
   },
 
   created() {

@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 import CHome from '../views/Home.vue'
 import CReserve from '../views/Reserve.vue'
 import CLogin from '../views/Login.vue'
-import CPageNotFound from '../views/PageNotFound.vue'
 
 Vue.use(VueRouter)
 
@@ -23,10 +22,6 @@ const routes = [
     name: 'Login',
     component: CLogin
   },
-  {
-    path: "*",
-    component: CPageNotFound
-  }
 ]
 
 const router = new VueRouter({
