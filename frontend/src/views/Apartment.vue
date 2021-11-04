@@ -13,12 +13,10 @@ import axios from "axios";
 export default {
   name: "CApartment",
 props: ["apartment"],
-  components: {},
   components: {
     CHeader
   },
   data: () => ({
-    apartment: {},
   }),
   mounted() {
     

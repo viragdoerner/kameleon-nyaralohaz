@@ -51,10 +51,7 @@ export default {
 
       return str;
     }
-      console.log(data);
       data.forEach((apartment) => {
-        console.log(apartment.id);
-        console.log(slugifyString(apartment.name));
         let newRoute = {
           path: `/${slugifyString(apartment.name)}`,
           component: CApartment,

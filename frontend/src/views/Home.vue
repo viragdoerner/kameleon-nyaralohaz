@@ -26,7 +26,7 @@ import CIconList from "../components/home/IconList.vue";
 import axios from "axios";
 
 export default {
-  name: "Home",
+  name: "CHome",
 
   components: {
     CHeader,
