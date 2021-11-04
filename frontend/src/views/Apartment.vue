@@ -1,7 +1,7 @@
 <template>
   <div>
     <c-header></c-header>
-    apartment {{entity_type_id}}
+    apartment {{apartment.name}}
   </div>
 </template>
 
@@ -12,7 +12,7 @@ import axios from "axios";
 
 export default {
   name: "CApartment",
-props: ["entity_type_id"],
+props: ["apartment"],
   components: {},
   components: {
     CHeader
