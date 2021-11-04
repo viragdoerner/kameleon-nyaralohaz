@@ -146,7 +146,6 @@ export default {
         });
     },
     saveWeekendhouse() {
-      console.log(this.weekendhouse);
       axios
         .put(this.$store.state.baseURL + "weekendhouse", this.weekendhouse)
         .then((response) => {
