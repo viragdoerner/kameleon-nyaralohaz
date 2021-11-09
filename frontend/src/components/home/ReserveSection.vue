@@ -4,6 +4,7 @@
       <v-card-title class="text-h3 zabatana cgreen--text"
         >Foglalj apartmant</v-card-title
       >
+      <div><vue-file-toolbar-menu :content="my_menu" /></div>
       <v-card-text class="roboto font-weight-light pb-2">
         {{ description }}
       </v-card-text>
@@ -39,12 +40,35 @@
 </template>
 
 <script>
+import VueFileToolbarMenu from "vue-file-toolbar-menu";
 export default {
   name: "CReserveSection",
   data: () => ({
     dateRangeText: null,
+    happy: false,
   }),
-  components: {},
+  components: { VueFileToolbarMenu },
   props: ["description"],
+  computed: {
+    my_menu() {
+      return [
+        {
+          text: "My Menu",
+          menu: [
+            { text: "Item 1", click: () => alert("Action 1") },
+            { text: "Item 2", click: () => alert("Action 2") },
+          ],
+        },
+        {
+          text: "My Button",
+          active: this.happy,
+          icon: this.happy ? "sentiment_very_satisfied" : "sentiment_satisfied",
+          click: () => {
+            this.happy = !this.happy;
+          },
+        },
+      ];
+    },
+  },
 };
 </script>
