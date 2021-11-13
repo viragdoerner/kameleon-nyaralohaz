@@ -19,7 +19,6 @@
           :contenteditable="$store.state.admin"
           spellcheck="false"
           v-html="description"
-          v-on:input="saveText()"
         ></div>
       </v-card-text>
     </v-card>
@@ -126,7 +125,7 @@ export default {
             title: "Strike through",
             click: () => document.execCommand("strikethrough"),
           },
-          {
+          /* {
             is: "button-color",
             type: "compact",
             menu_class: "align-center",
@@ -136,7 +135,7 @@ export default {
               this.color = new_color;
               document.execCommand("foreColor", false, new_color.hex8);
             },
-          },
+          }, */
           { is: "separator" },
           {
             html:
@@ -171,7 +170,7 @@ export default {
             click: () => document.execCommand("outdent"),
           },
           { is: "separator" },
-          {
+          /* {
             html: "<b>H1</b>",
             title: "Header 1",
             click: () => document.execCommand("formatBlock", false, "<h1>"),
@@ -185,7 +184,7 @@ export default {
             html: "<b>H3</b>",
             title: "Header 3",
             click: () => document.execCommand("formatBlock", false, "<h3>"),
-          },
+          }, */
           {
             icon: "format_clear",
             text: "Clear",
@@ -218,7 +217,7 @@ export default {
         };
       });
     },
-    font_list: () => ["Zabatana", "Roboto Thin", "Roboto Light", "Roboto"],
+    font_list: () => [ "Roboto Thin", "Roboto Light", "Roboto"],
     is_touch_device: () =>
       "ontouchstart" in window || window.navigator.msMaxTouchPoints > 0,
   },
