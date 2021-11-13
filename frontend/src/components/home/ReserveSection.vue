@@ -5,6 +5,7 @@
         >Foglalj apartmant</v-card-title
       >
       <v-card-text>
+        <v-row>
         <div v-if="$store.state.admin" class="bars">
           <vue-file-toolbar-menu
             v-for="(content, index) in bars_content"
@@ -20,6 +21,16 @@
           spellcheck="false"
           v-html="description"
         ></div>
+        </v-row>
+        <v-row class="pt-5">
+          <v-btn
+            elevation="2"
+            color="cgreen"
+            class="white--text"
+            @click="saveText"
+            >MENTÉS
+          </v-btn>
+        </v-row>
       </v-card-text>
     </v-card>
     <v-card width="50%" class="pa-10 ma-10">
@@ -55,7 +66,7 @@ export default {
   data: () => ({
     dateRangeText: null,
     color: "#206a5d",
-    font: "Roboto"
+    font: "Roboto",
   }),
   methods: {
     focus_text() {
@@ -217,7 +228,7 @@ export default {
         };
       });
     },
-    font_list: () => [ "Roboto Thin", "Roboto Light", "Roboto"],
+    font_list: () => ["Roboto Thin", "Roboto Light", "Roboto"],
     is_touch_device: () =>
       "ontouchstart" in window || window.navigator.msMaxTouchPoints > 0,
   },
