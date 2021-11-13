@@ -3,6 +3,7 @@
     <c-header></c-header>
     <c-reserve-section
       :description="weekendhouse.description"
+      v-on:update-description="onUpdateDescription"
     ></c-reserve-section>
     <c-icon-list
       :properties="weekendhouse.properties"
@@ -67,13 +68,10 @@ export default {
         });
     },
     onAddProperty(p) {
-      console.log("add" + p.name);
       this.weekendhouse.properties.push(p);
-      console.log(this.weekendhouse.properties);
       this.saveWeekendhouse();
     },
     onDeleteProperty(p) {
-      console.log("delete" + p.name);
       this.weekendhouse.properties= this.weekendhouse.properties.filter(function (property) {
         return property.id !== p.id;
       });
@@ -91,6 +89,10 @@ export default {
           alert(error);
         });
     },
+    onUpdateDescription(d){
+      this.weekendhouse.description = d;
+      this.saveWeekendhouse();
+    }
   },
 };
 </script>

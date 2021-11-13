@@ -35,7 +35,8 @@ public class Weekendhouse {
     @Size(min=2, max=50)
     private String facebook;
     @NotNull
-    @Size(min=2, max=1000000)
+    @Column(columnDefinition = "LONGTEXT")
+    @Size(min=2, max=100000000)
     private String description;
 
 
