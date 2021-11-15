@@ -80,4 +80,8 @@ export default {
 .app {
   background-color: #d4ecdd;
 }
+.transparentCard {
+  background-color: rgba(255, 255, 255, 0) !important;
+  border-color: white !important;
+}
 </style>

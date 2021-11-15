@@ -1,28 +1,28 @@
 <template>
   <v-container class="d-flex px-16 col-10" fluid>
-    <v-card width="50%" class="pa-10 ma-10">
+    <v-card width="50%" class="pa-10 ma-10 transparentCard" elevation="0">
       <v-card-title class="text-h3 zabatana cgreen--text"
         >Foglalj apartmant</v-card-title
       >
       <v-card-text>
-        <v-row>
-        <div v-if="$store.state.admin" class="bars">
-          <vue-file-toolbar-menu
-            v-for="(content, index) in bars_content"
-            :key="'bar-' + index"
-            :content="content"
-          />
-        </div>
-        <div
-          id="mytext"
-          ref="text"
-          class="text"
-          :contenteditable="$store.state.admin"
-          spellcheck="false"
-          v-html="description"
-        ></div>
+        <v-row align="center" class="mx-0">
+          <div v-if="$store.state.admin" class="bars">
+            <vue-file-toolbar-menu
+              v-for="(content, index) in bars_content"
+              :key="'bar-' + index"
+              :content="content"
+            />
+          </div>
+          <div
+            id="mytext"
+            ref="text"
+            class="text"
+            :contenteditable="$store.state.admin"
+            spellcheck="false"
+            v-html="description"
+          ></div>
         </v-row>
-        <v-row class="pt-5">
+        <v-row v-if="$store.state.admin" class="pt-5 mx-0" align="center">
           <v-btn
             elevation="2"
             color="cgreen"
@@ -234,3 +234,6 @@ export default {
   },
 };
 </script>
+<style  scoped>
+
+</style>
