@@ -16,6 +16,7 @@
       v-bind:index="index"
       v-bind:apartment="apartment"
     ></c-reserve-apartment-section>
+
   </div>
 </template>
 
@@ -72,9 +73,11 @@ export default {
       this.saveWeekendhouse();
     },
     onDeleteProperty(p) {
-      this.weekendhouse.properties= this.weekendhouse.properties.filter(function (property) {
-        return property.id !== p.id;
-      });
+      this.weekendhouse.properties = this.weekendhouse.properties.filter(
+        function (property) {
+          return property.id !== p.id;
+        }
+      );
       console.log(this.weekendhouse.properties);
       this.saveWeekendhouse();
     },
@@ -84,15 +87,16 @@ export default {
         .then((response) => {
           if (!response.data) throw "empty list";
           this.weekendhouse = response.data;
+          this.$store.actions. = true;
         })
         .catch((error) => {
-          alert(error);
+          this.$$store.state.snackbar = true;
         });
     },
-    onUpdateDescription(d){
+    onUpdateDescription(d) {
       this.weekendhouse.description = d;
       this.saveWeekendhouse();
-    }
+    },
   },
 };
 </script>

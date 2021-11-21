@@ -6,11 +6,12 @@
         :key="p.id"
         class="pa-2 d-flex flex-column align-center my-16"
       >
-      <v-btn
-          icon x-large
+        <v-btn
+          icon
+          x-large
           class="align-self-center"
           v-bind:style="{ color: colors[index % 5] }"
-          ><v-icon  x-large >  {{ p.icon_name }} </v-icon>
+          ><v-icon x-large> {{ p.icon_name }} </v-icon>
         </v-btn>
         <div class="align-self-center cgreen--text">{{ p.name }}</div>
         <v-btn
@@ -80,11 +81,7 @@
               ></v-text-field>
             </v-col>
             <v-col cols="6" sm="6" md="1">
-              <v-icon
-                large
-                size="24px"
-                color="cgreen"
-              >
+              <v-icon large size="24px" color="cgreen">
                 {{ newProperty.icon_name }}
               </v-icon>
             </v-col>
@@ -119,7 +116,7 @@ export default {
       icon_name: "",
     },
     dialog: false,
-    propertyToBeRemoved: null,
+    propertyToBeRemoved: null
   }),
   methods: {
     deleteProperty() {

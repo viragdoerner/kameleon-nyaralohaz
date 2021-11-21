@@ -5,6 +5,18 @@
       <router-view />
     </v-main>
     <c-footer></c-footer>
+    <v-snackbar
+      v-model="snackbar.active"
+      :timeout="2000"
+      :color="snackbar.color"
+    >
+      {{ snackbar.message }}
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="snackbar.active = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -14,6 +26,7 @@ import CAppBar from "./components/AppBar.vue";
 import CApartment from "./views/Apartment.vue";
 import axios from "axios";
 import router from "./router";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -63,7 +76,9 @@ export default {
       });
     },
   },
-
+  computed: {
+    ...mapState(["snackbar"]),
+  },
   created() {
     this.getDynamicRoutes(this.$store.state.baseURL + "apartment");
   },
