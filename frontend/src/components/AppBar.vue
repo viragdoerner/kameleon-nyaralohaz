@@ -3,7 +3,7 @@
     <v-app-bar color="cgreen" dark>
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Title</v-toolbar-title>
+      <v-toolbar-title>Kaméleon nyaralóház</v-toolbar-title>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" absolute temporary>
@@ -19,18 +19,15 @@
             <v-list-item-title>Kezdőlap</v-list-item-title>
           </v-list-item>
 
-          <v-list-item to="/foldszinti-apartman">
+          <v-list-item
+            v-for="route in apartment_routes"
+            v-bind:key="route.id"
+            :to="route.url"
+          >
             <v-list-item-icon>
               <v-icon>mdi-home-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Földszinti apartman</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item to="/emeleti-apartman">
-            <v-list-item-icon>
-              <v-icon>mdi-home-outline</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Emeleti apartman</v-list-item-title>
+            <v-list-item-title>{{ route.name }}</v-list-item-title>
           </v-list-item>
 
           <v-list-item to="/reserve">
@@ -39,7 +36,7 @@
             </v-list-item-icon>
             <v-list-item-title>Foglalás</v-list-item-title>
           </v-list-item>
-           <v-list-item to="/login">
+          <v-list-item to="/login">
             <v-list-item-icon>
               <v-icon>mdi-account</v-icon>
             </v-list-item-icon>
@@ -60,5 +57,7 @@ export default {
     drawer: false,
     group: null,
   }),
+  props: ["apartment_routes"],
+  mounted() {},
 };
 </script>

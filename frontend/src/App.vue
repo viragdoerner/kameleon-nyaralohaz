@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <c-app-bar></c-app-bar>
+    <c-app-bar :apartment_routes="apartment_routes"></c-app-bar>
     <v-main class="app">
       <router-view />
     </v-main>
@@ -21,22 +21,24 @@ export default {
   components: {
     CFooter,
     CAppBar,
-    CSnackBar
+    CSnackBar,
   },
   name: "App",
 
   data: () => ({
-    //
+    apartment_routes: [],
   }),
   methods: {
     getDynamicRoutes(url) {
       axios
         .get(url)
-        .then(this.processData)
+        .then((response) => {
+          this.processData(response, this);
+        })
         .catch((err) => console.log(err));
     },
 
-    processData: ({ data }) => {
+    processData: ({ data }, that) => {
       var slugifyString = function (str) {
         str = str.replace(/^\s+|\s+$/g, ""); // trim
         str = str.toLowerCase();
@@ -63,11 +65,20 @@ export default {
           props: { apartment: apartment },
         };
         router.addRoute(newRoute);
+        that.apartment_routes.push({
+          name: apartment.name,
+          url: newRoute.path,
+          id: apartment.id,
+        });
       });
     },
   },
   created() {
-    this.getDynamicRoutes(this.$store.state.baseURL + "apartment");
+     console.log("app is created");
+    this.getDynamicRoutes(this.$store.state.baseURL + "apartment", this);
+  },
+  mounted() {
+    console.log("app is mounted");
   },
 };
 </script>

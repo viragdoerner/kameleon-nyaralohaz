@@ -1,30 +1,80 @@
 <template>
   <div>
-    <c-header></c-header>
-    apartment {{apartment.name}}
+    <c-description-section
+      :data="apartment"
+      v-on:update-apartment="onUpdateApartment"
+    ></c-description-section>
+    <c-gallery-section></c-gallery-section>
+    <c-icon-list
+      :properties="apartment.properties"
+      v-on:add-property="onAddProperty"
+      v-on:delete-property="onDeleteProperty"
+    ></c-icon-list>
   </div>
 </template>
 
 <script>
 import CHeader from "../components/home/Header.vue";
-
+import CDescriptionSection from "../components/apartment/DescriptionSection.vue";
+import CGallerySection from "../components/apartment/GallerySection.vue";
+import CIconList from "../components/home/IconList.vue";
 import axios from "axios";
 
 export default {
   name: "CApartment",
-props: ["apartment"],
+  props: ["apartment"],
   components: {
-    CHeader
+    CHeader,
+    CDescriptionSection,
+    CGallerySection,
+    CIconList,
   },
-  data: () => ({
-  }),
-  mounted() {
-    
-  },
+  data: () => ({}),
+  mounted() {},
   methods: {
-    getApartments() {
-      
-    }
+    onAddProperty(p) {
+      var payload = JSON.parse(JSON.stringify(this.apartment));
+      payload.properties.push(p);
+      this.saveApartment(payload);
+    },
+    onDeleteProperty(p) {
+      var payload = JSON.parse(JSON.stringify(this.apartment));
+      payload.properties = payload.properties.filter(function (property) {
+        return property.id !== p.id;
+      });
+      this.saveApartment(payload);
+    },
+    saveApartment(payload) {
+      axios
+        .put(this.$store.state.baseURL + "apartment", payload)
+        .then((response) => {
+          if (!response.data) throw "empty list";
+          this.apartment = response.data;
+
+          this.$store.commit("showMessage", {
+            active: true,
+            color: "cgreen", // You can create another actions for diferent color.
+            message: "Sikeres mentés",
+          });
+        })
+        .catch((error) => {
+          this.$store.commit("showMessage", {
+            active: true,
+            color: "error", // You can create another actions for diferent color.
+            message: "Sikertelen mentés",
+          });
+        });
+    },
+    onUpdateApartment(payload) {
+      //var  payload = JSON.parse(JSON.stringify(this.apartment));
+      this.saveApartment(payload);
+    },
+    created() {
+      console.log("apartment is created");
+    },
+    mounted() {
+      console.log("apartment is mounted");
+    },
   },
 };
 </script>

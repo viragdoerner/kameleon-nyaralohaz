@@ -30,7 +30,8 @@ import VueFileToolbarMenu from "vue-file-toolbar-menu";
 export default {
   name: "CRichTextEditor",
   components: { VueFileToolbarMenu },
-  data: () => ({}),
+  data: () => ({color: "#206a5d",
+    font: "Roboto",}),
   props: ["description"],
   methods: {
     focus_text() {

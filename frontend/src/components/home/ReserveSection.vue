@@ -44,9 +44,7 @@ import CRichTextEditor from "./RichTextEditor.vue";
 export default {
   name: "CReserveSection",
   data: () => ({
-    dateRangeText: null,
-    color: "#206a5d",
-    font: "Roboto",
+    dateRangeText: null
   }),
   methods: {
     onUpdateDescription(newDescription) {
