@@ -102,8 +102,9 @@ export default {
         });
     },
     onUpdateDescription(d) {
-      this.weekendhouse.description = d;
-      this.saveWeekendhouse();
+      var  payload = JSON.parse(JSON.stringify(this.weekendhouse));
+      payload.description = d;
+      this.saveWeekendhouse(payload);
     },
   },
 };
