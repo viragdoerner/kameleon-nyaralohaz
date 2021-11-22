@@ -1,5 +1,6 @@
 package kameleon.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 
@@ -14,15 +15,18 @@ public class Apartment {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @ElementCollection
-    private List<String> properties;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "apartment",cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<ApartmentProperty> properties;
     @ElementCollection
     private List<String> pictures;
     @NotNull
     @Size(min=2, max=50)
     private String name;
     @NotNull
-    @Size(min=5, max=100000)
+    @Column(columnDefinition = "LONGTEXT")
+    @Size(min=2, max=100000000)
     private String description;
     @NotNull
     private Integer price;
@@ -37,7 +41,7 @@ public class Apartment {
         this.description = null;
     }
 
-    public Apartment(@JsonProperty("name") String name, @JsonProperty("description") String description, @JsonProperty("price") Integer price, @JsonProperty("properties") ArrayList<String> properties, @JsonProperty("pictures") ArrayList<String> pictures){
+    public Apartment(@JsonProperty("name") String name, @JsonProperty("description") String description, @JsonProperty("price") Integer price, @JsonProperty("properties") List<ApartmentProperty> properties, @JsonProperty("pictures") ArrayList<String> pictures){
         this.properties = properties;
         this.pictures = pictures;
         this.price = price;
@@ -53,11 +57,11 @@ public class Apartment {
         this.id = id;
     }
 
-    public List<String> getProperties() {
+    public List<ApartmentProperty> getProperties() {
         return properties;
     }
 
-    public void setProperties(List<String> properties) {
+    public void setProperties(List<ApartmentProperty> properties) {
         this.properties = properties;
     }
 

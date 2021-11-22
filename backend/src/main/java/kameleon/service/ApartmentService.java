@@ -28,6 +28,7 @@ public class ApartmentService {
 
     public Apartment updateApartment(Apartment apartment)
     {
+        apartment.getProperties().forEach(p -> p.setApartment(apartment));
         return repository.save(apartment);
     }
 }

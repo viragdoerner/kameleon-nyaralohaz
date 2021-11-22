@@ -80,7 +80,6 @@
               solo
               v-model="weekendhouse.phone_number"
               v-on:change="saveWeekendhouse()"
-              label="Prepend"
               prepend-icon="fa-phone"
             ></v-text-field>
           </v-col>
@@ -91,7 +90,6 @@
               solo
               v-model="weekendhouse.facebook"
               v-on:change="saveWeekendhouse()"
-              label="Prepend"
               prepend-icon="fa-facebook"
             ></v-text-field>
           </v-col>
@@ -100,7 +98,6 @@
               solo
               v-model="weekendhouse.email"
               v-on:change="saveWeekendhouse()"
-              label="Prepend"
               prepend-icon="fa-envelope"
             ></v-text-field>
           </v-col>
