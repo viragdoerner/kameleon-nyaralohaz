@@ -5,7 +5,7 @@
         apartment.name
       }}</v-card-title>
       <v-card-text>
-        <v-row class="pb-2">
+        <v-row class="pb-2" v-if="$store.state.admin">
           <v-text-field
             color="cgreen"
             label="Apartman neve"
@@ -15,7 +15,7 @@
             maxlength="50"
           ></v-text-field>
         </v-row>
-        <v-row class="pb-2">
+        <v-row class="pb-2" v-if="$store.state.admin">
           <v-text-field
             color="cgreen"
             label="Ár Ft/éj"
@@ -28,7 +28,9 @@
             type="number"
           ></v-text-field>
         </v-row>
-        <c-rich-text-editor class="pt-5"
+        <h4 v-if="!$store.state.admin">{{ apartment.price }} Ft/éj</h4>
+        <c-rich-text-editor
+          class="pt-5"
           :description="apartment.description"
           v-on:update-description="onUpdateDescription"
         ></c-rich-text-editor>
@@ -72,12 +74,12 @@ export default {
   }),
   methods: {
     onUpdateDescription(newDescription) {
-        this.apartment.description = newDescription;
-        this.onUpdateApartment();
+      this.apartment.description = newDescription;
+      this.onUpdateApartment();
     },
     onUpdateApartment() {
       this.$emit("update-apartment", this.apartment);
-    }
+    },
   },
   components: { CRichTextEditor },
   props: ["data"],
