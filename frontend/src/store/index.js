@@ -10,8 +10,10 @@ export default new Vuex.Store({
     snackbar: { active: false, color: "", message: "" }
   },
   mutations: {
-    SET_SNACKBAR(state, snackbar) {
-      state.snackbar = snackbar;
+    showMessage(state) {
+      console.log("showMessage");
+      
+      state.snackbar.active = true;
     }
   },
   actions: {

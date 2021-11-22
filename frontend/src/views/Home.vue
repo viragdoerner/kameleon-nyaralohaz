@@ -87,10 +87,10 @@ export default {
         .then((response) => {
           if (!response.data) throw "empty list";
           this.weekendhouse = response.data;
-          this.$store.actions. = true;
+          this.$store.commit('showMessage')
         })
         .catch((error) => {
-          this.$$store.state.snackbar = true;
+         this.$store.commit('showMessage')
         });
     },
     onUpdateDescription(d) {
