@@ -5,33 +5,23 @@
       <router-view />
     </v-main>
     <c-footer></c-footer>
-    <v-snackbar
-      v-model="snackbar.active"
-      :timeout="2000"
-      :color="snackbar.color"
-    >
-      {{ snackbar.message }}
-      <template v-slot:action="{ attrs }">
-        <v-btn text v-bind="attrs" @click="snackbar.active = false">
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
+    <c-snack-bar></c-snack-bar>
   </v-app>
 </template>
 
 <script>
 import CFooter from "./components/Footer.vue";
 import CAppBar from "./components/AppBar.vue";
+import CSnackBar from "./components/SnackBar.vue";
 import CApartment from "./views/Apartment.vue";
 import axios from "axios";
 import router from "./router";
-import { mapState } from "vuex";
 
 export default {
   components: {
     CFooter,
     CAppBar,
+    CSnackBar
   },
   name: "App",
 
@@ -75,9 +65,6 @@ export default {
         router.addRoute(newRoute);
       });
     },
-  },
-  computed: {
-    ...mapState(["snackbar"]),
   },
   created() {
     this.getDynamicRoutes(this.$store.state.baseURL + "apartment");

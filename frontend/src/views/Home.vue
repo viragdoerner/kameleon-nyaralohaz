@@ -16,7 +16,6 @@
       v-bind:index="index"
       v-bind:apartment="apartment"
     ></c-reserve-apartment-section>
-
   </div>
 </template>
 
@@ -46,7 +45,6 @@ export default {
   },
   methods: {
     getWeekendhouse() {
-      console.log(this.$store.state.baseURL);
       axios
         .get(this.$store.state.baseURL + "weekendhouse")
         .then((response) => {
@@ -69,28 +67,38 @@ export default {
         });
     },
     onAddProperty(p) {
-      this.weekendhouse.properties.push(p);
-      this.saveWeekendhouse();
+      var  payload = JSON.parse(JSON.stringify(this.weekendhouse));
+      payload.properties.push(p);
+      this.saveWeekendhouse(payload);
     },
     onDeleteProperty(p) {
-      this.weekendhouse.properties = this.weekendhouse.properties.filter(
+      var  payload = JSON.parse(JSON.stringify(this.weekendhouse));
+      payload.properties = payload.properties.filter(
         function (property) {
           return property.id !== p.id;
         }
       );
-      console.log(this.weekendhouse.properties);
-      this.saveWeekendhouse();
+      this.saveWeekendhouse(payload);
     },
-    saveWeekendhouse() {
+    saveWeekendhouse(payload) {
       axios
-        .put(this.$store.state.baseURL + "weekendhouse", this.weekendhouse)
+        .put(this.$store.state.baseURL + "weekendhouse", payload)
         .then((response) => {
           if (!response.data) throw "empty list";
           this.weekendhouse = response.data;
-          this.$store.commit('showMessage')
+
+          this.$store.commit("showMessage", {
+            active: true,
+            color: "cgreen", // You can create another actions for diferent color.
+            message: "Sikeres mentés",
+          });
         })
         .catch((error) => {
-         this.$store.commit('showMessage')
+          this.$store.commit("showMessage", {
+            active: true,
+            color: "error", // You can create another actions for diferent color.
+            message: "Sikertelen mentés",
+          });
         });
     },
     onUpdateDescription(d) {

@@ -1,23 +1,27 @@
 <template>
-  <v-snackbar v-model="$store.state.snackbar" :timeout="timeout" color="cgreen" text>
-    {{ successMsg }}
-
-    <template v-slot:action="{ attrs }">
-      <v-btn color="cgreen" text v-bind="attrs" @click="snackbar = false">
-        Close
-      </v-btn>
-    </template>
-  </v-snackbar>
+  <v-snackbar
+      v-model="snackbar.active"
+      :timeout="2000"
+      :color="snackbar.color"
+    >
+      {{ snackbar.message }}
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="snackbar.active = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "CSnackBar",
   data: () => ({
-    successMsg: "Sikeres mentés",
-    timeout: 2000,
   }),
-  computed: {},
+  computed: {
+    ...mapState(["snackbar"]),
+  },
   mounted() {},
   methods: {},
 };
