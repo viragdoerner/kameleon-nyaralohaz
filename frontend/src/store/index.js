@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    admin: false,
+    admin: true,
     baseURL: "http://localhost:8080/",
     snackbar: { },
     rules: {
