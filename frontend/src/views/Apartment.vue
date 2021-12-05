@@ -4,7 +4,7 @@
       :data="apartment"
       v-on:update-apartment="onUpdateApartment"
     ></c-description-section>
-    <c-gallery-section></c-gallery-section>
+    <c-gallery-section :apartment="apartment"></c-gallery-section>
     <c-icon-list
       :properties="apartment.properties"
       v-on:add-property="onAddProperty"

@@ -19,7 +19,7 @@ public class Apartment {
     @OneToMany(mappedBy = "apartment",cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<ApartmentProperty> properties;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> pictures;
     @NotNull
     @Size(min=2, max=50)
@@ -72,6 +72,16 @@ public class Apartment {
     public void setPictures(List<String> pictures) {
         this.pictures = pictures;
     }
+    public void addPicture(String picture) {
+        if(!this.pictures.contains(picture))
+            this.pictures.add(picture);
+    }
+    public void addPictures(List<String> fileNames) {
+        fileNames.forEach(picture -> {
+            if(!this.pictures.contains(picture))
+                this.pictures.add(picture);
+        });
+    }
 
     public String getName() {
         return name;
@@ -96,4 +106,6 @@ public class Apartment {
     public void setPrice(Integer price) {
         this.price = price;
     }
+
+
 }
