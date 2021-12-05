@@ -5,11 +5,11 @@
       :apartmentId="apartment.id"
       v-on:uploaded-pictures="onUploadedPictures"
     ></c-file-upload>
-  </div>
-  <div class="py-16 gallery-section">
-    <v-container class=" col-10">
-    <c-gallery></c-gallery>
-  </v-container>
+    <div class="py-16 gallery-section">
+      <v-container class="col-10">
+        <c-gallery></c-gallery>
+      </v-container>
+    </div>
   </div>
 </template>
 
@@ -32,9 +32,9 @@ export default {
   computed: {},
   mounted() {},
   methods: {
-    onUploadedPictures(updatedApartment){
+    onUploadedPictures(updatedApartment) {
       this.apartment = updatedApartment;
-    }
+    },
   },
 };
 </script>
