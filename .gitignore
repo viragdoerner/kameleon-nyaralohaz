@@ -56,3 +56,5 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
+
+frontend/public/images/apartments/
