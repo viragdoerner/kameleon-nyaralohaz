@@ -1,26 +1,30 @@
 <template>
   <div>
-     <c-file-upload :apartmentId="apartment.id"></c-file-upload>
+    <c-file-upload
+      v-if="$store.state.admin"
+      :apartmentId="apartment.id"
+      v-on:uploaded-pictures="onUploadedPictures"
+    ></c-file-upload>
   </div>
 </template>
 
 <script>
-import CFileUpload from "./FileUpload.vue"
+import CFileUpload from "./FileUpload.vue";
 export default {
   name: "CGallerySection",
   components: {
-     CFileUpload,
+    CFileUpload,
   },
   props: ["apartment"],
   data: function () {
-    return {
-     
-    };
+    return {};
   },
   computed: {},
   mounted() {},
   methods: {
-    
+    onUploadedPictures(updatedApartment){
+      this.apartment = updatedApartment;
+    }
   },
 };
 </script>

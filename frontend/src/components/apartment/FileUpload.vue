@@ -1,14 +1,20 @@
 <template>
   <div>
-    <v-container>
-      <vue-dropzone
-        ref="myVueDropzone"
-        id="dropzone"
-        :options="dropzoneOptions"
-        v-on:vdropzone-file-added="fileAdded"
-        v-on:vdropzone-removed-file="fileRemoved"
-      ></vue-dropzone>
-      <v-row class="d-flex justify-center pa-3">
+    <v-container class="d-flex justify-center pb-10">
+      <v-card elevation="2" class="col-12 col-md-8 pb-10">
+        <v-card-title class="text-h3 zabatana corange--text"
+          >Képek feltöltése</v-card-title
+        >
+        <v-card-text>
+          <vue-dropzone
+            ref="myVueDropzone"
+            id="dropzone"
+            :options="dropzoneOptions"
+            v-on:vdropzone-file-added="fileAdded"
+            v-on:vdropzone-removed-file="fileRemoved"
+          ></vue-dropzone>
+        </v-card-text>
+        <v-card-actions>
           <v-btn
             elevation="2"
             color="cgreen"
@@ -16,7 +22,8 @@
             @click="savePictures"
             >FELTÖLTÉS
           </v-btn>
-      </v-row>
+        </v-card-actions>
+      </v-card>
     </v-container>
   </div>
 </template>
@@ -39,7 +46,8 @@ export default {
         uploadMultiple: true,
         autoProcessQueue: false,
         addRemoveLinks: true,
-        acceptedFiles: "image/*"
+        acceptedFiles: "image/*",
+        dictDefaultMessage: "Húzd ide a feltöltésre szánt képeket"
       },
       filesToUpload: [],
     };
@@ -67,11 +75,20 @@ export default {
         .post(this.$store.state.baseURL + "apartment/addpictures", formData)
         .then((response) => {
           if (!response.data) throw "empty list";
+           this.$store.commit("showMessage", {
+            active: true,
+            color: "cgreen",
+            message: "Sikeres feltöltés",
+          });
         })
         .catch((error) => {
-          alert(error);
+          this.$store.commit("showMessage", {
+            active: true,
+            color: "error",
+            message: "Nem sikerült feltölteni a képeket. Próbáld újra!",
+          });
         });
-        this.$refs.myVueDropzone.removeAllFiles()
+      this.$refs.myVueDropzone.removeAllFiles();
     },
   },
 };

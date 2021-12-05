@@ -52,7 +52,11 @@ export default {
           this.weekendhouse = response.data;
         })
         .catch((error) => {
-          alert(error);
+          this.$store.commit("showMessage", {
+            active: true,
+            color: "error", // You can create another actions for diferent color.
+            message: "Hiba történt a nyaraló adatainak lekérésénél",
+          });
         });
     },
     getApartments() {
@@ -63,21 +67,23 @@ export default {
           this.apartments = response.data;
         })
         .catch((error) => {
-          alert(error);
+          this.$store.commit("showMessage", {
+            active: true,
+            color: "error", // You can create another actions for diferent color.
+            message: "Hiba történt az apartmanok adatainak lekérésénél",
+          });
         });
     },
     onAddProperty(p) {
-      var  payload = JSON.parse(JSON.stringify(this.weekendhouse));
+      var payload = JSON.parse(JSON.stringify(this.weekendhouse));
       payload.properties.push(p);
       this.saveWeekendhouse(payload);
     },
     onDeleteProperty(p) {
-      var  payload = JSON.parse(JSON.stringify(this.weekendhouse));
-      payload.properties = payload.properties.filter(
-        function (property) {
-          return property.id !== p.id;
-        }
-      );
+      var payload = JSON.parse(JSON.stringify(this.weekendhouse));
+      payload.properties = payload.properties.filter(function (property) {
+        return property.id !== p.id;
+      });
       this.saveWeekendhouse(payload);
     },
     saveWeekendhouse(payload) {
@@ -102,7 +108,7 @@ export default {
         });
     },
     onUpdateDescription(d) {
-      var  payload = JSON.parse(JSON.stringify(this.weekendhouse));
+      var payload = JSON.parse(JSON.stringify(this.weekendhouse));
       payload.description = d;
       this.saveWeekendhouse(payload);
     },
