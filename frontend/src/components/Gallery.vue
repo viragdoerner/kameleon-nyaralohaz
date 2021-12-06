@@ -4,6 +4,26 @@
       <v-row>
         <v-col v-for="pic in pictures" :key="pic">
           <img :src="imgUrl" />
+          <v-img src="../../public/images/apartments/karacsony.jpg" max-width="100"/>
+        </v-col>
+      </v-row>
+    </div>
+    <div>
+      <v-row>
+        <v-col v-for="pic in pictures" :key="pic">
+          <img :src="imgUrl1" />
+          <v-img src="../assets/images/karacsony.jpg" max-width="100"/>
+        </v-col>
+      </v-row>
+    </div>
+    <div>
+      <v-row>
+        <v-col v-for="pic in pictures" :key="pic">
+          <v-img :src="require('../assets/images/karacsony.jpg')" max-width="100"/>
+          <!-- <v-img :src="require(imgUrl)" max-width="100"/> -->
+          <!-- <v-img :src="require(imgUrl1)" max-width="100"/> -->
+          <!-- <v-img :src="require(`${imgUrl}`)" max-width="100"/> -->
+          <!-- <v-img :src="require(`${imgUrl1}`)" max-width="100"/> -->
         </v-col>
       </v-row>
     </div>
@@ -45,8 +65,10 @@ export default {
       imageList: [],
       imgPath: "../../public/images/apartments/",
       imgUrl: "../../public/images/apartments/FAKE.png",
+      imgUrl1: "../assets/images/karacsony.jpg",
       imgUrl2: "./../assets/img/FAKE.png",
-      imgUrl3: '@/assets/img/parasol.png'
+      imgUrl3: '@/assets/img/parasol.png',
+     
     };
   },
   mounted() {},
