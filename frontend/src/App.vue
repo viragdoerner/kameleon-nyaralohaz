@@ -2,7 +2,7 @@
   <v-app>
     <c-app-bar :apartment_routes="apartment_routes"></c-app-bar>
     <v-main class="app">
-      <router-view />
+      <router-view :key="$route.path" />
     </v-main>
     <c-footer></c-footer>
     <c-snack-bar></c-snack-bar>
