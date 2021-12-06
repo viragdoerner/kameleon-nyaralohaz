@@ -47,7 +47,7 @@ export default {
         autoProcessQueue: false,
         addRemoveLinks: true,
         acceptedFiles: "image/*",
-        dictDefaultMessage: "Húzd ide a feltöltésre szánt képeket"
+        dictDefaultMessage: "Húzd ide a feltöltésre szánt képeket",
       },
       filesToUpload: [],
     };
@@ -72,10 +72,14 @@ export default {
       }
       formData.append("apartmentId", this.apartmentId);
       axios
-        .post(this.$store.state.baseURL + "apartment/addpictures", formData)
+        .post(this.$store.state.baseURL + "apartment/addpictures", formData, {
+          // onUploadProgress: (progressEvent) => {
+          //   console.log(progressEvent.loaded / progressEvent.total);
+          // },
+        })
         .then((response) => {
           if (!response.data) throw "empty list";
-           this.$store.commit("showMessage", {
+          this.$store.commit("showMessage", {
             active: true,
             color: "cgreen",
             message: "Sikeres feltöltés",
@@ -93,3 +97,18 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+#dropzone {
+  outline: 2px dashed grey; /* the dash box */
+  outline-offset: -10px;
+  background: lightcyan;
+  color: dimgray;
+  padding: 10px 10px;
+  min-height: 200px; /* minimum height */
+  position: relative;
+}
+
+#dropzone:hover {
+  background: lightblue; /* when mouse over to the drop zone, change color */
+}
+</style>
