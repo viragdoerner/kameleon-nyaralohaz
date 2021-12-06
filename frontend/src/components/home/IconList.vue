@@ -9,7 +9,7 @@
         <v-btn
           icon
           x-large
-          class="align-self-center"
+          class="align-self-center" id="property-icon"
           v-bind:style="{ color: colors[index % 5] }"
           ><v-icon x-large> {{ p.icon_name }} </v-icon>
         </v-btn>
@@ -141,5 +141,8 @@ export default {
 <style scoped>
 .icons-container {
   background-color: #d4ecdd;
+}
+#property-icon{
+  cursor: default;
 }
 </style>
