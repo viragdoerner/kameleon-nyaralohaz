@@ -9,7 +9,7 @@
       <v-card
         v-bind:class="{ 'justify-end': index % 2 == 5 }"
         class="pa-2 d-flex justify-center"
-        color="cbggreen"
+        color="white"
         height="100%"
       >
         <v-list class="px-16 py-10 align-stretch" color="transparent">
@@ -18,7 +18,7 @@
               <v-icon color="clightgreen"> fa-chevron-circle-right </v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title v-text="item"></v-list-item-title>
+              <v-list-item-title v-text="item.name"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
