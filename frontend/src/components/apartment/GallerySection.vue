@@ -1,14 +1,17 @@
 <template>
-    <div class="py-16 gallery-section">
-      <c-file-upload
+  <div class="py-16 gallery-section">
+    <c-file-upload
       v-if="$store.state.admin"
       :apartmentId="apartment.id"
       v-on:uploaded-pictures="onUploadedPictures"
     ></c-file-upload>
-      <v-container class="col-10">
-        <c-gallery  :pictures="apartment.pictures"></c-gallery>
-      </v-container>
-    </div>
+    <v-container class="col-10">
+      <c-gallery
+        :pictures="apartment.pictures"
+        v-on:delete-picture="onDeletePicture"
+      ></c-gallery>
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -31,6 +34,9 @@ export default {
     onUploadedPictures(updatedApartment) {
       this.apartment = updatedApartment;
     },
+    onDeletePicture(pic){
+      
+    }
   },
 };
 </script>

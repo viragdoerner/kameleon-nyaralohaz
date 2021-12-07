@@ -54,6 +54,7 @@ public class ApartmentController {
         return a;
     }
 
+    // not in use
     @PostMapping(path = "/addpicture")
     public Apartment addApartmentPicture(@RequestParam("apartmentId") Long apartmentId, @RequestParam("file") MultipartFile file) {
         Apartment apartment = apartmentService.getApartmentById(apartmentId);
@@ -66,6 +67,7 @@ public class ApartmentController {
         return a;
     }
 
+    // in use
     @PostMapping(path = "/addpictures")
     public Apartment addApartmentPictures(@RequestParam("apartmentId") Long apartmentId, @RequestParam("files") MultipartFile[] files) {
         Apartment apartment = apartmentService.getApartmentById(apartmentId);

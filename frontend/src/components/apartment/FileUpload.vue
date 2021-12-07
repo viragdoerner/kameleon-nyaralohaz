@@ -78,7 +78,7 @@ export default {
           // },
         })
         .then((response) => {
-          if (!response.data) throw "empty list";
+          this.$emit("uploaded-pictures", response.data);
           this.$store.commit("showMessage", {
             active: true,
             color: "cgreen",

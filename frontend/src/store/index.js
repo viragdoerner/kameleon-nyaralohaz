@@ -17,7 +17,7 @@ export default new Vuex.Store({
         return pattern.test(value) || 'Invalid e-mail.'
       },
     },
-    imgPath: "../../public/images/apartments/"
+    imgPath: "./images/apartments/"
   },
   mutations: {
     showMessage(state, payload) {

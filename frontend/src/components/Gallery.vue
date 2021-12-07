@@ -2,33 +2,6 @@
   <div class="app-container">
     <div>
       <v-row>
-        <v-col v-for="pic in pictures" :key="pic">
-          <img :src="imgUrl" />
-          <v-img src="../../public/images/apartments/karacsony.jpg" max-width="100"/>
-        </v-col>
-      </v-row>
-    </div>
-    <div>
-      <v-row>
-        <v-col v-for="pic in pictures" :key="pic">
-          <img :src="imgUrl1" />
-          <v-img src="../assets/images/karacsony.jpg" max-width="100"/>
-        </v-col>
-      </v-row>
-    </div>
-    <div>
-      <v-row>
-        <v-col v-for="pic in pictures" :key="pic">
-          <v-img :src="require('../assets/images/karacsony.jpg')" max-width="100"/>
-          <!-- <v-img :src="require(imgUrl)" max-width="100"/> -->
-          <!-- <v-img :src="require(imgUrl1)" max-width="100"/> -->
-          <!-- <v-img :src="require(`${imgUrl}`)" max-width="100"/> -->
-          <!-- <v-img :src="require(`${imgUrl1}`)" max-width="100"/> -->
-        </v-col>
-      </v-row>
-    </div>
-    <div>
-      <v-row>
         <v-col
           v-for="(pic, index) in pictures"
           :key="pic"
@@ -41,6 +14,19 @@
             aspect-ratio="1"
             class="grey lighten-2"
           >
+          <v-app-bar v-if="$store.state.admin"
+            flat
+            color="rgba(0, 0, 0, 0)"
+          >
+          <v-spacer></v-spacer>
+            <v-btn
+              color="white"
+              icon
+              @click="deletePicture(pic)"
+            >
+              <v-icon>fa-close</v-icon>
+            </v-btn>
+          </v-app-bar>
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
                 <v-progress-circular
@@ -62,22 +48,13 @@ export default {
   props: ["pictures"],
   data() {
     return {
-      imageList: [],
-      imgPath: "../../public/images/apartments/",
-      imgUrl: "../../public/images/apartments/FAKE.png",
-      imgUrl1: "../assets/images/karacsony.jpg",
-      imgUrl2: "./../assets/img/FAKE.png",
-      imgUrl3: '@/assets/img/parasol.png',
-     
     };
   },
   mounted() {},
   computed: {
-    getImgUrl() {
-     /*  var url = this.imgPath + pic;
-      console.log(url); */
-      return "../../public/images/apartments/FAKE.png";
-    },
+    deletePicture(pic){
+      this.$emit("delete-picture", pic);
+    }
   },
 };
 </script>

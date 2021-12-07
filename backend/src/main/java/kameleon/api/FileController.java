@@ -38,6 +38,7 @@ public class FileController {
     }
 
     //@Secured("ROLE_USER")
+    //not in use
     @PostMapping("/uploadFile")
     public ResponseEntity<UploadFileResponse> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("path") String path) throws URISyntaxException {
         String fileName = fileStorageService.storeFile(file, path);
