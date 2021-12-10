@@ -1,16 +1,16 @@
 <template>
-  <v-app>
-    <v-dialog v-model="dialog" persistent max-width="600px" min-width="360px">
+  <v-container class="d-flex align-center justify-center pt-5 ptb-5">
+    <v-card v-model="dialog" persistent max-width="600px" min-width="360px">
       <div>
         <v-tabs
           v-model="tab"
           show-arrows
-          background-color="corange accent-4"
+          background-color="cyellow accent-4"
           icons-and-text
           dark
           grow
         >
-          <v-tabs-slider color="corange darken-4"></v-tabs-slider>
+          <v-tabs-slider color="cyellow darken-4"></v-tabs-slider>
           <v-tab v-for="i in tabs" :key="i.name">
             <h3 class="">{{ i.name }}</h3>
           </v-tab>
@@ -23,7 +23,7 @@
                       <v-text-field
                         v-model="username"
                         label="Username"
-                        required
+                        :rules="[rules.required]"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12">
@@ -132,8 +132,8 @@
           </v-tab-item>
         </v-tabs>
       </div>
-    </v-dialog>
-  </v-app>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
@@ -178,11 +178,9 @@ export default {
     },
   },
   data: () => ({
-    dialog: true,
     tab: 0,
     tabs: [{ name: "Login" }, { name: "Register" }],
     valid: true,
-
     firstName: "",
     lastName: "",
     username: "",
