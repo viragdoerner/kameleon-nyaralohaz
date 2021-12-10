@@ -15,7 +15,7 @@
         </v-btn>
         <div class="align-self-center cgreen--text">{{ p.name }}</div>
         <v-btn
-          v-if="$store.state.admin"
+          v-if="$store.getters.isLoggedIn"
           icon
           class="align-self-center"
           color="grey darken-3"
@@ -38,7 +38,7 @@
         </v-card>
       </v-dialog>
     </v-row>
-    <v-container v-if="$store.state.admin" class="d-flex justify-center pb-10">
+    <v-container v-if="$store.getters.isLoggedIn" class="d-flex justify-center pb-10">
       <v-card elevation="2" class="col-12 col-md-8 pb-10">
         <v-card-title class="text-h3 zabatana corange--text"
           >Tulajdonság hozzáadása</v-card-title

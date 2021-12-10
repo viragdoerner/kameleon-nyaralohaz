@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row align="center" class="mx-0">
-      <div v-if="$store.state.admin" class="bars">
+      <div v-if="$store.getters.isLoggedIn" class="bars">
         <vue-file-toolbar-menu
           v-for="(content, index) in bars_content"
           :key="'bar-' + index"
@@ -12,12 +12,12 @@
         id="mytext"
         ref="text"
         class="text"
-        :contenteditable="$store.state.admin"
+        :contenteditable="$store.getters.isLoggedIn"
         spellcheck="false"
         v-html="description"
       ></div>
     </v-row>
-    <v-row v-if="$store.state.admin" class="pt-5 mx-0" align="center">
+    <v-row v-if="$store.getters.isLoggedIn" class="pt-5 mx-0" align="center">
       <v-btn elevation="2" color="cgreen" class="white--text" @click="saveText"
         >MENTÉS
       </v-btn>

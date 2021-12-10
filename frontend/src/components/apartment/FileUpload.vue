@@ -31,7 +31,6 @@
 <script>
 import vue2Dropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
-import axios from "axios";
 
 export default {
   name: "CFileUpload",
@@ -71,7 +70,7 @@ export default {
         formData.append("files", file);
       }
       formData.append("apartmentId", this.apartmentId);
-      axios
+      this.$http
         .post(this.$store.state.baseURL + "apartment/addpictures", formData, {
           // onUploadProgress: (progressEvent) => {
           //   console.log(progressEvent.loaded / progressEvent.total);

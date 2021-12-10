@@ -24,7 +24,6 @@ import CHeader from "../components/home/Header.vue";
 import CReserveSection from "../components/home/ReserveSection.vue";
 import CReserveApartmentSection from "../components/home/ReserveApartmentSection.vue";
 import CIconList from "../components/home/IconList.vue";
-import axios from "axios";
 
 export default {
   name: "CHome",
@@ -45,7 +44,7 @@ export default {
   },
   methods: {
     getWeekendhouse() {
-      axios
+      this.$http
         .get(this.$store.state.baseURL + "weekendhouse")
         .then((response) => {
           if (!response.data) throw "empty list";
@@ -60,7 +59,7 @@ export default {
         });
     },
     getApartments() {
-      axios
+      this.$http
         .get(this.$store.state.baseURL + "apartment")
         .then((response) => {
           if (!response.data) throw "empty list";
@@ -87,7 +86,7 @@ export default {
       this.saveWeekendhouse(payload);
     },
     saveWeekendhouse(payload) {
-      axios
+      this.$http
         .put(this.$store.state.baseURL + "weekendhouse", payload)
         .then((response) => {
           if (!response.data) throw "empty list";
