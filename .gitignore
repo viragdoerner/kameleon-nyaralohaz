@@ -59,4 +59,8 @@ pnpm-debug.log*
 
 frontend/public/images/apartments/
 
+frontend/src/assets/img/
+
 frontend/src/assets/images/
+
+backend/src/main/resources/static/
