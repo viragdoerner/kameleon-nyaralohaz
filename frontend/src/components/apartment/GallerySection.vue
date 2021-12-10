@@ -17,6 +17,7 @@
 <script>
 import CFileUpload from "./FileUpload.vue";
 import CGallery from "../Gallery.vue";
+import axios from "axios";
 export default {
   name: "CGallerySection",
   props: ["apartment"],
@@ -35,7 +36,23 @@ export default {
       this.apartment = updatedApartment;
     },
     onDeletePicture(pic){
-      
+      axios
+        .delete(this.$store.state.baseURL + "apartment/deletepic/" + pic)
+        .then((response) => {
+          this.apartment = response.data;
+          this.$store.commit("showMessage", {
+            active: true,
+            color: "cgreen",
+            message: "Sikeres törlés",
+          });
+        })
+        .catch((error) => {
+          this.$store.commit("showMessage", {
+            active: true,
+            color: "error",
+            message: "HIba történt a kép törlésekor. Próbáld újra!",
+          });
+        });
     }
   },
 };

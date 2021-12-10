@@ -67,7 +67,6 @@ public class ApartmentController {
         return a;
     }
 
-    // in use
     @PostMapping(path = "/addpictures")
     public Apartment addApartmentPictures(@RequestParam("apartmentId") Long apartmentId, @RequestParam("files") MultipartFile[] files) {
         Apartment apartment = apartmentService.getApartmentById(apartmentId);
@@ -84,6 +83,13 @@ public class ApartmentController {
                 .collect(Collectors.toList());
 
         Apartment a = apartmentService.addApartmentPictures(apartment, fileNames);
+        return a;
+    }
+
+    @PostMapping(path = "/deletepic/{apartmentId}/{filename}")
+    public Apartment addApartmentPictures(@PathVariable("apartmentId") Long apartmentId, @PathVariable("filename") String filename ) {
+        fileStorageService.deleteFile(filename, "apartments");
+        Apartment a = apartmentService.deletePicture(apartmentId, filename);
         return a;
     }
 }
