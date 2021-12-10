@@ -14,7 +14,6 @@ import CFooter from "./components/Footer.vue";
 import CAppBar from "./components/AppBar.vue";
 import CSnackBar from "./components/SnackBar.vue";
 import CApartment from "./views/Apartment.vue";
-import axios from "axios";
 import router from "./router";
 
 export default {
@@ -30,7 +29,7 @@ export default {
   }),
   methods: {
     getDynamicRoutes(url) {
-      axios
+      this.$http
         .get(url)
         .then((response) => {
           this.processData(response, this);

@@ -1,7 +1,7 @@
 <template>
   <v-footer padless>
     <v-card flat tile width="100%" class="corange text-center">
-      <v-card-text v-if="!$store.state.admin">
+      <v-card-text v-if="!$store.getters.isLoggedIn">
         <transition-group class="footer-elements">
           <v-btn
             key="1"
@@ -64,7 +64,7 @@
 
       <v-card-text
         class="pt-16"
-        v-if="$store.state.admin && currentRouteName == 'Home'"
+        v-if="$store.getters.isLoggedIn && currentRouteName == 'Home'"
       >
         <v-row justify="center">
           <v-col cols="12" sm="6" md="3">
@@ -114,7 +114,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "CFooter",
   data: () => ({
@@ -132,7 +131,7 @@ export default {
   },
   methods: {
     getWeekendhouse() {
-      axios
+      this.$http
         .get(this.$store.state.baseURL + "weekendhouse")
         .then((response) => {
           if (!response.data) throw "empty list";
@@ -143,7 +142,7 @@ export default {
         });
     },
     saveWeekendhouse() {
-      axios
+      this.$http
         .put(this.$store.state.baseURL + "weekendhouse", this.weekendhouse)
         .then((response) => {
           if (!response.data) throw "empty list";

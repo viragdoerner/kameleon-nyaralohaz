@@ -20,12 +20,6 @@
                 <v-form ref="loginForm" v-model="valid" lazy-validation>
                   <v-row>
                     <v-col cols="12">
-                      <!-- <v-text-field
-                        v-model="loginEmail"
-                        :rules="loginEmailRules"
-                        label="E-mail"
-                        required
-                      ></v-text-field> -->
                       <v-text-field
                         v-model="username"
                         label="Username"
@@ -53,7 +47,7 @@
                         block
                         :disabled="!valid"
                         color="success"
-                        @click="validate"
+                        @click="validateLogin"
                       >
                         Login
                       </v-btn>
@@ -127,7 +121,7 @@
                         block
                         :disabled="!valid"
                         color="success"
-                        @click="validate"
+                        @click="validateRegister"
                         >Register</v-btn
                       >
                     </v-col>
@@ -143,7 +137,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "CLogin",
   computed: {
@@ -152,30 +145,29 @@ export default {
     },
   },
   methods: {
-    validate() {
-      console.log(this.$refs.loginForm);
+    validateRegister() {},
+    validateLogin() {
+      console.log(this.$store.getters.isLoggedIn);
       if (this.$refs.loginForm.validate()) {
         console.log("validálva");
         var loginForm = {
           username: this.username,
-          password: this.loginPassword
+          password: this.loginPassword,
         };
-        axios
-        .post(this.$store.state.baseURL + "auth/signin", loginForm)
-        .then((response) => {;
-          this.$store.commit("showMessage", {
-            active: true,
-            color: "cgreen",
-            message: "Sikeres bejelentkezés",
+        this.$store
+          .dispatch("login", loginForm)
+          .then(() => {
+            console.log("login success");
+            console.log(this.$store.getters.isLoggedIn);
+            this.$router.push("/");
+          })
+          .catch((error) => {
+            this.$store.commit("showMessage", {
+              active: true,
+              color: "error",
+              message: "Sikertelen bejelentkezés",
+            });
           });
-        })
-        .catch((error) => {
-          this.$store.commit("showMessage", {
-            active: true,
-            color: "error",
-            message: "Nem sikerült bejelentkezni. Próbáld újra!",
-          });
-        });
       }
     },
     reset() {
@@ -188,10 +180,7 @@ export default {
   data: () => ({
     dialog: true,
     tab: 0,
-    tabs: [
-      { name: "Login" },
-      { name: "Register" },
-    ],
+    tabs: [{ name: "Login" }, { name: "Register" }],
     valid: true,
 
     firstName: "",

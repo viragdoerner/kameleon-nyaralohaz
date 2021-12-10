@@ -36,11 +36,17 @@
             </v-list-item-icon>
             <v-list-item-title>Foglalás</v-list-item-title>
           </v-list-item>
-          <v-list-item to="/login">
+          <v-list-item v-if="!$store.getters.isLoggedIn" to="/login">
             <v-list-item-icon>
               <v-icon>mdi-account</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Bejelentkezés</v-list-item-title>
+          </v-list-item>
+          <v-list-item v-if="$store.getters.isLoggedIn" @click="logout">
+            <v-list-item-icon>
+              <v-icon>mdi-account-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Kijelentkezés</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -51,13 +57,17 @@
 <script>
 export default {
   name: "CAppBar",
-
-  components: {},
   data: () => ({
     drawer: false,
     group: null,
   }),
   props: ["apartment_routes"],
-  mounted() {},
+  methods: {
+    logout: function () {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/");
+      });
+    },
+  },
 };
 </script>
