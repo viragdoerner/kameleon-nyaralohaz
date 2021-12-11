@@ -49,11 +49,13 @@ export default new Vuex.Store({
         commit('auth_request')
         axios({ url: this.state.baseURL + "auth/signin", data: loginForm, method: 'POST' })
           .then(resp => {
-            console.log(resp.data);
-            const token = resp.data.accessToken
+            console.log(resp.data.tokenType);
+            const token = resp.data.tokenType + " " + resp.data.accessToken
+            console.log(token);
             const user = resp.data.username
-            localStorage.setItem('token', token)
+            localStorage.setItem('token',  resp.data.tokenType + " " + token)
             axios.defaults.headers.common['Authorization'] = token
+            axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
             commit('auth_success', token, user)
             resolve(resp)
           })

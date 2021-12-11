@@ -1,6 +1,6 @@
 <template>
-    <div class="py-16 gallery-section">
-      <c-file-upload
+  <div class="py-16 gallery-section">
+    <c-file-upload
       v-if="$store.getters.isLoggedIn"
       :apartmentId="apartment.id"
       v-on:uploaded-pictures="onUploadedPictures"
@@ -35,9 +35,10 @@ export default {
     onUploadedPictures(updatedApartment) {
       this.apartment = updatedApartment;
     },
-    onDeletePicture(pic){
+    onDeletePicture(pic) {
+      console.log(pic);
       axios
-        .delete(this.$store.state.baseURL + "apartment/deletepic/" + pic)
+        .delete(this.$store.state.baseURL + "apartment/deletepic/" + this.apartment.id + "/" + pic)
         .then((response) => {
           this.apartment = response.data;
           this.$store.commit("showMessage", {
@@ -53,7 +54,7 @@ export default {
             message: "HIba történt a kép törlésekor. Próbáld újra!",
           });
         });
-    }
+    },
   },
 };
 </script>

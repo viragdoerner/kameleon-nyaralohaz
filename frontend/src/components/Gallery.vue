@@ -14,7 +14,7 @@
             aspect-ratio="1"
             class="grey lighten-2"
           >
-          <v-app-bar v-if="$store.state.admin"
+          <v-app-bar v-if="$store.getters.isLoggedIn"
             flat
             color="rgba(0, 0, 0, 0)"
           >
@@ -51,8 +51,9 @@ export default {
     };
   },
   mounted() {},
-  computed: {
+  methods: {
     deletePicture(pic){
+      console.log(pic);
       this.$emit("delete-picture", pic);
     }
   },
