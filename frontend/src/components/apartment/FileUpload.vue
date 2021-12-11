@@ -71,11 +71,7 @@ export default {
       }
       formData.append("apartmentId", this.apartmentId);
       this.$http
-        .post(this.$store.state.baseURL + "apartment/addpictures", formData, {
-          // onUploadProgress: (progressEvent) => {
-          //   console.log(progressEvent.loaded / progressEvent.total);
-          // },
-        })
+        .post(this.$store.state.baseURL + "apartment/addpictures", formData)
         .then((response) => {
           this.$emit("uploaded-pictures", response.data);
           this.$store.commit("showMessage", {
@@ -91,7 +87,7 @@ export default {
             message: "Nem sikerült feltölteni a képeket. Próbáld újra!",
           });
         });
-      this.$refs.myVueDropzone.removeAllFiles();
+      this.$refs.myVueDropzone.removeAllFiles(true);
     },
   },
 };
