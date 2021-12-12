@@ -8,7 +8,7 @@
     >
       <v-card
         v-bind:class="{ 'justify-end': index % 2 == 5 }"
-        class="pa-2 d-flex justify-center"
+        class="pa-2 d-flex justify-center align-center"
         color="white"
         height="100%"
       >
@@ -27,8 +27,7 @@
     <v-col v-bind:class="{ 'order-1': index % 2 == 1 }" cols="6">
       <v-parallax
         dark
-        height="350"
-        src="https://cdn.vuetifyjs.com/images/cards/house.jpg"
+        :src="$store.state.imgPath + apartment.pictures[0]"
       >
         <v-row align="center" justify="center">
           <v-col class="text-center" cols="12">

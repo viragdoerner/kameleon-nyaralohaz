@@ -1,23 +1,23 @@
 <template>
-  <v-container fluid class="icons-container justify-center">
-    <v-row class="d-flex justify-space-around px-16 icons-container">
+  <v-container fluid class="icons-container">
+    <v-row class="d-flex justify-space-between px-16 icons-container">
       <div
         v-for="(p, index) in properties"
         :key="p.id"
-        class="pa-2 d-flex flex-column align-center my-16"
+        class="pa-2 d-flex align-center justify-center flex-column my-16"
       >
         <v-btn
           icon
           x-large
-          class="align-self-center" id="property-icon"
+          class="" id="property-icon"
           v-bind:style="{ color: colors[index % 5] }"
           ><v-icon x-large> {{ p.icon_name }} </v-icon>
         </v-btn>
-        <div class="align-self-center cgreen--text">{{ p.name }}</div>
+        <div class=" cgreen--text">{{ p.name }}</div>
         <v-btn
           v-if="$store.getters.isLoggedIn"
           icon
-          class="align-self-center"
+          class=""
           color="grey darken-3"
           @click.stop="openDialog(p)"
           ><v-icon small> fa-close </v-icon>
