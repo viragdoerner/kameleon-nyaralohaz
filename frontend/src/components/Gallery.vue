@@ -18,7 +18,7 @@
             :src="$store.state.imgPath + pic"
             :lazy-src="`https://picsum.photos/10/6?image=${index * 5 + 10}`"
             aspect-ratio="1"
-            class="grey lighten-2"
+            class="grey lighten-2" id="picture"
             @click="index = thumbIndex"
           >
             <v-app-bar
@@ -100,4 +100,7 @@ export default {
 </script>
 
 <style>
+#picture{
+  cursor: pointer;
+}
 </style>
