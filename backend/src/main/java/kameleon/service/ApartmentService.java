@@ -44,4 +44,10 @@ public class ApartmentService {
         apartment.addPictures(fileNames);
         return repository.save(apartment);
     }
+
+    public Apartment deletePicture(Long apartmentId, String filename) {
+        Apartment apartment = this.getApartmentById(apartmentId);
+        apartment.deletePicture(filename);
+        return repository.save(apartment);
+    }
 }

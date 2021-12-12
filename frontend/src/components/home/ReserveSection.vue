@@ -2,7 +2,7 @@
   <v-container class="col-12 mx-0 reserve-section" fluid>
     <v-container class="d-flex px-16 col-10" fluid>
       <v-card width="50%" class="pa-10 ma-10 transparentCard" elevation="0">
-        <v-card-title class="text-h3 zabatana cgreen--text"
+        <v-card-title class="text-h2 zabatana cgreen--text"
           >Foglalj apartmant</v-card-title
         >
         <v-card-text>

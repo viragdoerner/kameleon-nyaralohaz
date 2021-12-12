@@ -170,10 +170,6 @@ public class FileStorageService {
                 boolean b = file.delete();
 
             }
-//            Ha nem létezik a fájl akkor simán törölhető az adatbázisból
-//            else {
-//                throw new MyFileNotFoundException("File not found " + fileName);
-//            }
         } catch (MalformedURLException ex) {
             throw new CustomMessageException("File not found " + fileName, ex);
         }

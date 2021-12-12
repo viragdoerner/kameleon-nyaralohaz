@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,13 +48,15 @@ public class ApartmentController {
         Apartment a =apartmentService.getApartmentById(id);
         return a;
     }
-
+    @Secured("ROLE_ADMIN")
     @PutMapping
     public Apartment updateApartment(@RequestBody Apartment apartment) {
         Apartment a =apartmentService.updateApartment(apartment);
         return a;
     }
 
+    // not in use
+    @Secured("ROLE_ADMIN")
     @PostMapping(path = "/addpicture")
     public Apartment addApartmentPicture(@RequestParam("apartmentId") Long apartmentId, @RequestParam("file") MultipartFile file) {
         Apartment apartment = apartmentService.getApartmentById(apartmentId);
@@ -67,6 +70,7 @@ public class ApartmentController {
     }
 
     @PostMapping(path = "/addpictures")
+    @Secured("ROLE_ADMIN")
     public Apartment addApartmentPictures(@RequestParam("apartmentId") Long apartmentId, @RequestParam("files") MultipartFile[] files) {
         Apartment apartment = apartmentService.getApartmentById(apartmentId);
 
@@ -82,6 +86,14 @@ public class ApartmentController {
                 .collect(Collectors.toList());
 
         Apartment a = apartmentService.addApartmentPictures(apartment, fileNames);
+        return a;
+    }
+
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping(path = "/deletepic/{apartmentId}/{filename}")
+    public Apartment deleteApartmentPicture(@PathVariable("apartmentId") Long apartmentId, @PathVariable("filename") String filename ) {
+        fileStorageService.deleteFile(filename, "apartments");
+        Apartment a = apartmentService.deletePicture(apartmentId, filename);
         return a;
     }
 }

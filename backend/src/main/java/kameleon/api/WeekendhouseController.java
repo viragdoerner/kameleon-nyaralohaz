@@ -4,6 +4,7 @@ import kameleon.model.Weekendhouse;
 import kameleon.service.ApartmentService;
 import kameleon.service.WeekendhouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class WeekendhouseController {
         return w;
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping
     public Weekendhouse updateWeekendhouse( @RequestBody Weekendhouse house) {
         Weekendhouse w = weekendhouseService.updateWeekendhouse(house);

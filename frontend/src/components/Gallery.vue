@@ -2,36 +2,15 @@
   <div class="app-container">
     <div>
       <v-row>
-        <v-col v-for="pic in pictures" :key="pic">
-          <img :src="imgUrl" />
-          <v-img src="../../public/images/apartments/karacsony.jpg" max-width="100"/>
-        </v-col>
-      </v-row>
-    </div>
-    <div>
-      <v-row>
-        <v-col v-for="pic in pictures" :key="pic">
-          <img :src="imgUrl1" />
-          <v-img src="../assets/images/karacsony.jpg" max-width="100"/>
-        </v-col>
-      </v-row>
-    </div>
-    <div>
-      <v-row>
-        <v-col v-for="pic in pictures" :key="pic">
-          <v-img :src="require('../assets/images/karacsony.jpg')" max-width="100"/>
-          <!-- <v-img :src="require(imgUrl)" max-width="100"/> -->
-          <!-- <v-img :src="require(imgUrl1)" max-width="100"/> -->
-          <!-- <v-img :src="require(`${imgUrl}`)" max-width="100"/> -->
-          <!-- <v-img :src="require(`${imgUrl1}`)" max-width="100"/> -->
-        </v-col>
-      </v-row>
-    </div>
-    <div>
-      <v-row>
+        <LightGallery
+          :images="pictureURLs"
+          :index="index"
+          :disable-scroll="true"
+          @close="index = null"
+        />
         <v-col
-          v-for="(pic, index) in pictures"
-          :key="pic"
+          v-for="(pic, thumbIndex) in pictures"
+          :key="thumbIndex"
           class="d-flex child-flex"
           cols="4"
         >
@@ -40,7 +19,18 @@
             :lazy-src="`https://picsum.photos/10/6?image=${index * 5 + 10}`"
             aspect-ratio="1"
             class="grey lighten-2"
+            @click="index = thumbIndex"
           >
+            <v-app-bar
+              v-if="$store.getters.isLoggedIn"
+              flat
+              color="rgba(0, 0, 0, 0)"
+            >
+              <v-spacer></v-spacer>
+              <v-btn color="white" icon @click="openDialog($event, pic)">
+                <v-icon>fa-close</v-icon>
+              </v-btn>
+            </v-app-bar>
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
                 <v-progress-circular
@@ -53,30 +43,57 @@
         </v-col>
       </v-row>
     </div>
+    <v-dialog v-model="dialog" max-width="290">
+      <v-card>
+        <v-card-title> Biztos törölni szeretnéd? </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="cgreen darken-1" text @click="dialog = false">
+            Mégse
+          </v-btn>
+          <v-btn color="corange darken-1" text @click="deletePicture()">
+            Törlés
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
+import { LightGallery } from "vue-light-gallery";
 export default {
   name: "CGallery",
   props: ["pictures"],
+  components: {
+    LightGallery,
+  },
   data() {
     return {
-      imageList: [],
-      imgPath: "../../public/images/apartments/",
-      imgUrl: "../../public/images/apartments/FAKE.png",
-      imgUrl1: "../assets/images/karacsony.jpg",
-      imgUrl2: "./../assets/img/FAKE.png",
-      imgUrl3: '@/assets/img/parasol.png',
-     
+      index: null,
+      dialog: false,
+      pictureToBeRemoved: null,
     };
   },
   mounted() {},
+  methods: {
+    deletePicture() {
+      this.$emit("delete-picture", this.pictureToBeRemoved);
+       this.dialog = false;
+    },
+    openDialog(e, pic) {
+      e.stopImmediatePropagation();
+      this.dialog = true;
+      this.pictureToBeRemoved = pic;
+    },
+  },
   computed: {
-    getImgUrl() {
-     /*  var url = this.imgPath + pic;
-      console.log(url); */
-      return "../../public/images/apartments/FAKE.png";
+    pictureURLs() {
+      var picURLs = [];
+      this.pictures.forEach((pic) => {
+        picURLs.push(this.$store.state.imgPath + pic);
+      });
+      return picURLs;
     },
   },
 };

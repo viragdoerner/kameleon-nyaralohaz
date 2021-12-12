@@ -1,6 +1,6 @@
 <template>
   <v-container class="d-flex align-center justify-center pt-5 ptb-5">
-    <v-card v-model="dialog" persistent max-width="600px" min-width="360px">
+    <v-card persistent max-width="600px" min-width="360px">
       <div>
         <v-tabs
           v-model="tab"
@@ -47,8 +47,7 @@
                         block
                         :disabled="!valid"
                         color="success"
-                        @click="validateLogin"
-                      >
+                        @click="validateLogin">
                         Login
                       </v-btn>
                     </v-col>

@@ -108,4 +108,7 @@ public class Apartment {
     }
 
 
+    public void deletePicture(String filename) {
+        this.pictures.remove(filename);
+    }
 }
