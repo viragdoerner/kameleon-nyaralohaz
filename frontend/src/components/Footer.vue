@@ -147,9 +147,18 @@ export default {
         .then((response) => {
           if (!response.data) throw "empty list";
           this.weekendhouse = response.data;
+           this.$store.commit("showMessage", {
+            active: true,
+            color: "cgreen",
+            message: "Sikeres mentés",
+          });
         })
         .catch((error) => {
-          alert(error);
+           this.$store.commit("showMessage", {
+            active: true,
+            color: "error",
+            message: "Sikertelen módosítás",
+          });
         });
     },
   },

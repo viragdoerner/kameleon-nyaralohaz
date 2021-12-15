@@ -146,9 +146,7 @@ export default {
   methods: {
     validateRegister() {},
     validateLogin() {
-      console.log(this.$store.getters.isLoggedIn);
       if (this.$refs.loginForm.validate()) {
-        console.log("validálva");
         var loginForm = {
           username: this.username,
           password: this.loginPassword,
@@ -156,8 +154,6 @@ export default {
         this.$store
           .dispatch("login", loginForm)
           .then(() => {
-            console.log("login success");
-            console.log(this.$store.getters.isLoggedIn);
             this.$router.push("/");
           })
           .catch((error) => {
@@ -199,7 +195,7 @@ export default {
 
     show1: false,
     rules: {
-      required: (value) => !!value || "Required.",
+      required: (value) => !!value || "Kötelező.",
       min: (v) => (v && v.length >= 8) || "Min 8 characters",
     },
   }),
