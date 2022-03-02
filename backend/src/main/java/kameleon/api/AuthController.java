@@ -54,7 +54,7 @@ public class AuthController {
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -78,13 +78,13 @@ public class AuthController {
     public ResponseEntity<?> setupAdmin() {
 
         //leellenőrzöm hogy létre lett-e már hozva ilyen felhasználó
-        if (userRepository.existsByUsername("sbt-admin")) {
-            return new ResponseEntity<>("Fail -> Username is already taken!",
+        if (userRepository.existsByEmail("admin@kameleon.hu")) {
+            return new ResponseEntity<>("Fail -> Email is already taken!",
                     HttpStatus.BAD_REQUEST);
         }
 
         //hozzáadom az admint
-        User user = new User("Kameleon Admin", "admin@kameleon.hu",
+        User user = new User("Kameleon","Admin", "admin@kameleon.hu","admin@kameleon.hu",
                 encoder.encode("kameleonadminpassword"));
 
         Set<Role> roles = new HashSet<>();
@@ -109,7 +109,7 @@ public class AuthController {
         }
 
         // Creating user's account
-        User user = new User("", registerRequest.getEmail(),
+        User user = new User("", "", registerRequest.getEmail(), registerRequest.getEmail(),
                 encoder.encode(registerRequest.getPassword()));
 
         Set<Role> roles = new HashSet<>();

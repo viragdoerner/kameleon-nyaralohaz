@@ -21,9 +21,10 @@
                   <v-row>
                     <v-col cols="12">
                       <v-text-field
-                        v-model="username"
-                        label="Username"
-                        :rules="[rules.required]"
+                        v-model="email"
+                        :rules="emailRules"
+                        label="E-mail"
+                        required
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12">
@@ -47,7 +48,8 @@
                         block
                         :disabled="!valid"
                         color="success"
-                        @click="validateLogin">
+                        @click="validateLogin"
+                      >
                         Login
                       </v-btn>
                     </v-col>
@@ -146,11 +148,13 @@ export default {
   methods: {
     validateRegister() {},
     validateLogin() {
+     
       if (this.$refs.loginForm.validate()) {
         var loginForm = {
-          username: this.username,
+          email: this.email,
           password: this.loginPassword,
         };
+         console.log(loginForm);
         this.$store
           .dispatch("login", loginForm)
           .then(() => {
@@ -178,7 +182,6 @@ export default {
     valid: true,
     firstName: "",
     lastName: "",
-    username: "",
     email: "",
     password: "",
     verify: "",
