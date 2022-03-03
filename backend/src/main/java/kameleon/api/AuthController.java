@@ -88,10 +88,12 @@ public class AuthController {
                 encoder.encode("kameleonadminpassword"));
 
         Set<Role> roles = new HashSet<>();
-        Role adminrole = new Role(ROLE_ADMIN);
-        Role userrole = new Role(ROLE_USER);
-        roles.add(adminrole);
-        roles.add(userrole);
+        Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find. Run POST request /api/auth/setup/roles first!"));
+        roles.add(adminRole);
+        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find. Run POST request /api/auth/setup/roles first!"));
+        roles.add(userRole);
         user.setRoles(roles);
 
         userRepository.save(user);
@@ -113,8 +115,10 @@ public class AuthController {
                 encoder.encode(registerRequest.getPassword()));
 
         Set<Role> roles = new HashSet<>();
-        Role role = new Role(ROLE_USER);
-        roles.add(role);
+
+        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+        roles.add(userRole);
         user.setRoles(roles);
 
         userRepository.save(user);
