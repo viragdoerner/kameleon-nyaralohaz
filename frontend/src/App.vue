@@ -73,11 +73,10 @@ export default {
     },
   },
   created() {
-     console.log("app is created");
+    
     this.getDynamicRoutes(this.$store.state.baseURL + "apartment", this);
   },
   mounted() {
-    console.log("app is mounted");
   },
 };
 </script>
