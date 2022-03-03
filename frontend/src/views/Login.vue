@@ -1,6 +1,6 @@
 <template>
-  <v-container class="d-flex align-center justify-center pt-5 ptb-5">
-    <v-card persistent max-width="600px" min-width="360px">
+  <v-container class="d-flex align-center justify-center mt-10 ptb-5">
+    <v-card persistent max-width="600px" min-width="360px" class="mt-5">
       <div>
         <v-tabs
           v-model="tab"
@@ -63,24 +63,6 @@
               <v-card-text>
                 <v-form ref="registerForm" v-model="valid" lazy-validation>
                   <v-row>
-                    <v-col cols="12" sm="6" md="6">
-                      <v-text-field
-                        v-model="firstName"
-                        :rules="[rules.required]"
-                        label="First Name"
-                        maxlength="20"
-                        required
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="6">
-                      <v-text-field
-                        v-model="lastName"
-                        :rules="[rules.required]"
-                        label="Last Name"
-                        maxlength="20"
-                        required
-                      ></v-text-field>
-                    </v-col>
                     <v-col cols="12">
                       <v-text-field
                         v-model="email"
