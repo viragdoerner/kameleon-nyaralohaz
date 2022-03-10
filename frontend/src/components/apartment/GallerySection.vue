@@ -1,7 +1,7 @@
 <template>
   <div class="py-16 gallery-section">
     <c-file-upload
-      v-if="$store.getters.isLoggedIn"
+      v-if="$store.getters.loggedInAsAdmin"
       :apartmentId="apartment.id"
       v-on:uploaded-pictures="onUploadedPictures"
     ></c-file-upload>

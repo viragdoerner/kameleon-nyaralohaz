@@ -127,7 +127,8 @@ export default {
   name: "CLogin",
   computed: {
     passwordMatch() {
-      return () => this.password === this.verify || "A jelszavaknak egyeznie kell";
+      return () =>
+        this.password === this.verify || "A jelszavaknak egyeznie kell";
     },
   },
   methods: {
@@ -166,6 +167,10 @@ export default {
           .dispatch("login", loginForm)
           .then(() => {
             this.$router.push("/");
+            console.log("login:")
+            console.log(this.$store.getters.isAdmin);
+            console.log(this.$store.getters.loggedInAsAdmin);
+            console.log(this.$store.getters.loggedInAsUser);
           })
           .catch((error) => {
             this.$store.commit("showMessage", {
@@ -194,9 +199,9 @@ export default {
     loginEmail: "",
     show1: false,
     rules: {
-      email: value => /.+@.+\..+/.test(value) || "Érvénytelen e-mail",
-      required: value => !!value || 'Kötelező mező.',
-      min8: value  => (value && value.length >= 8) || 'Minimum 8 karakter',
+      email: (value) => /.+@.+\..+/.test(value) || "Érvénytelen e-mail",
+      required: (value) => !!value || "Kötelező mező.",
+      min8: (value) => (value && value.length >= 8) || "Minimum 8 karakter",
     },
   }),
 };
