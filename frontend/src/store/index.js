@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     status: '',
     token: localStorage.getItem('token') || '',
-    role: localStorage.getItem('role') || '',
+    isAdmin: localStorage.getItem('isAdmin') || '',
     user: {},
     baseURL: "http://localhost:8080/",
     snackbar: {},
@@ -21,10 +21,10 @@ export default new Vuex.Store({
     auth_request(state) {
       state.status = 'loading'
     },
-    auth_success(state, token, user, role) {
+    auth_success(state, token, isAdmin, user ) {
       state.status = 'success'
       state.token = token
-      state.role = role
+      state.isAdmin = isAdmin
       state.user = user
     },
     auth_error(state) {
@@ -33,7 +33,7 @@ export default new Vuex.Store({
     logout(state) {
       state.status = ''
       state.token = ''
-      state.role = ''
+      state.isAdmin = ''
     },
   },
   actions: {
@@ -42,34 +42,25 @@ export default new Vuex.Store({
         commit('auth_request')
         axios({ url: this.state.baseURL + "auth/signin", data: loginForm, method: 'POST' })
           .then(resp => {
-            console.log("Vuex:");
-            console.log("auth login elott: " + this.getters.loggedIn);
-            console.log("role login elott: " + this.getters.getRole);
-
+          
             const token = resp.data.tokenType + " " + resp.data.accessToken;
             const user = resp.data.username + "";
-            const role =  (resp.data.authorities.length > 1) ? "Admin" : "User";
+            const isAdmin =  (resp.data.authorities.length > 1)? 'Admin' : '';
 
             localStorage.setItem('token', resp.data.tokenType + " " + token);
-            localStorage.setItem('role', role);
+            localStorage.setItem('isAdmin', isAdmin);
             
-            console.log("Vuex:");
-            console.log("token: " + resp.data.tokenType + " " + token);
-            console.log("role: " + role);
-
+      
             axios.defaults.headers.common['Authorization'] = token;
             axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-            commit('auth_success', token, user, role);
-
-            console.log("auth login utan: " + this.getters.loggedIn);
-            console.log("role login utan: " + this.getters.getRole);
+            commit('auth_success', token, isAdmin, user);           
 
             resolve(resp);
           })
           .catch(err => {
             commit('auth_error')
             localStorage.removeItem('token')
-            localStorage.removeItem('admin')
+            localStorage.removeItem('isAdmin')
             reject(err)
           })
       })
@@ -78,7 +69,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         commit('logout');
         localStorage.removeItem('token');
-        localStorage.removeItem('role');
+        localStorage.removeItem('isAdmin');
         delete axios.defaults.headers.common['Authorization']
         resolve()
       })
@@ -96,8 +87,8 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    getRole: state => {
-      return state.role;
+    isAdmin: state => {
+      return !!state.isAdmin || false;
     },
     loggedIn: state => {
       return !!state.token || false;
