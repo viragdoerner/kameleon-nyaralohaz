@@ -15,7 +15,7 @@
             maxlength="50"
           ></v-text-field>
         </v-row>
-        <v-row class="pb-2" v-if="$store.getters.loggedInAsAdmin">
+        <v-row class="pb-2" v-if="$store.getters.loggedIn && $store.getters.getRole === 'Admin'">
           <v-text-field
             color="cgreen"
             label="Ár Ft/éj"
@@ -28,7 +28,7 @@
             type="number"
           ></v-text-field>
         </v-row>
-        <h4 v-if="!$store.getters.loggedInAsAdmin">{{ apartment.price }} Ft/éj</h4>
+        <h4 v-if="$store.getters.getRole !== 'Admin'">{{ apartment.price }} Ft/éj</h4>
         <c-rich-text-editor
           class="pt-5"
           :description="apartment.description"

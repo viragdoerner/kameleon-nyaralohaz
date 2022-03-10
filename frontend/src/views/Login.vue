@@ -159,8 +159,8 @@ export default {
     },
     validateLogin() {
       console.log("Login page:");
-      console.log("auth elott: " + this.$store.getters.auth);
-      console.log("role elott: " + this.$store.getters.role);
+      console.log("auth elott: " + this.$store.getters.loggedIn);
+      console.log("role elott: " + this.$store.getters.getRole);
       if (this.$refs.loginForm.validate()) {
         var loginForm = {
           email: this.loginEmail,
@@ -171,8 +171,8 @@ export default {
           .then(() => {
             this.$router.push("/");
             console.log("Login page:");
-            console.log("auth utan: " + this.$store.getters.auth);
-            console.log("role utan: " + this.$store.getters.role);
+            console.log("auth utan: " + this.$store.getters.loggedIn);
+            console.log("role utan: " + this.$store.getters.getRole);
           })
           .catch((error) => {
             this.$store.commit("showMessage", {

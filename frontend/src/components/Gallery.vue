@@ -22,7 +22,7 @@
             @click="index = thumbIndex"
           >
             <v-app-bar
-              v-if="$store.getters.loggedInAsAdmin"
+              v-if="$store.getters.loggedIn && $store.getters.getRole === 'Admin'"
               flat
               color="rgba(0, 0, 0, 0)"
             >

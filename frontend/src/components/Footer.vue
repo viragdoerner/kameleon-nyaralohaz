@@ -1,7 +1,7 @@
 <template>
   <v-footer padless>
     <v-card flat tile width="100%" class="corange text-center">
-      <v-card-text v-if="!$store.getters.loggedInAsAdmin">
+      <v-card-text v-if="$store.getters.getRole != 'Admin'">
         <transition-group class="footer-elements">
           <v-btn
             key="1"
@@ -64,7 +64,7 @@
 
       <v-card-text
         class="pt-16"
-        v-if="currentRouteName == 'Home' && $store.getters.loggedInAsAdmin"
+        v-if="currentRouteName == 'Home' && $store.getters.loggedIn && $store.getters.getRole === 'Admin'"
       >
         <v-row justify="center">
           <v-col cols="12" sm="6" md="3">

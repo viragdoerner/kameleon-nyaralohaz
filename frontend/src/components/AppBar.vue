@@ -36,13 +36,13 @@
             </v-list-item-icon>
             <v-list-item-title>Foglalás</v-list-item-title>
           </v-list-item>
-          <v-list-item v-if="!$store.getters.loggedInAsAdmin" to="/login">
+          <v-list-item v-if="!$store.getters.loggedIn" to="/login">
             <v-list-item-icon>
               <v-icon>mdi-account</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Bejelentkezés</v-list-item-title>
           </v-list-item>
-          <v-list-item v-if="$store.getters.loggedInAsAdmin || $store.getters.loggedInAsUser" @click="logout">
+          <v-list-item v-if="$store.getters.loggedIn" @click="logout">
             <v-list-item-icon>
               <v-icon>mdi-account-outline</v-icon>
             </v-list-item-icon>

@@ -1,26 +1,26 @@
 <template>
   <div>
     <v-row align="center" class="mx-0">
-      {{$store.getters.loggedInAsAdmin}}
-      <div v-if="$store.getters.loggedInAsAdmin" class="bars">
+      {{$store.getters.loggedIn && $store.getters.getRole === 'Admin'}}
+      <div v-if="$store.getters.loggedIn && $store.getters.getRole === 'Admin'" class="bars">
         <vue-file-toolbar-menu
           v-for="(content, index) in bars_content"
           :key="'bar-' + index"
           :content="content"
         />
       </div>
-      {{$store.getters.loggedInAsAdmin}}
+      {{$store.getters.loggedIn && $store.getters.getRole === 'Admin'}}
       <div
         id="mytext"
         ref="text"
         class="text"
-        :contenteditable="$store.getters.loggedInAsAdmin"
+        :contenteditable="$store.getters.loggedIn && $store.getters.getRole === 'Admin'"
         spellcheck="false"
         v-html="description"
       ></div>
     </v-row>
-    {{$store.getters.loggedInAsAdmin}}
-    <v-row v-if="$store.getters.loggedInAsAdmin" class="pt-5 mx-0" align="center">
+    {{$store.getters.loggedIn && $store.getters.getRole === 'Admin'}}
+    <v-row v-if="$store.getters.loggedIn && $store.getters.getRole === 'Admin'" class="pt-5 mx-0" align="center">
       <v-btn elevation="2" color="cgreen" class="white--text" @click="saveText"
         >MENTÉS
       </v-btn>
