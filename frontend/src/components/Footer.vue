@@ -64,7 +64,7 @@
 
       <v-card-text
         class="pt-16"
-        v-if="currentRouteName == 'Home' && $store.getters.loggedIn && $store.getters.getRole === 'Admin'"
+        v-if="currentRouteName == 'Home' && $store.getters.loggedIn && $store.getters.isAdmin"
       >
         <v-row justify="center">
           <v-col cols="12" sm="6" md="3">

@@ -16,7 +16,7 @@
         </v-btn>
         <div class="cgreen--text">{{ p.name }}</div>
         <v-btn
-          v-if="$store.getters.loggedIn && $store.getters.getRole === 'Admin'"
+          v-if="$store.getters.loggedIn && $store.getters.isAdmin"
           icon
           class=""
           color="grey darken-3"
@@ -40,7 +40,7 @@
       </v-dialog>
     </v-row>
     <v-container
-      v-if="$store.getters.loggedIn && $store.getters.getRole === 'Admin'"
+      v-if="$store.getters.loggedIn && $store.getters.isAdmin"
       class="d-flex justify-center pb-10"
     >
       <v-card elevation="2" class="col-12 col-md-8 pb-10">

@@ -5,7 +5,7 @@
         apartment.name
       }}</v-card-title>
       <v-card-text>
-        <v-row class="pb-2" v-if="$store.getters.loggedInAsAdmin">
+        <v-row class="pb-2" v-if="$store.getters.loggedIn && $store.getters.isAdmin">
           <v-text-field
             color="cgreen"
             label="Apartman neve"
@@ -15,7 +15,7 @@
             maxlength="50"
           ></v-text-field>
         </v-row>
-        <v-row class="pb-2" v-if="$store.getters.loggedIn && $store.getters.getRole === 'Admin'">
+        <v-row class="pb-2" v-if="$store.getters.loggedIn && $store.getters.isAdmin">
           <v-text-field
             color="cgreen"
             label="Ár Ft/éj"

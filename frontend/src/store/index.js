@@ -7,8 +7,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     status: '',
-    token: localStorage.getItem('token') || '',
-    isAdmin: localStorage.getItem('isAdmin') || '',
+    isAdmin: '',
+    token: '',
+    agreedToPrivacy: false,
     user: {},
     baseURL: "http://localhost:8080/",
     snackbar: {},
@@ -23,8 +24,8 @@ export default new Vuex.Store({
     },
     auth_success(state, token, isAdmin, user ) {
       state.status = 'success'
-      state.token = token
       state.isAdmin = isAdmin
+      state.token = token
       state.user = user
     },
     auth_error(state) {
@@ -34,6 +35,21 @@ export default new Vuex.Store({
       state.status = ''
       state.token = ''
       state.isAdmin = ''
+    },
+    agreePrivacyPolicy(state) {
+      localStorage.setItem('agreedToPrivacy', true);
+      state.agreedToPrivacy = true;
+    },
+    initialiseStore(state) {
+      if (localStorage.getItem('token')) {
+        state.token = localStorage.getItem('token');
+      }
+      if (localStorage.getItem('isAdmin')) {
+        state.isAdmin = localStorage.getItem('isAdmin');
+      }
+      if (localStorage.getItem('agreedToPrivacy')) {
+        state.agreedToPrivacy = true;
+      }
     },
   },
   actions: {
@@ -47,10 +63,9 @@ export default new Vuex.Store({
             const user = resp.data.username + "";
             const isAdmin =  (resp.data.authorities.length > 1)? 'Admin' : '';
 
-            localStorage.setItem('token', resp.data.tokenType + " " + token);
             localStorage.setItem('isAdmin', isAdmin);
+            localStorage.setItem('token', resp.data.tokenType + " " + token);
             
-      
             axios.defaults.headers.common['Authorization'] = token;
             axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
             commit('auth_success', token, isAdmin, user);           
