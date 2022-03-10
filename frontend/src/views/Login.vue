@@ -158,9 +158,6 @@ export default {
       }
     },
     validateLogin() {
-      console.log("Login page:");
-      console.log("auth elott: " + this.$store.getters.loggedIn);
-      console.log("isAdmin elott: " + this.$store.getters.isAdmin);
       if (this.$refs.loginForm.validate()) {
         var loginForm = {
           email: this.loginEmail,
@@ -170,10 +167,6 @@ export default {
           .dispatch("login", loginForm)
           .then(() => {
             this.$router.push("/");
-            console.log("Login page:");
-            console.log("auth utan: " + this.$store.getters.loggedIn);
-            console.log("isAdmin utan: " + this.$store.getters.isAdmin);
-            console.log("isAdmin utan: " + this.$store.state.isAdmin);
           })
           .catch((error) => {
             this.$store.commit("showMessage", {
