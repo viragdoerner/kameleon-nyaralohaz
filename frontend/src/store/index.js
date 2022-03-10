@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     status: '',
     token: localStorage.getItem('token') || '',
-    isAdmin: localStorage.getItem('admin') || false,
+    role: localStorage.getItem('role') || '',
     user: {},
     baseURL: "http://localhost:8080/",
     snackbar: {},
@@ -40,16 +40,21 @@ export default new Vuex.Store({
         commit('auth_request')
         axios({ url: this.state.baseURL + "auth/signin", data: loginForm, method: 'POST' })
           .then(resp => {
+            console.log("Vuex:");
+            console.log("auth login elott: " + this.getters.auth);
+            console.log("role login elott: " + this.getters.role);
+
             const token = resp.data.tokenType + " " + resp.data.accessToken;
             const user = resp.data.username;
             localStorage.setItem('token', resp.data.tokenType + " " + token);
-            localStorage.setItem('isAdmin', resp.data.authorities.length > 1);
-            console.log(resp.data.authorities.length > 1);
-            console.log(this.state.isAdmin);
-            console.log(this.getters.isAdmin);
-            console.log("logged in as admin, user:");
-            console.log(this.getters.loggedInAsAdmin);
-            console.log(this.getters.loggedInAsUser);
+            localStorage.setItem('role', (resp.data.authorities.length > 1 ? "Admin" : "User"));
+            
+            console.log("Vuex:");
+            console.log("token: " + resp.data.tokenType + " " + token);
+            console.log("role: " + (resp.data.authorities.length > 1 ? "Admin" : "User"));
+            console.log("auth login utan: " + this.getters.auth);
+            console.log("role login utan: " + this.getters.role);
+
             axios.defaults.headers.common['Authorization'] = token;
             axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
             commit('auth_success', token, user);
@@ -85,10 +90,13 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    loggedInAsUser: state => !!state.token && !state.isAdmin,
-    loggedInAsAdmin: state => !!state.token && state.isAdmin,
-    authStatus: state => state.status,
-    isAdmin: state => state.isAdmin,
+    getRole: state => {
+      return state.role;
+    },
+    getAuth: state => {
+      return !!state.token || false;
+    },
+    authStatus: state => state.status
   },
   modules: {
   }
