@@ -24,9 +24,10 @@ public class User{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @Size(min=3, max = 50)
-    private String name;
+    private String firstName;
+    @Size(min=3, max = 50)
+    private String lastName;
 
     @NotBlank
     @Size(min=3, max = 50)
@@ -43,7 +44,7 @@ public class User{
     @JsonIgnore
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -51,8 +52,9 @@ public class User{
 
     public User() {}
 
-    public User(String name, String username, String email, String password) {
-        this.name = name;
+    public User(String firstname, String lastname, String username, String email, String password) {
+        this.firstName = firstname;
+        this.lastName = lastname;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -74,13 +76,22 @@ public class User{
         this.username = username;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
 
     public String getEmail() {
         return email;

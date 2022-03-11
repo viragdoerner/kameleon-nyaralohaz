@@ -1,6 +1,6 @@
 <template>
-  <v-container class="d-flex align-center justify-center pt-5 ptb-5">
-    <v-card persistent max-width="600px" min-width="360px">
+  <v-container class="d-flex align-center justify-center mt-10 ptb-5">
+    <v-card persistent max-width="600px" min-width="360px" class="mt-5">
       <div>
         <v-tabs
           v-model="tab"
@@ -10,7 +10,7 @@
           dark
           grow
         >
-          <v-tabs-slider color="cyellow darken-4"></v-tabs-slider>
+          <v-tabs-slider color="cyellow darken-2"></v-tabs-slider>
           <v-tab v-for="i in tabs" :key="i.name">
             <h3 class="">{{ i.name }}</h3>
           </v-tab>
@@ -21,20 +21,22 @@
                   <v-row>
                     <v-col cols="12">
                       <v-text-field
-                        v-model="username"
-                        label="Username"
-                        :rules="[rules.required]"
+                        v-model="loginEmail"
+                        :rules="[rules.email, rules.required]"
+                        label="E-mail"
+                        autocomplete="email"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12">
                       <v-text-field
                         v-model="loginPassword"
                         :append-icon="show1 ? 'eye' : 'eye-off'"
-                        :rules="[rules.required, rules.min]"
+                        :rules="[rules.required, rules.min8]"
                         :type="show1 ? 'text' : 'password'"
-                        name="input-10-1"
-                        label="Password"
-                        hint="At least 8 characters"
+                        name="password"
+                        autocomplete="password"
+                        label="Jelszó"
+                        hint="Minimum 8 karakter hosszú"
                         counter
                         @click:append="show1 = !show1"
                       ></v-text-field>
@@ -47,7 +49,8 @@
                         block
                         :disabled="!valid"
                         color="success"
-                        @click="validateLogin">
+                        @click="validateLogin"
+                      >
                         Login
                       </v-btn>
                     </v-col>
@@ -61,41 +64,24 @@
               <v-card-text>
                 <v-form ref="registerForm" v-model="valid" lazy-validation>
                   <v-row>
-                    <v-col cols="12" sm="6" md="6">
-                      <v-text-field
-                        v-model="firstName"
-                        :rules="[rules.required]"
-                        label="First Name"
-                        maxlength="20"
-                        required
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="6">
-                      <v-text-field
-                        v-model="lastName"
-                        :rules="[rules.required]"
-                        label="Last Name"
-                        maxlength="20"
-                        required
-                      ></v-text-field>
-                    </v-col>
                     <v-col cols="12">
                       <v-text-field
                         v-model="email"
-                        :rules="emailRules"
+                        :rules="[rules.email, rules.required]"
                         label="E-mail"
-                        required
+                        autocomplete="email"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12">
                       <v-text-field
                         v-model="password"
                         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                        :rules="[rules.required, rules.min]"
+                        :rules="[rules.required, rules.min8]"
                         :type="show1 ? 'text' : 'password'"
-                        name="input-10-1"
-                        label="Password"
-                        hint="At least 8 characters"
+                        name="new-password"
+                        autocomplete="new-password"
+                        label="Jelszó"
+                        hint="Minimum 8 karakter hosszú"
                         counter
                         @click:append="show1 = !show1"
                       ></v-text-field>
@@ -108,7 +94,8 @@
                         :rules="[rules.required, passwordMatch]"
                         :type="show1 ? 'text' : 'password'"
                         name="input-10-1"
-                        label="Confirm Password"
+                        autocomplete="verify-password"
+                        label="Jelszó megerősítése"
                         counter
                         @click:append="show1 = !show1"
                       ></v-text-field>
@@ -140,15 +127,40 @@ export default {
   name: "CLogin",
   computed: {
     passwordMatch() {
-      return () => this.password === this.verify || "Password must match";
+      return () =>
+        this.password === this.verify || "A jelszavaknak egyeznie kell";
     },
   },
   methods: {
-    validateRegister() {},
+    validateRegister() {
+      if (this.$refs.registerForm.validate()) {
+        var registerForm = {
+          email: this.email,
+          password: this.password,
+        };
+        this.$store
+          .dispatch("register", registerForm)
+          .then(() => {
+            this.tab = 0;
+            this.$store.commit("showMessage", {
+              active: true,
+              color: "success",
+              message: "Sikeres regisztráció",
+            });
+          })
+          .catch((error) => {
+            this.$store.commit("showMessage", {
+              active: true,
+              color: "error",
+              message: "Sikertelen bejelentkezés",
+            });
+          });
+      }
+    },
     validateLogin() {
       if (this.$refs.loginForm.validate()) {
         var loginForm = {
-          username: this.username,
+          email: this.loginEmail,
           password: this.loginPassword,
         };
         this.$store
@@ -174,29 +186,18 @@ export default {
   },
   data: () => ({
     tab: 0,
-    tabs: [{ name: "Login" }, { name: "Register" }],
+    tabs: [{ name: "BEJELENTKEZÉS" }, { name: "REGISZTRÁLÁS" }],
     valid: true,
-    firstName: "",
-    lastName: "",
-    username: "",
     email: "",
     password: "",
     verify: "",
     loginPassword: "",
     loginEmail: "",
-    loginEmailRules: [
-      (v) => !!v || "Required",
-      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-    ],
-    emailRules: [
-      (v) => !!v || "Required",
-      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-    ],
-
     show1: false,
     rules: {
-      required: (value) => !!value || "Kötelező.",
-      min: (v) => (v && v.length >= 8) || "Min 8 characters",
+      email: (value) => /.+@.+\..+/.test(value) || "Érvénytelen e-mail",
+      required: (value) => !!value || "Kötelező mező.",
+      min8: (value) => (value && value.length >= 8) || "Minimum 8 karakter",
     },
   }),
 };

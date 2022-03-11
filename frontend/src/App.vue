@@ -1,10 +1,10 @@
 <template>
   <v-app>
-    <c-app-bar :apartment_routes="apartment_routes"></c-app-bar>
+    <c-app-bar v-if="$route.name !== 'Login'" :apartment_routes="apartment_routes"></c-app-bar>
     <v-main class="app">
       <router-view :key="$route.path" />
     </v-main>
-    <c-footer></c-footer>
+    <c-footer v-if="$route.name !== 'Login'"></c-footer>
     <c-snack-bar></c-snack-bar>
   </v-app>
 </template>
@@ -73,11 +73,10 @@ export default {
     },
   },
   created() {
-     console.log("app is created");
+    
     this.getDynamicRoutes(this.$store.state.baseURL + "apartment", this);
   },
   mounted() {
-    console.log("app is mounted");
   },
 };
 </script>
