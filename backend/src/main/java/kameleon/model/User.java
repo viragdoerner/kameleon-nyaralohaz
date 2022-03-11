@@ -39,6 +39,11 @@ public class User{
     @Email
     private String email;
 
+    @NaturalId
+    @NotBlank
+    @Size(max = 50)
+    private String phonenumber;
+
     @NotBlank
     @Size(min=6, max = 100)
     @JsonIgnore
@@ -52,11 +57,12 @@ public class User{
 
     public User() {}
 
-    public User(String firstname, String lastname, String username, String email, String password) {
+    public User(String firstname, String lastname, String username, String email, String phonenumber, String password) {
         this.firstName = firstname;
         this.lastName = lastname;
         this.username = username;
         this.email = email;
+        this.phonenumber = phonenumber;
         this.password = password;
     }
 
@@ -119,5 +125,13 @@ public class User{
 
     public void clearRoles(){
         this.roles.clear();
+    }
+
+    public String getPhonenumber() {
+        return phonenumber;
+    }
+
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
     }
 }

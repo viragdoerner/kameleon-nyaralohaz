@@ -84,7 +84,7 @@ public class AuthController {
         }
 
         //hozzáadom az admint
-        User user = new User("Kameleon","Admin", "admin@kameleon.hu","admin@kameleon.hu",
+        User user = new User("Kameleon","Admin", "admin@kameleon.hu","admin@kameleon.hu", "+36303699697",
                 encoder.encode("kameleonadminpassword"));
 
         Set<Role> roles = new HashSet<>();
@@ -111,7 +111,7 @@ public class AuthController {
         }
 
         // Creating user's account
-        User user = new User("", "", registerRequest.getEmail(), registerRequest.getEmail(),
+        User user = new User("", "", registerRequest.getEmail(), registerRequest.getEmail(), "",
                 encoder.encode(registerRequest.getPassword()));
 
         Set<Role> roles = new HashSet<>();
