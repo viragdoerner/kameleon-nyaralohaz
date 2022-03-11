@@ -41,7 +41,7 @@ export default new Vuex.Store({
             const token = {
               token: resp.data.tokenType + " " + resp.data.accessToken,
               isAdmin: (resp.data.authorities.length > 1),
-              username: resp.data.username + ""
+              email: resp.data.username + ""
             };
 
             localStorage.setItem('token', JSON.stringify(token));
