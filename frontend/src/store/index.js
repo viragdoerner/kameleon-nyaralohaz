@@ -7,7 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     status: '',
-    token: {},
+    token: JSON.parse( localStorage.getItem('token')),
     baseURL: "http://localhost:8080/",
     snackbar: {},
     imgPath: "./images/apartments/"
@@ -29,12 +29,7 @@ export default new Vuex.Store({
     logout(state) {
       state.status = ''
       state.token = {}
-    },
-    initialiseStore(state) {
-      if (!!localStorage.getItem('token')) {
-        state.token = JSON.parse( localStorage.getItem('token'));
-      }
-    },
+    }
   },
   actions: {
     login({ commit }, loginForm) {
@@ -89,7 +84,7 @@ export default new Vuex.Store({
       return !!state.token.isAdmin || false;
     },
     loggedIn: state => {
-      return !!state.token || false;
+      return !!state.token.token || false;
     },
     authStatus: state => state.status
   },
