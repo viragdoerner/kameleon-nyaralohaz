@@ -17,7 +17,7 @@
 <script>
 import CFileUpload from "./FileUpload.vue";
 import CGallery from "../Gallery.vue";
-import axios from "axios";
+import ApiService from "../../services/api.service";
 export default {
   name: "CGallerySection",
   props: ["apartment"],
@@ -37,8 +37,7 @@ export default {
     },
     onDeletePicture(pic) {
       console.log(pic);
-      axios
-        .delete(this.$store.state.baseURL + "apartment/deletepic/" + this.apartment.id + "/" + pic)
+      ApiService.deleteSecuredData( "apartment/deletepic/" + this.apartment.id + "/" + pic)
         .then((response) => {
           this.apartment = response.data;
           this.$store.commit("showMessage", {

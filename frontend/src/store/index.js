@@ -1,13 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { auth } from './auth.module';
-import ApiService from '../services/api.service';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    baseURL: ApiService.API_URL,
+    baseURL: "http://localhost:8080/",
     snackbar: {},
     imgPath: "./images/apartments/"
   },
