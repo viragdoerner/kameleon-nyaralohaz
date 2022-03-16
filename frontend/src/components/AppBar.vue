@@ -70,7 +70,7 @@ export default {
   props: ["apartment_routes"],
   methods: {
     logout: function () {
-      this.$store.dispatch("logout").then(() => {
+      this.$store.dispatch("auth/logout").then(() => {
         this.$router.push("/login");
       });
       this.drawer = !this.drawer;

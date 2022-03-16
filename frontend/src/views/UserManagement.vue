@@ -84,6 +84,8 @@
 </template>
 
 <script>
+import ApiService from '../services/api.service';
+
 export default {
   name: "CUserManagement",
   components: {},
@@ -127,8 +129,7 @@ export default {
   mounted() {},
   methods: {
     initialize() {
-      this.$http
-        .get(this.$store.state.baseURL + "user")
+      ApiService.getSecuredData("user")
         .then((response) => {
           this.users = response.data;
         })

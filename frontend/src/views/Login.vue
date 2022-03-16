@@ -139,7 +139,7 @@ export default {
           password: this.password,
         };
         this.$store
-          .dispatch("register", registerForm)
+          .dispatch("auth/register", registerForm)
           .then(() => {
             this.tab = 0;
             this.$store.commit("showMessage", {
@@ -164,7 +164,7 @@ export default {
           password: this.loginPassword,
         };
         this.$store
-          .dispatch("login", loginForm)
+          .dispatch("auth/login", loginForm)
           .then(() => {
             this.$router.push("/");
           })

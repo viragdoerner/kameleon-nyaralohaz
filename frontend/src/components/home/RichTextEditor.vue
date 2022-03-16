@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-row align="center" class="mx-0">
-      {{$store.getters.loggedIn && $store.getters.isAdmin}}
       <div v-if="$store.getters.loggedIn && $store.getters.isAdmin" class="bars">
         <vue-file-toolbar-menu
           v-for="(content, index) in bars_content"
@@ -9,7 +8,6 @@
           :content="content"
         />
       </div>
-      {{$store.getters.loggedIn && $store.getters.isAdmin}}
       <div
         id="mytext"
         ref="text"
@@ -19,7 +17,6 @@
         v-html="description"
       ></div>
     </v-row>
-    {{$store.getters.loggedIn && $store.getters.isAdmin}}
     <v-row v-if="$store.getters.loggedIn && $store.getters.isAdmin" class="pt-5 mx-0" align="center">
       <v-btn elevation="2" color="cgreen" class="white--text" @click="saveText"
         >MENTÉS
