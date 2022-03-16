@@ -3,14 +3,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
-import Axios from 'axios'
-
-Vue.prototype.$http = Axios;
-const user = JSON.parse(localStorage.getItem('user'));
-const token = "Bearer " + user.accessToken;
-if (user && user.accessToken) {
-  Vue.prototype.$http.defaults.headers.common['Authorization'] = token
-}
 
 Vue.config.productionTip = false
 

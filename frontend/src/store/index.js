@@ -20,10 +20,16 @@ export default new Vuex.Store({
   },
   getters: {
     isAdmin: state => {
-      return auth.state.user.authorities.length > 1;
+      if(auth.state.user && auth.state.user.authorities) {
+        return auth.state.user.authorities.length > 1;
+      }
+      return false;
     },
     loggedIn: state => {
-      return auth.state.status.loggedIn;
+      if(auth.state.status && auth.state.status.loggedIn) {
+        return auth.state.status.loggedIn;
+      }
+      return false;
     }
   },
   modules: {

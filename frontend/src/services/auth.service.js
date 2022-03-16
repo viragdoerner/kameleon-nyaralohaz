@@ -1,9 +1,12 @@
+import axios from 'axios';
+import ApiService from '../services/api.service';
 
 const API_URL = ApiService.API_URL;
+
 class AuthService {
     
     login(loginForm) {
-        return this.$http
+        return axios
             .post(API_URL + "auth/signin", loginForm)
             .then(response => {
                 if (response.data.accessToken) {

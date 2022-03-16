@@ -15,6 +15,7 @@ import CAppBar from "./components/AppBar.vue";
 import CSnackBar from "./components/SnackBar.vue";
 import CApartment from "./views/Apartment.vue";
 import router from "./router";
+import ApiService from "./services/api.service"
 
 export default {
   components: {
@@ -29,8 +30,7 @@ export default {
   }),
   methods: {
     getDynamicRoutes(url) {
-      this.$http
-        .get(url)
+      ApiService.getPublicData(url)
         .then((response) => {
           this.processData(response, this);
         })
