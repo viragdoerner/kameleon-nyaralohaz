@@ -30,7 +30,7 @@ export default {
   }),
   methods: {
     getDynamicRoutes(url) {
-      ApiService.getPublicData(url)
+      ApiService.GET(url)
         .then((response) => {
           this.processData(response, this);
         })
@@ -74,7 +74,7 @@ export default {
   },
   created() {
     
-    this.getDynamicRoutes(this.$store.state.baseURL + "apartment", this);
+    this.getDynamicRoutes( "apartment", this);
   },
   mounted() {
   },

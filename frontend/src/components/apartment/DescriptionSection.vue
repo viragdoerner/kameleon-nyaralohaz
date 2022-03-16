@@ -9,23 +9,20 @@
           <v-text-field
             color="cgreen"
             label="Apartman neve"
-            :rules="[$store.state.rules.required]"
             v-model="apartment.name"
             v-on:change="onUpdateApartment"
             maxlength="50"
+            required
           ></v-text-field>
         </v-row>
         <v-row class="pb-2" v-if="$store.getters.loggedIn && $store.getters.isAdmin">
           <v-text-field
             color="cgreen"
             label="Ár Ft/éj"
-            :rules="[
-              $store.state.rules.required,
-              $store.state.rules.pricerange,
-            ]"
             v-model="apartment.price"
             v-on:change="onUpdateApartment"
             type="number"
+            required
           ></v-text-field>
         </v-row>
         <h4 v-if="$store.getters.getRole !== 'Admin'">{{ apartment.price }} Ft/éj</h4>

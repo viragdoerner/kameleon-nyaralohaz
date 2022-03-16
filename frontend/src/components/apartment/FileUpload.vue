@@ -71,7 +71,7 @@ export default {
         formData.append("files", file);
       }
       formData.append("apartmentId", this.apartmentId);
-      ApiService.postToSecuredApi( "apartment/addpictures", formData)
+      ApiService.POST( "apartment/addpictures", formData)
         .then((response) => {
           this.$emit("uploaded-pictures", response.data);
           this.$store.commit("showMessage", {

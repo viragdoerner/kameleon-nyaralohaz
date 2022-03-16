@@ -130,7 +130,7 @@ export default {
   mounted() {},
   methods: {
     initialize() {
-       ApiService.getSecuredData( "user")
+       ApiService.GET( "user")
         .then((response) => {
           this.users = response.data;
         })
@@ -157,7 +157,7 @@ export default {
 
     deleteItemConfirm() {
       this.closeDelete();
-       ApiService.deleteSecuredData( "user/" + this.editedItem.id)
+       ApiService.DELETE( "user/" + this.editedItem.id)
         .then((response) => {
           this.users.splice(this.editedIndex, 1);
            this.$store.commit("showMessage", {

@@ -4,20 +4,18 @@ import authHeader from './auth-header';
 const API_URL = 'http://localhost:8080/';
 
 class ApiService {
+    API_URL = API_URL
 
-    getPublicData(url) {
-        return axios.get(API_URL + url);
-    }
-    getSecuredData(url) {
+    GET(url) {
         return axios.get(API_URL + url, { headers: authHeader() });
     }
-    postToSecuredAPI(url, param) {
+    POST(url, param) {
         return axios.post(API_URL + url, param, { headers: authHeader() });
     }
-    putToSecuredAPI(url, param) {
+    PUT(url, param) {
         return axios.put(API_URL + url, param, { headers: authHeader() });
     }
-    deleteSecuredData(url) {
+    DELETE(url) {
         return axios.post(API_URL + url, { headers: authHeader() });
     }
 }

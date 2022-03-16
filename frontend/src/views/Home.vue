@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     getWeekendhouse() {
-     ApiService.getPublicData( "weekendhouse")
+     ApiService.GET( "weekendhouse")
         .then((response) => {
           if (!response.data) throw "empty list";
           this.weekendhouse = response.data;
@@ -59,7 +59,7 @@ export default {
         });
     },
     getApartments() {
-       ApiService.getPublicData( "apartment")
+       ApiService.GET( "apartment")
         .then((response) => {
           if (!response.data) throw "empty list";
           this.apartments = response.data;
@@ -85,7 +85,7 @@ export default {
       this.saveWeekendhouse(payload);
     },
     saveWeekendhouse(payload) {
-       ApiService.putToSecuredApi( "weekendhouse", payload)
+       ApiService.PUT( "weekendhouse", payload)
         .then((response) => {
           if (!response.data) throw "empty list";
           this.weekendhouse = response.data;

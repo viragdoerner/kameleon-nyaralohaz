@@ -37,7 +37,7 @@ export default {
     },
     onDeletePicture(pic) {
       console.log(pic);
-      ApiService.deleteSecuredData( "apartment/deletepic/" + this.apartment.id + "/" + pic)
+      ApiService.DELETE( "apartment/deletepic/" + this.apartment.id + "/" + pic)
         .then((response) => {
           this.apartment = response.data;
           this.$store.commit("showMessage", {

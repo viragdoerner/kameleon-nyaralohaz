@@ -45,7 +45,7 @@ export default {
       this.saveApartment(payload);
     },
     saveApartment(payload) {
-      ApiService.putToSecuredApi( "apartment", payload)
+      ApiService.PUT( "apartment", payload)
         .then((response) => {
           this.apartment = response.data;
 
