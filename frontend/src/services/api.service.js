@@ -16,7 +16,7 @@ class ApiService {
         return axios.put(API_URL + url, param, { headers: authHeader() });
     }
     DELETE(url) {
-        return axios.post(API_URL + url, { headers: authHeader() });
+        return axios.delete(API_URL + url, { headers: authHeader() });
     }
 }
 export default new ApiService();
