@@ -10,10 +10,7 @@ import kameleon.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -26,12 +23,28 @@ public class UserService {
         this.roleRepository = roleRepository;
     }
 
-    public Iterable<User> getUsers() {
-        return this.userRepository.findAll();
+    public Iterable<UserDTO> getUsers() {
+        List<User> all = this.userRepository.findAll();
+        List<UserDTO> allDTO = new ArrayList<UserDTO>();
+        for (User user : all){
+            allDTO.add(this.convertUser(user));
+        }
+        return allDTO;
     }
 
-    public Optional<User> getUserById(long id) {
-        return this.userRepository.findById(id);
+    public UserDTO convertUser(User user) {
+        UserDTO dto = new UserDTO();
+        dto.setFirstname(user.getFirstName());
+        dto.setLastname(user.getLastName());
+        dto.setEmail(user.getUsername());
+        dto.setPhonenumber(user.getPhonenumber());
+        dto.setId(user.getId());
+        return dto;
+    }
+    public UserDTO getUserById(long id) {
+        User user = this.userRepository.findById(id).orElseThrow(() ->
+                new CustomMessageException("Nincs ilyen felhasználó"));
+        return convertUser(user);
     }
 
    /* public User updateUser(UserDTO newUser) {
@@ -78,11 +91,15 @@ public class UserService {
             }
         }
 
+        user.setRoles(null);
+        this.userRepository.saveAndFlush(user);
         this.userRepository.deleteById(id);
     }
 
-    public Optional<User> getUserByEmail(String email) {
-        return this.userRepository.findByEmail(email);
+    public UserDTO getUserByEmail(String email) {
+        User user = this.userRepository.findByEmail(email).orElseThrow(() ->
+                new CustomMessageException("Nincs ilyen felhasználó"));
+        return convertUser(user);
     }
 }
 

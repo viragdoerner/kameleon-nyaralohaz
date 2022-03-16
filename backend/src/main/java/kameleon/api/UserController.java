@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@CrossOrigin(origins="http://localhost:2000")
-@RequestMapping("user")
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
     public UserController(UserService userService){
@@ -20,19 +20,20 @@ public class UserController {
 
     @Secured("ROLE_ADMIN")
     @GetMapping
-    public Iterable<User> getAllUsers(){
+    public Iterable<UserDTO> getAllUsers(){
+        System.out.println("hellooo");
         return this.userService.getUsers();
     }
 
     @Secured("ROLE_ADMIN")
     @GetMapping(path = "{id}")
-    public Optional<User> getUserById(@PathVariable("id") long id){
+    public UserDTO getUserById(@PathVariable("id") long id){
         return this.userService.getUserById(id);
     }
 
     @Secured("ROLE_ADMIN")
     @GetMapping(path = "{email}")
-    public Optional<User> getUserByEmail(@PathVariable("email") String email){
+    public UserDTO getUserByEmail(@PathVariable("email") String email){
         return this.userService.getUserByEmail(email);
     }
 

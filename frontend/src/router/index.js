@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import CHome from '../views/Home.vue'
 import CReserve from '../views/Reserve.vue'
 import CLogin from '../views/Login.vue'
+import CUserManagement from '../views/UserManagement.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: CLogin
+  },
+  {
+    path: '/user-management',
+    name: 'User Management',
+    component: CUserManagement
   },
 ]
 

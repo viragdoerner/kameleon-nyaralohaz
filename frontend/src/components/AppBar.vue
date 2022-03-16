@@ -42,7 +42,13 @@
             </v-list-item-icon>
             <v-list-item-title>Bejelentkezés</v-list-item-title>
           </v-list-item>
-          <v-list-item v-if="$store.getters.loggedIn" @click="logout">
+          <v-list-item v-if="$store.getters.loggedIn && $store.getters.isAdmin" to="/user-management">
+            <v-list-item-icon>
+              <v-icon>mdi-account-multiple</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Felhasználókezelés</v-list-item-title>
+          </v-list-item>
+        <v-list-item v-if="$store.getters.loggedIn" @click="logout">
             <v-list-item-icon>
               <v-icon>mdi-account-outline</v-icon>
             </v-list-item-icon>

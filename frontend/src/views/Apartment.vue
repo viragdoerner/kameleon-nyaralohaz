@@ -47,7 +47,6 @@ export default {
       this.$http
         .put(this.$store.state.baseURL + "apartment", payload)
         .then((response) => {
-          if (!response.data) throw "empty list";
           this.apartment = response.data;
 
           this.$store.commit("showMessage", {
@@ -69,10 +68,8 @@ export default {
       this.saveApartment(payload);
     },
     created() {
-      console.log("apartment is created");
     },
     mounted() {
-      console.log("apartment is mounted");
     },
   },
 };

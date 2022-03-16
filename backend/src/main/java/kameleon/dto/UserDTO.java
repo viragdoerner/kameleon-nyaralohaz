@@ -30,9 +30,6 @@ public class UserDTO {
     @Size(max = 50)
     private String phonenumber;
 
-    @Size(min=6, max = 100)
-    private String password;
-
     public Long getId() {
         return id;
     }
@@ -63,14 +60,6 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getPhonenumber() {
