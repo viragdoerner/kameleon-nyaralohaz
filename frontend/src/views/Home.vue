@@ -24,6 +24,7 @@ import CHeader from "../components/home/Header.vue";
 import CReserveSection from "../components/home/ReserveSection.vue";
 import CReserveApartmentSection from "../components/home/ReserveApartmentSection.vue";
 import CIconList from "../components/home/IconList.vue";
+import ApiService from "../services/api.service"
 
 export default {
   name: "CHome",
@@ -44,8 +45,7 @@ export default {
   },
   methods: {
     getWeekendhouse() {
-      this.$http
-        .get(this.$store.state.baseURL + "weekendhouse")
+     ApiService.getPublicData( "weekendhouse")
         .then((response) => {
           if (!response.data) throw "empty list";
           this.weekendhouse = response.data;
@@ -59,8 +59,7 @@ export default {
         });
     },
     getApartments() {
-      this.$http
-        .get(this.$store.state.baseURL + "apartment")
+       ApiService.getPublicData( "apartment")
         .then((response) => {
           if (!response.data) throw "empty list";
           this.apartments = response.data;
@@ -86,8 +85,7 @@ export default {
       this.saveWeekendhouse(payload);
     },
     saveWeekendhouse(payload) {
-      this.$http
-        .put(this.$store.state.baseURL + "weekendhouse", payload)
+       ApiService.putToSecuredApi( "weekendhouse", payload)
         .then((response) => {
           if (!response.data) throw "empty list";
           this.weekendhouse = response.data;

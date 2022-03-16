@@ -114,6 +114,7 @@
 </template>
 
 <script>
+import ApiService from "../services/api.service"
 export default {
   name: "CFooter",
   data: () => ({
@@ -131,8 +132,7 @@ export default {
   },
   methods: {
     getWeekendhouse() {
-      this.$http
-        .get(this.$store.state.baseURL + "weekendhouse")
+      ApiService.getPublicData( "weekendhouse")
         .then((response) => {
           if (!response.data) throw "empty list";
           this.weekendhouse = response.data;
@@ -142,8 +142,7 @@ export default {
         });
     },
     saveWeekendhouse() {
-      this.$http
-        .put(this.$store.state.baseURL + "weekendhouse", this.weekendhouse)
+      ApiService.putToSecuredApi( "weekendhouse", this.weekendhouse)
         .then((response) => {
           if (!response.data) throw "empty list";
           this.weekendhouse = response.data;

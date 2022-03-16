@@ -17,7 +17,7 @@
 <script>
 import CFileUpload from "./FileUpload.vue";
 import CGallery from "../Gallery.vue";
-import ApiService from "../../services/api.service";
+import ApiService from "../../services/api.service"
 export default {
   name: "CGallerySection",
   props: ["apartment"],

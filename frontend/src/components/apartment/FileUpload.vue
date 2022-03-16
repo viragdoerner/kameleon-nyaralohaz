@@ -31,6 +31,7 @@
 <script>
 import vue2Dropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
+import ApiService from "../../services/api.service"
 
 export default {
   name: "CFileUpload",
@@ -70,8 +71,7 @@ export default {
         formData.append("files", file);
       }
       formData.append("apartmentId", this.apartmentId);
-      this.$http
-        .post(this.$store.state.baseURL + "apartment/addpictures", formData)
+      ApiService.postToSecuredApi( "apartment/addpictures", formData)
         .then((response) => {
           this.$emit("uploaded-pictures", response.data);
           this.$store.commit("showMessage", {

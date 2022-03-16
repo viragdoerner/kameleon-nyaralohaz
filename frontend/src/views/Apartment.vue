@@ -18,6 +18,7 @@ import CHeader from "../components/home/Header.vue";
 import CDescriptionSection from "../components/apartment/DescriptionSection.vue";
 import CGallerySection from "../components/apartment/GallerySection.vue";
 import CIconList from "../components/home/IconList.vue";
+import ApiService from "../services/api.service"
 
 export default {
   name: "CApartment",
@@ -44,8 +45,7 @@ export default {
       this.saveApartment(payload);
     },
     saveApartment(payload) {
-      this.$http
-        .put(this.$store.state.baseURL + "apartment", payload)
+      ApiService.putToSecuredApi( "apartment", payload)
         .then((response) => {
           this.apartment = response.data;
 

@@ -84,8 +84,10 @@
 </template>
 
 <script>
+import ApiService from "../services/api.service"
 
 export default {
+  
   name: "CUserManagement",
   components: {},
   data: () => ({
@@ -128,7 +130,7 @@ export default {
   mounted() {},
   methods: {
     initialize() {
-      this.$http.get(this.$store.state.baseURL + "user")
+       ApiService.getSecuredData( "user")
         .then((response) => {
           this.users = response.data;
         })
@@ -155,8 +157,7 @@ export default {
 
     deleteItemConfirm() {
       this.closeDelete();
-      this.$http
-        .delete(this.$store.state.baseURL + "user/" + this.editedItem.id)
+       ApiService.deleteSecuredData( "user/" + this.editedItem.id)
         .then((response) => {
           this.users.splice(this.editedIndex, 1);
            this.$store.commit("showMessage", {
