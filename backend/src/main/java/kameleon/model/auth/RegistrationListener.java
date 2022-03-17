@@ -31,17 +31,17 @@ public class RegistrationListener implements
         userService.createVerificationToken(user, token);
 
         String recipientAddress = user.getEmail();
-        String subject = "Registration Confirmation";
+        String subject = "Regisztráció visszaigazolása";
         String confirmationUrl
                 = event.getAppUrl() + "/registrationConfirm?token=" + token;
         //String message = messages.getMessage("message.regSucc", null, event.getLocale());
-        String message = "Registration success";
+        String link = "http://localhost:8080/auth" + confirmationUrl;
 
         SimpleMailMessage email = new SimpleMailMessage();
         email.setFrom("mail.dorner.virag@gmail.com");
         email.setTo(recipientAddress);
         email.setSubject(subject);
-        email.setText(message + "\r\n" + "http://localhost:8080/auth" + confirmationUrl);
+        email.setText("Köszönjük, hogy regisztráltál!\n \n A regisztrációt az alábbi linkre kattintva tudod véglegesíteni: \n" + link +"\n \n Üdvözlettel, \n Kaméleon nyaralóház");
         mailSender.send(email);
     }
 }

@@ -182,7 +182,7 @@ public class AuthController {
 
         user.setEnabled(true);
         userService.saveRegisteredUser(user);
-        return "redirect:/login.html" ;
+        return "Sikeres regisztráció!" ;
     }
 
 }
