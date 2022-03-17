@@ -1,6 +1,8 @@
 <template>
-  <v-container class="d-flex align-center justify-center mt-10 ptb-5">
-    <v-card persistent max-width="600px" min-width="360px" class="mt-5">
+  <v-container
+    class="d-flex flex-column align-center justify-center mt-10 ptb-5"
+  >
+    <v-card persistent class="col-6 mt-5 pa-0" min-width="360px">
       <div>
         <v-tabs
           v-model="tab"
@@ -118,7 +120,25 @@
           </v-tab-item>
         </v-tabs>
       </div>
+      <v-overlay :absolute="absolute" :value="loading" color="cgreen" >
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
     </v-card>
+
+    <v-alert
+      icon="mdi-shield-lock-outline"
+      prominent
+      text
+      type="info"
+      dismissible
+      color="cgreen"
+      transition="scale-transition"
+      class="col-6 mt-5"
+      v-if="showAlert"
+    >
+      Küldtünk egy megerősítő e-mailt a megadott e-mail-címedre. A regisztráció
+      befejezéséhez kérlek kattints az ott található linkre.
+    </v-alert>
   </v-container>
 </template>
 
@@ -134,6 +154,7 @@ export default {
   methods: {
     validateRegister() {
       if (this.$refs.registerForm.validate()) {
+        this.loading = true;
         var registerForm = {
           email: this.email,
           password: this.password,
@@ -141,6 +162,8 @@ export default {
         this.$store
           .dispatch("auth/register", registerForm)
           .then(() => {
+            this.loading = false;
+            this.showAlert=true;
             this.tab = 0;
             this.$store.commit("showMessage", {
               active: true,
@@ -149,6 +172,7 @@ export default {
             });
           })
           .catch((error) => {
+            this.loading = false;
             this.$store.commit("showMessage", {
               active: true,
               color: "error",
@@ -159,6 +183,7 @@ export default {
     },
     validateLogin() {
       if (this.$refs.loginForm.validate()) {
+        this.loading = true;
         var loginForm = {
           email: this.loginEmail,
           password: this.loginPassword,
@@ -166,9 +191,12 @@ export default {
         this.$store
           .dispatch("auth/login", loginForm)
           .then(() => {
+            this.loading = false;
             this.$router.push("/");
+            this.showAlert=false;
           })
           .catch((error) => {
+            this.loading = false;
             this.$store.commit("showMessage", {
               active: true,
               color: "error",
@@ -185,6 +213,9 @@ export default {
     },
   },
   data: () => ({
+    absolute: true,
+    loading: false,
+    showAlert: false,
     tab: 0,
     tabs: [{ name: "BEJELENTKEZÉS" }, { name: "REGISZTRÁLÁS" }],
     valid: true,

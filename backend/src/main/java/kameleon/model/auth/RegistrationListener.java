@@ -31,7 +31,7 @@ public class RegistrationListener implements
         userService.createVerificationToken(user, token);
 
         String recipientAddress = user.getEmail();
-        String subject = "Regisztráció visszaigazolása";
+        String subject = "E-mail-cím megerősítése";
         String confirmationUrl
                 = event.getAppUrl() + "/registrationConfirm?token=" + token;
         //String message = messages.getMessage("message.regSucc", null, event.getLocale());
@@ -41,7 +41,7 @@ public class RegistrationListener implements
         email.setFrom("mail.dorner.virag@gmail.com");
         email.setTo(recipientAddress);
         email.setSubject(subject);
-        email.setText("Köszönjük, hogy regisztráltál!\n \n A regisztrációt az alábbi linkre kattintva tudod véglegesíteni: \n" + link +"\n \n Üdvözlettel, \n Kaméleon nyaralóház");
+        email.setText("Köszönjük, hogy regisztráltál!\n \n A regisztrációt az alábbi linkre kattintva tudod érvényesíteni: \n" + link +"\n \n Üdvözlettel, \n Kaméleon nyaralóház");
         mailSender.send(email);
     }
 }
