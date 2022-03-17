@@ -41,7 +41,7 @@ public class RegistrationListener implements
         email.setFrom("mail.dorner.virag@gmail.com");
         email.setTo(recipientAddress);
         email.setSubject(subject);
-        email.setText(message + "\r\n" + "http://localhost:8080" + confirmationUrl);
+        email.setText(message + "\r\n" + "http://localhost:8080/auth" + confirmationUrl);
         mailSender.send(email);
     }
 }
