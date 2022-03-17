@@ -30,9 +30,20 @@ public class VerificationToken {
         return new Date(cal.getTime().getTime());
     }
 
-    public VerificationToken( String token, User user) {
+    public VerificationToken() {
+        long HOUR = 3600*1000; // in milli-seconds.
+        Date date = new Date();
+        Date newDate = new Date(date.getTime() + EXPIRATION * HOUR);
+        this.setExpiryDate(newDate);
+    }
+
+    public VerificationToken(String token, User user) {
         this.token= token;
         this.user = user;
+        long HOUR = 3600*1000; // in milli-seconds.
+        Date date = new Date();
+        Date newDate = new Date(date.getTime() + EXPIRATION * HOUR);
+        this.setExpiryDate(newDate);
     }
 
     public static int getEXPIRATION() {

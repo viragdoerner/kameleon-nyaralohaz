@@ -70,7 +70,7 @@ public class AuthController {
                 .orElseThrow(() -> new CustomMessageException(
                         "No user found with username: " + loginRequest.getEmail()));
         if (!user.isEnabled()){
-            new CustomMessageException(
+            throw new CustomMessageException(
                     "This user account isn't verified yet.");
         }
 
@@ -157,16 +157,16 @@ public class AuthController {
         return new ResponseEntity<>("User registered successfully!", HttpStatus.OK);
     }
 
-    @GetMapping("/regitrationConfirm")
+    @GetMapping("/registrationConfirm")
     public String confirmRegistration
-            (WebRequest request, Model model, @RequestParam("token") String token) {
+            ( @RequestParam("token") String token) {
 
         //Locale locale = request.getLocale();
 
         VerificationToken verificationToken = userService.getVerificationToken(token);
         if (verificationToken == null) {
             //String message = messages.getMessage("auth.message.invalidToken", null, locale);
-            model.addAttribute("message", "Invalid token");
+            //model.addAttribute("message", "Invalid token");
             //return "redirect:/badUser.html?lang=" + locale.getLanguage();
             return "redirect:/badUser.html";
         }
@@ -175,14 +175,14 @@ public class AuthController {
         Calendar cal = Calendar.getInstance();
         if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
             //String messageValue = messages.getMessage("auth.message.expired", null, locale)
-            model.addAttribute("message", "Expired token");
+            //model.addAttribute("message", "Expired token");
             //return "redirect:/badUser.html?lang=" + locale.getLanguage();
             return "redirect:/badUser.html";
         }
 
         user.setEnabled(true);
         userService.saveRegisteredUser(user);
-        return "redirect:/login.html?lang=" + request.getLocale().getLanguage();
+        return "redirect:/login.html" ;
     }
 
 }
