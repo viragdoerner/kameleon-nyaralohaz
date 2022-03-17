@@ -3,10 +3,12 @@ package kameleon.service;
 import exception.CustomMessageException;
 import kameleon.dao.RoleRepository;
 import kameleon.dao.UserRepository;
+import kameleon.dao.VerificationTokenRepository;
 import kameleon.dto.UserDTO;
-import kameleon.model.Role;
-import kameleon.model.RoleName;
+import kameleon.model.auth.Role;
+import kameleon.model.auth.RoleName;
 import kameleon.model.User;
+import kameleon.model.auth.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +16,13 @@ import java.util.*;
 
 @Service
 public class UserService {
+
+    @Autowired
     private final UserRepository userRepository;
+    @Autowired
     private final RoleRepository roleRepository;
+    @Autowired
+    private VerificationTokenRepository tokenRepository;
 
     @Autowired
     public UserService(UserRepository userRepository, RoleRepository roleRepository) {
@@ -100,6 +107,19 @@ public class UserService {
         User user = this.userRepository.findByEmail(email).orElseThrow(() ->
                 new CustomMessageException("Nincs ilyen felhasználó"));
         return convertUser(user);
+    }
+
+    public VerificationToken getVerificationToken(String VerificationToken) {
+        return tokenRepository.findByToken(VerificationToken);
+    }
+
+    public void saveRegisteredUser(User user) {
+        userRepository.save(user);
+    }
+
+    public void createVerificationToken(User user, String token) {
+        VerificationToken myToken = new VerificationToken(token, user);
+        tokenRepository.save(myToken);
     }
 }
 

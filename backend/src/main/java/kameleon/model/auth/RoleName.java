@@ -1,4 +1,4 @@
-package kameleon.model;
+package kameleon.model.auth;
 
 public enum RoleName {
     ROLE_USER,

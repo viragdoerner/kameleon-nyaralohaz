@@ -1,4 +1,4 @@
-package kameleon.model;
+package kameleon.model.auth;
 
 import org.hibernate.annotations.NaturalId;
 

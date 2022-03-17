@@ -1,6 +1,6 @@
 package kameleon.dao;
 
-import kameleon.model.RoleName;
+import kameleon.model.auth.RoleName;
 import kameleon.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,6 +1,7 @@
-package kameleon.model;
+package kameleon.model.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import kameleon.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

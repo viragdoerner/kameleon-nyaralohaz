@@ -1,7 +1,7 @@
 package kameleon.service.security;
 
 import io.jsonwebtoken.*;
-import kameleon.model.UserPrinciple;
+import kameleon.model.auth.UserPrinciple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

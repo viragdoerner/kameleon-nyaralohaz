@@ -1,6 +1,7 @@
 package kameleon.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import kameleon.model.auth.Role;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -49,13 +50,18 @@ public class User{
     @JsonIgnore
     private String password;
 
+    @Column(name = "enabled")
+    private boolean enabled;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public User() {}
+    public User() {
+        this.enabled = false;
+    }
 
     public User(String firstname, String lastname, String username, String email, String phonenumber, String password) {
         this.firstName = firstname;
@@ -133,5 +139,13 @@ public class User{
 
     public void setPhonenumber(String phonenumber) {
         this.phonenumber = phonenumber;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

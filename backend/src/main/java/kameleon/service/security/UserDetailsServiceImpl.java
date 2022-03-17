@@ -2,7 +2,7 @@ package kameleon.service.security;
 
 import kameleon.dao.UserRepository;
 import kameleon.model.User;
-import kameleon.model.UserPrinciple;
+import kameleon.model.auth.UserPrinciple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

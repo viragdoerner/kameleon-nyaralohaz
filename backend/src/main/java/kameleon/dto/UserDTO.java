@@ -1,6 +1,5 @@
 package kameleon.dto;
 
-import kameleon.model.RoleName;
 import org.hibernate.annotations.NaturalId;
 
 import javax.validation.constraints.Email;
