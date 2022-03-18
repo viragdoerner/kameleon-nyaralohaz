@@ -2,7 +2,7 @@
   <v-container
     class="d-flex flex-column align-center justify-center mt-10 ptb-5"
   >
-    <v-card persistent class="col-6 mt-5 pa-0" min-width="360px">
+    <v-card persistent class="col-12 col-sm-8 col-md-6 mt-5 pa-0">
       <div>
         <v-tabs
           v-model="tab"

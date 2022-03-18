@@ -8,11 +8,12 @@
           :disable-scroll="true"
           @close="index = null"
         />
+
+        
         <v-col
           v-for="(pic, thumbIndex) in pictures"
           :key="thumbIndex"
-          class="d-flex child-flex"
-          cols="4"
+          class="d-flex child-flex col-md-4 col-6"
         >
           <v-img
             :src="$store.state.imgPath + pic"
