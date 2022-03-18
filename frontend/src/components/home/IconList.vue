@@ -41,9 +41,9 @@
     </v-row>
     <v-container
       v-if="$store.getters.loggedIn && $store.getters.isAdmin"
-      class="d-flex justify-center pb-10"
+      class="d-flex justify-center pb-10 pa-0 pa-md-2"
     >
-      <v-card elevation="2" class="col-12 col-md-8 pb-10">
+      <v-card elevation="2" class="col-12 col-md-8 pb-10 pa-0 pa-md-2">
         <v-card-title class="text-h3 zabatana corange--text"
           >Tulajdonság hozzáadása</v-card-title
         >

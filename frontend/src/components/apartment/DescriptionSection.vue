@@ -25,7 +25,7 @@
             required
           ></v-text-field>
         </v-row>
-        <h4 v-if="$store.getters.getRole !== 'Admin'">{{ apartment.price }} Ft/éj</h4>
+        <h4 v-if="!$store.getters.isAdmin">{{ apartment.price }} Ft/éj</h4>
         <c-rich-text-editor
           class="pt-5"
           :description="apartment.description"
