@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-container class="d-flex justify-center pb-10">
-      <v-card elevation="2" class="col-12 col-md-8 pb-10">
-        <v-card-title class="text-h3 zabatana corange--text"
+      <v-card elevation="2" class="col-12 col-md-8 pb-md-10">
+        <v-card-title class="text-h3 zabatana corange--text px-0 pa-md-4"
           >Képek feltöltése</v-card-title
         >
-        <v-card-text>
+        <v-card-text class="pa-0 pa-md-4">
           <vue-dropzone
             ref="myVueDropzone"
             id="dropzone"
@@ -14,11 +14,11 @@
             v-on:vdropzone-removed-file="fileRemoved"
           ></vue-dropzone>
         </v-card-text>
-        <v-card-actions>
+        <v-card-actions class="pa-0 pa-md-4">
           <v-btn
             elevation="2"
             color="cgreen"
-            class="white--text mt-5"
+            class="white--text mt-5 "
             @click="savePictures"
             >FELTÖLTÉS
           </v-btn>

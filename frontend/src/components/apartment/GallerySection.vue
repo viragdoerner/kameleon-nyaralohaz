@@ -1,5 +1,5 @@
 <template>
-  <div class="py-16 gallery-section">
+  <div class="py-md-16 py-8 gallery-section">
     <c-file-upload
       v-if="$store.getters.loggedIn && $store.getters.isAdmin"
       :apartmentId="apartment.id"

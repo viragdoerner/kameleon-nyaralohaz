@@ -1,10 +1,10 @@
 <template>
   <v-container fluid class="icons-container">
-    <v-row class="d-flex justify-space-between px-16 icons-container">
+    <v-row class="d-flex justify-center justify-md-space-between px-md-16 px-5 icons-container my-16">
       <div
         v-for="(p, index) in properties"
         :key="p.id"
-        class="pa-2 d-flex align-center justify-center flex-column my-16"
+        class="pa-md-2 px-4 py-6 d-flex align-center justify-start flex-column col-4 col-sm-2 col-md-1 "
       >
         <v-btn
           icon
@@ -14,7 +14,7 @@
           v-bind:style="{ color: colors[index % 5] }"
           ><v-icon x-large> {{ p.icon_name }} </v-icon>
         </v-btn>
-        <div class="cgreen--text">{{ p.name }}</div>
+        <div class="cgreen--text ">{{ p.name }}</div>
         <v-btn
           v-if="$store.getters.loggedIn && $store.getters.isAdmin"
           icon
@@ -41,9 +41,9 @@
     </v-row>
     <v-container
       v-if="$store.getters.loggedIn && $store.getters.isAdmin"
-      class="d-flex justify-center pb-10"
+      class="d-flex justify-center pb-10 pa-0 pa-md-2"
     >
-      <v-card elevation="2" class="col-12 col-md-8 pb-10">
+      <v-card elevation="2" class="col-12 col-md-8 pb-10 pa-0 pa-md-2">
         <v-card-title class="text-h3 zabatana corange--text"
           >Tulajdonság hozzáadása</v-card-title
         >
