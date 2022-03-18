@@ -1,10 +1,10 @@
 <template>
   <v-container fluid class="icons-container">
-    <v-row class="d-flex justify-space-between px-16 icons-container">
+    <v-row class="d-flex justify-center justify-md-space-between px-16 icons-container my-16">
       <div
         v-for="(p, index) in properties"
         :key="p.id"
-        class="pa-2 d-flex align-center justify-center flex-column my-16"
+        class="pa-md-2 px-4 py-6 d-flex align-center justify-center flex-column "
       >
         <v-btn
           icon

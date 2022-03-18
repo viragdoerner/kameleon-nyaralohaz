@@ -1,6 +1,6 @@
 <template>
-<div>
-  <!-- <v-parallax src="../../assets/bg.png">
+  <div>
+    <!-- <v-parallax src="../../assets/bg.png">
     <v-row align="center" class="pa-16 ma-16">
       <v-col cols="7">
         <img src="../../assets/cim_feher.svg" />
@@ -8,15 +8,19 @@
       </v-col>
     </v-row>
   </v-parallax> -->
-  <v-parallax src="../../assets/balatonszemes.jpg" :height="innerHeight">
-    <v-row align="top" class="pa-16 ma-16 mt-10">
-      <v-col cols="7">
-        <img src="../../assets/cim_feher.svg" />
-        <h2 class="corange--text">BALATONSZEMES</h2>
-      </v-col>
-    </v-row>
-  </v-parallax>
-</div>
+    <v-parallax src="../../assets/balatonszemes.jpg" :height="innerHeight">
+      <v-row align="start" justify="start" class="pa-md-16 pa-0 ma-md-16 mx-0 mt-10 d-flex">
+        <v-col class="col-10 col-md-7 mt-16 pt-16 mt-md-0  pt-sm-0 ">
+          <img class="d-sm-none" src="../../assets/mobil_cim_logo.svg" />
+           <img class="d-none d-sm-block" src="../../assets/cim_feher.svg" />
+          <h2 class="corange--text">BALATONSZEMES</h2>
+        </v-col>
+        <div>
+  </div>
+      </v-row>
+      
+    </v-parallax>
+  </div>
 </template>
 
 <script>
@@ -25,11 +29,11 @@ export default {
 
   components: {},
   data: () => ({}),
-  computed:{
-    innerHeight: function(){
+  computed: {
+    innerHeight: function () {
       return window.innerHeight;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
