@@ -1,7 +1,9 @@
-package kameleon.model;
+package kameleon.model.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import kameleon.model.apartman.Property;
 import kameleon.model.auth.Role;
+import kameleon.model.booking.Booking;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -59,17 +62,22 @@ public class User{
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Booking> bookings;
+
     public User() {
         this.enabled = false;
     }
 
-    public User(String firstname, String lastname, String username, String email, String phonenumber, String password) {
+    public User(String firstname, String lastname, String username, String email, String phonenumber, String password, List<Booking> bookings) {
         this.firstName = firstname;
         this.lastName = lastname;
         this.username = username;
         this.email = email;
         this.phonenumber = phonenumber;
         this.password = password;
+        this.bookings = bookings;
     }
 
     public Long getId() {
@@ -147,5 +155,13 @@ public class User{
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 }

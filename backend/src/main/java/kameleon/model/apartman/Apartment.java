@@ -1,8 +1,9 @@
-package kameleon.model;
+package kameleon.model.apartman;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
+import kameleon.model.booking.Booking;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -31,6 +32,10 @@ public class Apartment {
     @NotNull
     private Integer price;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "apartment",cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Booking> bookings;
 
 
     public Apartment(){
@@ -39,14 +44,16 @@ public class Apartment {
         this.pictures = null;
         this.price = null;
         this.description = null;
+        this.bookings = null;
     }
 
-    public Apartment(@JsonProperty("name") String name, @JsonProperty("description") String description, @JsonProperty("price") Integer price, @JsonProperty("properties") List<ApartmentProperty> properties, @JsonProperty("pictures") ArrayList<String> pictures){
+    public Apartment(@JsonProperty("name") String name, @JsonProperty("description") String description, @JsonProperty("price") Integer price, @JsonProperty("properties") List<ApartmentProperty> properties, @JsonProperty("pictures") ArrayList<String> pictures, @JsonProperty("bookings") ArrayList<Booking> bookings){
         this.properties = properties;
         this.pictures = pictures;
         this.price = price;
         this.description = description;
         this.name = name;
+        this.bookings = bookings;
     }
 
     public Long getId() {
@@ -110,5 +117,13 @@ public class Apartment {
 
     public void deletePicture(String filename) {
         this.pictures.remove(filename);
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 }

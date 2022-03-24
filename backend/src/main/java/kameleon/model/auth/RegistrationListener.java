@@ -1,6 +1,5 @@
 package kameleon.model.auth;
 
-import kameleon.model.User;
 import kameleon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;

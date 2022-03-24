@@ -1,18 +1,15 @@
-package kameleon.model;
+package kameleon.model.apartman;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table
-public class Property {
+public class ApartmentProperty {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
@@ -25,19 +22,19 @@ public class Property {
     @JsonBackReference
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    private Weekendhouse weekendhouse;
+    private Apartment apartment;
 
-    public Property(){
+    public ApartmentProperty(){
         this.name = null;
         this.icon_name = null;
-        this.weekendhouse = null;
+        this.apartment = null;
     }
 
-    public Property(@JsonProperty("name") String name, @JsonProperty("icon_name") String icon_name, @JsonProperty("weekendhouse") Weekendhouse weekendhouse){
+    public ApartmentProperty(@JsonProperty("name") String name, @JsonProperty("icon_name") String icon_name, @JsonProperty("apartment") Apartment apartment){
 
         this.icon_name = icon_name;
         this.name = name;
-        this.weekendhouse = weekendhouse;
+        this.apartment = apartment;
     }
 
     public Long getId() {
@@ -64,12 +61,12 @@ public class Property {
         this.icon_name = icon_name;
     }
 
-    public Weekendhouse getWeekendhouse() {
-        return weekendhouse;
+    public Apartment getApartment() {
+        return apartment;
     }
 
-    public void setWeekendhouse(Weekendhouse weekendhouse) {
-        this.weekendhouse = weekendhouse;
+    public void setApartment(Apartment apartment) {
+        this.apartment = apartment;
     }
 }
 

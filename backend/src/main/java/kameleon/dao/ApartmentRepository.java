@@ -1,6 +1,6 @@
 package kameleon.dao;
 
-import kameleon.model.Apartment;
+import kameleon.model.apartman.Apartment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,13 +1,11 @@
 package kameleon.api;
 
 import kameleon.dto.UserDTO;
-import kameleon.model.User;
 import kameleon.service.UserService;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

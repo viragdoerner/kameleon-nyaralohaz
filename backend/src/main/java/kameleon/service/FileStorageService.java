@@ -1,7 +1,7 @@
 package kameleon.service;
 
 import exception.CustomMessageException;
-import kameleon.model.FileStorageProperties;
+import kameleon.model.apartman.FileStorageProperties;
 import org.apache.commons.io.FilenameUtils;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;

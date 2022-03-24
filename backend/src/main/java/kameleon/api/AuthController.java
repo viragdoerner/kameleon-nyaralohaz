@@ -9,8 +9,9 @@ import kameleon.dto.RegisterForm;
 import kameleon.model.auth.OnRegistrationCompleteEvent;
 import kameleon.model.auth.Role;
 import kameleon.model.auth.RoleName;
-import kameleon.model.User;
+import kameleon.model.auth.User;
 import kameleon.model.auth.VerificationToken;
+import kameleon.model.booking.Booking;
 import kameleon.service.UserService;
 import kameleon.service.security.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +24,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import static kameleon.model.auth.RoleName.ROLE_USER;
 
@@ -106,7 +102,7 @@ public class AuthController {
 
         //hozzáadom az admint
         User user = new User("Kameleon","Admin", "admin@kameleon.hu","admin@kameleon.hu", "+36303699697",
-                encoder.encode("kameleonadminpassword"));
+                encoder.encode("kameleonadminpassword"), new ArrayList<Booking>());
         user.setEnabled(true);
 
         Set<Role> roles = new HashSet<>();
@@ -136,7 +132,7 @@ public class AuthController {
         try{
             // Creating user's account
             User user = new User("", "", registerRequest.getEmail(), registerRequest.getEmail(), "",
-                    encoder.encode(registerRequest.getPassword()));
+                    encoder.encode(registerRequest.getPassword()), new ArrayList<Booking>());
 
             Set<Role> roles = new HashSet<>();
 

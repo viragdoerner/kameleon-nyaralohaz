@@ -1,14 +1,10 @@
 package kameleon.api;
 
-import kameleon.model.Weekendhouse;
-import kameleon.service.ApartmentService;
+import kameleon.model.apartman.Weekendhouse;
 import kameleon.service.WeekendhouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RequestMapping("/weekendhouse")

@@ -1,27 +1,16 @@
 package kameleon.api;
 
 import exception.CustomMessageException;
-import kameleon.dto.UploadFileResponse;
-import kameleon.model.Apartment;
-import kameleon.model.Weekendhouse;
+import kameleon.model.apartman.Apartment;
 import kameleon.service.ApartmentService;
 import kameleon.service.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*")

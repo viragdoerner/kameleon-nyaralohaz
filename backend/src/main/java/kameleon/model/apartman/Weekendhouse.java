@@ -1,4 +1,4 @@
-package kameleon.model;
+package kameleon.model.apartman;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,10 +6,7 @@ import com.sun.istack.NotNull;
 import javax.validation.constraints.Size;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table

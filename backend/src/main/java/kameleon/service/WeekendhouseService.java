@@ -1,7 +1,7 @@
 package kameleon.service;
 
 import kameleon.dao.WeekendhouseRepository;
-import kameleon.model.Weekendhouse;
+import kameleon.model.apartman.Weekendhouse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

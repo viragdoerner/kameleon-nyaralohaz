@@ -7,7 +7,7 @@ import kameleon.dao.VerificationTokenRepository;
 import kameleon.dto.UserDTO;
 import kameleon.model.auth.Role;
 import kameleon.model.auth.RoleName;
-import kameleon.model.User;
+import kameleon.model.auth.User;
 import kameleon.model.auth.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

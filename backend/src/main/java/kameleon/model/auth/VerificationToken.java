@@ -1,7 +1,5 @@
 package kameleon.model.auth;
 
-import kameleon.model.User;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Calendar;
