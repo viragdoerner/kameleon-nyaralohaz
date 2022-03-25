@@ -1,5 +1,7 @@
 package kameleon.model.apartman;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
@@ -32,7 +34,9 @@ public class Apartment {
     @NotNull
     private Integer price;
 
-    @JsonManagedReference
+    //@JsonManagedReference
+    //@JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "apartment",cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Booking> bookings;

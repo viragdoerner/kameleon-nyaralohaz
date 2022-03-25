@@ -1,6 +1,8 @@
 package kameleon.model.auth;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import kameleon.model.apartman.Property;
 import kameleon.model.auth.Role;
 import kameleon.model.booking.Booking;
@@ -62,6 +64,9 @@ public class User{
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    //@JsonManagedReference
+    //@JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Booking> bookings;

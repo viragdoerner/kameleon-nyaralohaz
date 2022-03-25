@@ -1,7 +1,10 @@
 package kameleon.model.booking;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sun.istack.NotNull;
 import kameleon.model.apartman.Apartment;
 import kameleon.model.apartman.Weekendhouse;
@@ -19,10 +22,13 @@ public class Booking {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
+   // @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonSerialize(using = CustomUserSerializer.class)
     private User user;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private BookingStatus status;
 
     @NotNull
@@ -34,9 +40,10 @@ public class Booking {
     @NotNull
     private Date departure;
 
-    @JsonBackReference
+    //@JsonBackReference
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonSerialize(using = CustomApartmentSerializer.class)
     private Apartment apartment;
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL,
