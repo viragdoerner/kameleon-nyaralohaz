@@ -40,12 +40,7 @@ public class UserService {
     }
 
     public UserDTO convertUser(User user) {
-        UserDTO dto = new UserDTO();
-        dto.setFirstname(user.getFirstName());
-        dto.setLastname(user.getLastName());
-        dto.setEmail(user.getUsername());
-        dto.setPhonenumber(user.getPhonenumber());
-        dto.setId(user.getId());
+        UserDTO dto = new UserDTO(user.getId(), user.getLastName(), user.getFirstName(), user.getEmail(), user.getPhonenumber());
         return dto;
     }
     public UserDTO getUserById(long id) {
@@ -104,9 +99,14 @@ public class UserService {
     }
 
     public UserDTO getUserByEmail(String email) {
+        User user = getFullUserByEmail(email);
+        return convertUser(user);
+    }
+
+    public User getFullUserByEmail(String email) {
         User user = this.userRepository.findByEmail(email).orElseThrow(() ->
                 new CustomMessageException("Nincs ilyen felhasználó"));
-        return convertUser(user);
+        return user;
     }
 
     public VerificationToken getVerificationToken(String VerificationToken) {

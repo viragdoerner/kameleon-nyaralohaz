@@ -6,12 +6,16 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sun.istack.NotNull;
+import jdk.net.SocketFlow;
 import kameleon.model.apartman.Apartment;
 import kameleon.model.apartman.Weekendhouse;
 import kameleon.model.auth.User;
+import serializer.CustomApartmentSerializer;
+import serializer.CustomUserSerializer;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,6 +55,8 @@ public class Booking {
     private List<StatusTransition> transitions;
 
     public Booking() {
+        List<StatusTransition> tl= new ArrayList<StatusTransition>();
+        this.transitions = tl;
     }
 
     public Booking(@JsonProperty("user") User user, @JsonProperty("status") BookingStatus status,
@@ -64,6 +70,7 @@ public class Booking {
         this.apartment = apartment;
         this.transitions = transitions;
     }
+
 
     public Long getId() {
         return id;
@@ -119,6 +126,9 @@ public class Booking {
 
     public void setTransitions(List<StatusTransition> transitions) {
         this.transitions = transitions;
+    }
+    public void addTransition(StatusTransition transition) {
+        this.transitions.add(transition);
     }
 
     public Apartment getApartment() {

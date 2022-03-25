@@ -29,6 +29,17 @@ public class UserDTO {
     @Size(max = 50)
     private String phonenumber;
 
+    public UserDTO() {
+    }
+
+    public UserDTO(Long id, String lastname, String firstname, String email, String phonenumber) {
+        this.id = id;
+        this.lastname = lastname;
+        this.firstname = firstname;
+        this.email = email;
+        this.phonenumber = phonenumber;
+    }
+
     public Long getId() {
         return id;
     }

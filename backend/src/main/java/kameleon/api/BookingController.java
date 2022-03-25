@@ -1,6 +1,7 @@
 package kameleon.api;
 
 import exception.CustomMessageException;
+import kameleon.dto.BookingRequest;
 import kameleon.model.apartman.Apartment;
 import kameleon.model.booking.Booking;
 import kameleon.service.ApartmentService;
@@ -52,7 +53,7 @@ public class BookingController {
 
         @Secured("ROLE_USER")
         @PostMapping
-        public Booking bookApartment(@RequestBody Booking booking) {
+        public Booking bookApartment(@RequestBody BookingRequest booking) {
             Booking a =bookingService.bookApartment(booking);
             return a;
         }
