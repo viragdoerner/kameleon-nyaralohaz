@@ -1,20 +1,14 @@
 package kameleon.model.booking;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sun.istack.NotNull;
-import jdk.net.SocketFlow;
 import kameleon.model.apartman.Apartment;
-import kameleon.model.apartman.Weekendhouse;
 import kameleon.model.auth.User;
 import serializer.CustomApartmentSerializer;
 import serializer.CustomUserSerializer;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
