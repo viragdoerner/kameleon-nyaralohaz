@@ -40,12 +40,6 @@ public class BookingService {
     }
 
     public Booking bookApartment(BookingRequest bookingRequest) {
-        //hibát dobni ha van más aktív foglalása a usernek
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(hasActiveBooking()){
-            throw new CustomMessageException("Már van érvényes foglalásod! Egyszerre csak egy foglalás lehetséges.");
-        }
-
         //tentative típusú foglalás létrehozása
         Booking booking = createBookingFromRequest(bookingRequest);
         bookingRepository.save(booking);
