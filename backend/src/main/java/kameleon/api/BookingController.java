@@ -2,12 +2,16 @@ package kameleon.api;
 
 import exception.CustomMessageException;
 import kameleon.dto.BookingRequest;
+import kameleon.dto.BookingStatusChangeRequest;
 import kameleon.model.apartman.Apartment;
 import kameleon.model.booking.Booking;
+import kameleon.model.booking.BookingStatus;
 import kameleon.service.ApartmentService;
 import kameleon.service.BookingService;
 import kameleon.service.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,25 +41,52 @@ public class BookingController {
             return bookingService.getAllBooking();
         }
 
-        /*@Secured("ROLE_USER")
+        @Secured("ROLE_USER")
         @GetMapping(path = "/user")
         public List<Booking> getAllBookingFromUser() {
-            List<Booking> a =bookingService.getAllBookingFromUser();
-            return a;
+            List<Booking> bs =bookingService.getAllBookingFromUser();
+            return bs;
         }
 
         @Secured("ROLE_USER")
         @GetMapping(path = "/user/active")
         public Booking getActiveBookingFromUser() {
-            Booking a =bookingService.getActiveBookingFromUser();
-            return a;
-        }*/
+            Booking b =bookingService.getActiveBookingFromUser();
+            return b;
+        }
 
         @Secured("ROLE_USER")
         @PostMapping
         public Booking bookApartment(@RequestBody BookingRequest booking) {
-            Booking a =bookingService.bookApartment(booking);
-            return a;
+            Booking b =bookingService.bookApartment(booking);
+            return b;
+        }
+
+        @Secured("ROLE_ADMIN")
+        @PutMapping(path = "/{booking_id}")
+        public Booking bookApartment(@PathVariable("booking_id") Long booking_id, @RequestBody BookingStatusChangeRequest request) {
+            Booking b =bookingService.changeBookingStatus(booking_id, request);
+            return b;
+        }
+
+        @Secured("ROLE_USER")
+        @PutMapping(path = "/cancel")
+        public Booking cancelBooking(@RequestBody BookingStatusChangeRequest request) {
+            Booking b =bookingService.cancelBooking(request);
+            return b;
+        }
+
+        @Secured("ROLE_ADMIN")
+        @DeleteMapping(path = "/{booking_id}")
+        public ResponseEntity<?> cancelBooking(@PathVariable("booking_id") Long booking_id) {
+            try {
+                bookingService.deleteBooking(booking_id);
+            } catch (CustomMessageException e) {
+                return new ResponseEntity<>(e.getMessage(),
+                        HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>("Sikeres törlés",
+                    HttpStatus.OK);
         }
     }
 

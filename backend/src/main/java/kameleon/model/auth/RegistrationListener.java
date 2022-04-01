@@ -37,7 +37,7 @@ public class RegistrationListener implements
         String link = "http://localhost:8080/auth" + confirmationUrl;
 
         SimpleMailMessage email = new SimpleMailMessage();
-        email.setFrom("mail.dorner.virag@gmail.com");
+        email.setFrom("kameleonnyaralohaz@gmail.com");
         email.setTo(recipientAddress);
         email.setSubject(subject);
         email.setText("Köszönjük, hogy regisztráltál!\n \n A regisztrációt az alábbi linkre kattintva tudod érvényesíteni: \n" + link +"\n \n Üdvözlettel, \n Kaméleon nyaralóház");

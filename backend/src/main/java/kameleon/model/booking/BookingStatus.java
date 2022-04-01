@@ -4,5 +4,6 @@ public enum BookingStatus {
     TENTATIVE,
     BOOKED,
     PAID,
-    DELETED
+    DELETED,
+    OUTDATED
 }

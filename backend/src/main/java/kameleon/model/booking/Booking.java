@@ -1,11 +1,13 @@
 package kameleon.model.booking;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sun.istack.NotNull;
 import kameleon.model.apartman.Apartment;
 import kameleon.model.auth.User;
 import serializer.CustomApartmentSerializer;
+import serializer.CustomTransitionSerializer;
 import serializer.CustomUserSerializer;
 
 import javax.persistence.*;
@@ -46,6 +48,7 @@ public class Booking {
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @JsonManagedReference
     private List<StatusTransition> transitions;
 
     public Booking() {

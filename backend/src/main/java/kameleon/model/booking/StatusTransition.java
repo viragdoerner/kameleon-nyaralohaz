@@ -1,11 +1,17 @@
 package kameleon.model.booking;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sun.istack.NotNull;
+import kameleon.dto.BookingStatusChangeRequest;
 import kameleon.model.apartman.Apartment;
 import kameleon.model.apartman.ApartmentProperty;
 import kameleon.model.auth.User;
+import serializer.CustomApartmentSerializer;
+import serializer.CustomTransitionSerializer;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -29,25 +35,30 @@ public class StatusTransition {
     private Date created;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private BookingStatus newStatus;
 
-    @NotNull
-    private BookingStatus oldStatus;
-
+    @JsonBackReference
+    @JsonSerialize(using = CustomTransitionSerializer.class)
     @ManyToOne(fetch = FetchType.LAZY)
     private Booking booking;
 
     public StatusTransition() {
     }
+    public StatusTransition(BookingStatusChangeRequest request, Booking b) {
+        this.comment = request.getComment();
+        this.newStatus = request.getNewStatus();
+        this.created = new Date();
+        this.booking = b;
+    }
 
     public StatusTransition(@JsonProperty("comment") String comment, @JsonProperty("created") Date created,
-                   @JsonProperty("newStatus") BookingStatus newStatus, @JsonProperty("oldStatus") BookingStatus oldStatus,
+                   @JsonProperty("newStatus") BookingStatus newStatus,
                    @JsonProperty("booking") Booking booking ){
         this.comment = comment;
         this.created = created;
         this.newStatus = newStatus;
         this.booking = booking;
-        this.oldStatus = oldStatus;
     }
 
     public Long getId() {
@@ -80,14 +91,6 @@ public class StatusTransition {
 
     public void setNewStatus(BookingStatus newStatus) {
         this.newStatus = newStatus;
-    }
-
-    public BookingStatus getOldStatus() {
-        return oldStatus;
-    }
-
-    public void setOldStatus(BookingStatus oldStatus) {
-        this.oldStatus = oldStatus;
     }
 
     public Booking getBooking() {

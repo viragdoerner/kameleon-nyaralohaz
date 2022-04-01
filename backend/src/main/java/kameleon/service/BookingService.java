@@ -4,6 +4,7 @@ import exception.CustomMessageException;
 import kameleon.dao.BookingRepository;
 import kameleon.dao.StatusTransitionRepository;
 import kameleon.dto.BookingRequest;
+import kameleon.dto.BookingStatusChangeRequest;
 import kameleon.model.apartman.Apartment;
 import kameleon.model.auth.User;
 import kameleon.model.booking.Booking;
@@ -37,21 +38,11 @@ public class BookingService {
     public List<Booking> getAllBooking() {
         return bookingRepository.findAll();
     }
-/*
-    public List<Booking> getAllBookingFromUser() {
-    }
-
-    public Booking getActiveBookingFromUser() {
-    }*/
 
     public Booking bookApartment(BookingRequest bookingRequest) {
         //hibát dobni ha van más aktív foglalása a usernek
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String currentUsername = getCurrentUsername();
-        if(currentUsername == null){
-            throw new CustomMessageException("Nincs bejelentkezett felhasználó!");
-        }
-        if(hasActiveBooking(currentUsername)){
+        if(hasActiveBooking()){
             throw new CustomMessageException("Már van érvényes foglalásod! Egyszerre csak egy foglalás lehetséges.");
         }
 
@@ -88,15 +79,9 @@ public class BookingService {
         return booking;
     }
 
-    boolean hasActiveBooking(String username){
-        List<Booking> bookings = bookingRepository.findAllOwnedByUsername(username);
-        boolean hasActiveBooking = false;
-        for(Booking b : bookings){
-            if(b.getStatus() != BookingStatus.DELETED){
-                hasActiveBooking = true;
-            }
-        }
-        return hasActiveBooking;
+    boolean hasActiveBooking(){
+        Booking activeBooking = getActiveBookingFromUser();
+        return activeBooking != null;
     }
 
     String getCurrentUsername(){
@@ -105,6 +90,60 @@ public class BookingService {
             String currentUserName = authentication.getName();
             return currentUserName;
         }
+        throw new CustomMessageException("Nincs bejelentkezett felhasználó!");
+    }
+
+    public List<Booking> getAllBookingFromUser() {
+        return bookingRepository.findAllOwnedByUsername(getCurrentUsername());
+    }
+
+    public Booking getActiveBookingFromUser() {
+        List<Booking> bookings = getAllBookingFromUser();
+        for(Booking b : bookings){
+            if(b.getStatus() != BookingStatus.DELETED && b.getStatus() != BookingStatus.OUTDATED){
+                return b;
+            }
+        }
         return null;
+    }
+
+    public Booking changeBookingStatus(Long booking_id, BookingStatusChangeRequest request) {
+        //státusz módosíása
+        //statustransition létrehozása
+        Booking b = bookingRepository.findById(booking_id).orElseThrow(() ->new CustomMessageException("Nem létezik foglalás ezzel az ID-val"));
+        if(b.getStatus() == request.getNewStatus()){
+            return b;
+        }
+        b.setStatus(request.getNewStatus());
+        StatusTransition transition = new StatusTransition(request, b);
+        b.addTransition(transition);
+        bookingRepository.save(b);
+        transitionRepository.save(transition);
+        //TODO emailek küldése
+        return b;
+    }
+
+    public Booking cancelBooking(BookingStatusChangeRequest request) {
+        Booking b = getActiveBookingFromUser();
+        if(b.getStatus() == request.getNewStatus()){
+            return b;
+        }
+        if(b == null ){
+            throw new CustomMessageException("Nincs aktív foglalás");
+        }
+        request.setNewStatus(BookingStatus.DELETED);
+        b.setStatus(BookingStatus.DELETED);
+        StatusTransition transition = new StatusTransition(request, b);
+        b.addTransition(transition);
+        bookingRepository.save(b);
+        transitionRepository.save(transition);
+        //TODO emailek küldése
+        return b;
+    }
+
+    public void deleteBooking(Long booking_id) {
+        Booking b = bookingRepository.findById(booking_id).orElseThrow(() ->new CustomMessageException("Nem létezik foglalás ezzel az ID-val"));
+        bookingRepository.deleteById(booking_id);
+        //TODO email küldése??
     }
 }
