@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import CHome from '../views/Home.vue'
-import CReserve from '../views/Reserve.vue'
+import CBooking from '../views/Booking.vue'
 import CLogin from '../views/Login.vue'
 import CUserManagement from '../views/UserManagement.vue'
 
@@ -14,9 +14,9 @@ const routes = [
     component: CHome
   },
   {
-    path: '/reserve',
-    name: 'Reserve',
-    component: CReserve
+    path: '/booking',
+    name: 'Booking',
+    component: CBooking
   },
   {
     path: '/login',

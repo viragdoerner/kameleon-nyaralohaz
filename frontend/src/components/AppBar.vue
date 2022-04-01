@@ -30,7 +30,7 @@
             <v-list-item-title>{{ route.name }}</v-list-item-title>
           </v-list-item>
 
-          <v-list-item to="/reserve">
+          <v-list-item to="/booking">
             <v-list-item-icon>
               <v-icon>mdi-calendar</v-icon>
             </v-list-item-icon>

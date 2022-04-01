@@ -43,7 +43,7 @@
               </v-row>
               <v-row>
                 <v-btn
-                  to="/reserve"
+                  to="/booking"
                   elevation="2"
                   x-large
                   color="corange"
