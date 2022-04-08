@@ -8,18 +8,11 @@ export default new Vuex.Store({
   state: {
     snackbar: {},
     imgPath: "./images/apartments/",
-    booking: {}
   },
   mutations: {
     showMessage(state, payload) {
       state.snackbar = payload;
     },
-    updateBooking(state, b) {
-      state.booking = b;
-    },
-    cancelBooking(state) {
-      state.booking = {};
-    }
   },
   actions: {
   },
@@ -35,9 +28,6 @@ export default new Vuex.Store({
         return auth.state.status.loggedIn;
       }
       return false;
-    },
-    getBooking: state => {
-      return state.booking;
     }
   },
   modules: {

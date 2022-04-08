@@ -45,6 +45,19 @@ public class BookingService {
     }
 
     public Booking bookApartment(BookingRequest bookingRequest) {
+        //TODO check if the date is free in that apartment, and if dog also the other apartment is without a dog
+        Date today = new Date();
+        if(bookingRequest.getArrival().compareTo(today) == -1){
+            throw new CustomMessageException("A foglalás dátuma nem lehet korábbi a mai napnál");
+        }
+        Calendar c = Calendar.getInstance();
+        c.setTime(today);
+        c.add(Calendar.YEAR, 2);
+        Date dateInTwoYear = c.getTime();
+        if(bookingRequest.getDeparture().compareTo(dateInTwoYear) == 1){
+            throw new CustomMessageException("A foglalás dátuma nem lehet távolabb, mint 2 év");
+        }
+
         //tentative típusú foglalás létrehozása
         Booking booking = createBookingFromRequest(bookingRequest);
         bookingRepository.save(booking);
@@ -148,6 +161,7 @@ public class BookingService {
         Apartment a = getApartment(apartment_id);
         List<Booking> bookings = new ArrayList<Booking>();
         if(dogIncluded) {
+            // össze olyan foglalás az adott apartmanra, és minden kutyás foglalás a másik apartmanra
             bookings = bookingRepository.findAllActiveByApartmentAndDogIncluded(apartment_id, false);
         } else{
             bookings = bookingRepository.findAllActiveByApartment(apartment_id);

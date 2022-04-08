@@ -14,8 +14,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findAllOwnedByUsername(String username);
 
     @Query("Select b From Booking b join b.apartment apartment " +
-            "where apartment.id = :apartment_id and b.dogIncluded = :dogIncluded " +
-            "and (b.status = 'BOOKED' or b.status = 'PAID' or b.status = 'TENTATIVE')")
+            "where (b.status = 'BOOKED' or b.status = 'PAID' or b.status = 'TENTATIVE') " +
+            "and (apartment.id = :apartment_id or (apartment.id != :apartment_id and b.dogIncluded = :dogIncluded))")
     List<Booking> findAllActiveByApartmentAndDogIncluded(Long apartment_id, boolean dogIncluded);
 
     @Query("Select b From Booking b join b.apartment apartment where apartment.id = :apartment_id " +

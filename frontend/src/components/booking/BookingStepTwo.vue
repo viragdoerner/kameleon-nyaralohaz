@@ -48,6 +48,7 @@
             ></v-text-field>
           </v-col>
         </v-row>
+         
       </v-form>
     </v-card-text>
     <v-card-actions class="col-12">
@@ -81,7 +82,6 @@ export default {
         .then((response) => {
           if (!response.data) throw "empty list";
           this.user = response.data;
-          console.log(response.data);
         })
         .catch((error) => {
           this.$store.commit("showMessage", {
@@ -94,7 +94,7 @@ export default {
     finishStepTwo() {
       ApiService.PUT("user", this.user)
         .then((response) => {
-          this.$emit("next-step");
+          this.$emit("next-step", this.user);
         })
         .catch((error) => {
           this.$store.commit("showMessage", {

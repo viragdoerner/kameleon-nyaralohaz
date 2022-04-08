@@ -131,6 +131,9 @@
         </v-overlay>
       </v-card>
 
+      
+    </v-container>
+    <v-row class="col-12 d-flex justify-center">
       <v-alert
         icon="mdi-shield-lock-outline"
         prominent
@@ -139,13 +142,13 @@
         dismissible
         color="cgreen"
         transition="scale-transition"
-        class="col-6 mt-5"
+        class="col-12 col-sm-8 col-md-4 ma-5"
         v-if="showAlert"
       >
         Küldtünk egy megerősítő e-mailt a megadott e-mail-címedre. A
         regisztráció befejezéséhez kérlek kattints az ott található linkre.
       </v-alert>
-    </v-container>
+    </v-row>
   </div>
 </template>
 

@@ -131,6 +131,13 @@ export default {
       }
     },
     allowedDates(val) {
+
+      if(moment(val) < moment().add(5,'days')){
+        return false;
+      }
+      if(moment(val) > moment().add(2,'years')){
+        return false;
+      }
       return !this.disabled_dates.includes(val);
     },
     getDaysBetweenDates(startDate, endDate) {
@@ -169,11 +176,9 @@ export default {
         arrival: this.dates[0],
         departure: this.dates[1],
       };
-      this.$store.commit("updateBooking", b);
-      this.$emit("next-step");
+      this.$emit("next-step", b);
     },
     cancelBooking() {
-      this.$store.commit("cancelBooking");
       this.$router.push("/");
     },
   },
