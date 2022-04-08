@@ -16,8 +16,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
@@ -62,15 +67,20 @@ public class BookingService {
         transition.setNewStatus(BookingStatus.TENTATIVE);
         booking.addTransition(transition);
 
-        Apartment a = apartmentService.getApartmentById(bookingRequest.getApartmentId());
-        if(a == null ){
-            throw new CustomMessageException("Nincs ilyen apartman");
-        }
+        Apartment a = getApartment(bookingRequest.getApartmentId());
         booking.setApartment(a);
         User u = userService.getFullUserByEmail(getCurrentUsername());
         booking.setUser(u);
 
         return booking;
+    }
+
+    private Apartment getApartment(Long apartmentId) {
+        Apartment a = apartmentService.getApartmentById(apartmentId);
+        if(a == null ){
+            throw new CustomMessageException("Nincs ilyen apartman");
+        }
+        return a;
     }
 
     boolean hasActiveBooking(){
@@ -139,5 +149,37 @@ public class BookingService {
         Booking b = bookingRepository.findById(booking_id).orElseThrow(() ->new CustomMessageException("Nem létezik foglalás ezzel az ID-val"));
         bookingRepository.deleteById(booking_id);
         //TODO email küldése??
+    }
+
+    public List<String> getDisabledDates(Long apartment_id, Boolean dogIncluded) {
+        Apartment a = getApartment(apartment_id);
+        List<Booking> bookings = new ArrayList<Booking>();
+        if(dogIncluded) {
+            bookings = bookingRepository.findAllActiveByApartmentAndDogIncluded(apartment_id, false);
+        } else{
+            bookings = bookingRepository.findAllActiveByApartment(apartment_id);
+        }
+        Set<LocalDate> disabledDates = new HashSet<LocalDate>();
+        for(Booking b : bookings){
+            disabledDates.addAll(getDatesBetweenUsingJava9(b.getArrival(), incrementDateByOneDay(b.getDeparture())));
+        }
+        List<String> disabledDateStrings = disabledDates.stream()
+                .map(d -> d.toString())
+                .collect(Collectors.toList());
+        return disabledDateStrings;
+    }
+
+    private Date incrementDateByOneDay(Date d) {
+        Date dayAfter = new Date(d.getTime() + TimeUnit.DAYS.toMillis( 1 ));
+        return dayAfter;
+    }
+
+    public static List<LocalDate> getDatesBetweenUsingJava9(
+            Date start, Date end) {
+        LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        return startDate.datesUntil(endDate)
+                .collect(Collectors.toList());
     }
 }

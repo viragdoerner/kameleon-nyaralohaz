@@ -88,5 +88,12 @@ public class BookingController {
             return new ResponseEntity<>("Sikeres törlés",
                     HttpStatus.OK);
         }
+
+
+        @GetMapping(path = "/disabled_dates/{apartment_id}/{dogIncluded}")
+        public List<String> getDisabledDates(@PathVariable("apartment_id") Long apartment_id,@PathVariable("dogIncluded") Boolean dogIncluded) {
+            List<String> disabled_dates = bookingService.getDisabledDates(apartment_id, dogIncluded);
+            return disabled_dates;
+        }
     }
 
