@@ -69,7 +69,7 @@ public class BookingService {
 
         Apartment a = getApartment(bookingRequest.getApartmentId());
         booking.setApartment(a);
-        User u = userService.getFullUserByEmail(getCurrentUsername());
+        User u = userService.getFullUserByEmail(userService.getCurrentUsername());
         booking.setUser(u);
 
         return booking;
@@ -88,17 +88,10 @@ public class BookingService {
         return activeBooking != null;
     }
 
-    String getCurrentUsername(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserName = authentication.getName();
-            return currentUserName;
-        }
-        throw new CustomMessageException("Nincs bejelentkezett felhasználó!");
-    }
+
 
     public List<Booking> getAllBookingFromUser() {
-        return bookingRepository.findAllOwnedByUsername(getCurrentUsername());
+        return bookingRepository.findAllOwnedByUsername(userService.getCurrentUsername());
     }
 
     public Booking getActiveBookingFromUser() {

@@ -2,6 +2,8 @@ package kameleon.api;
 
 import kameleon.dto.UserDTO;
 import kameleon.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,17 +31,30 @@ public class UserController {
         return this.userService.getUserById(id);
     }
 
+    @Secured("ROLE_USER")
+    @GetMapping(path = "/current")
+    public UserDTO getCurrentUser(){
+        return this.userService.getCurrentUser();
+    }
+
     @Secured("ROLE_ADMIN")
     @GetMapping(path = "{email}")
     public UserDTO getUserByEmail(@PathVariable("email") String email){
         return this.userService.getUserByEmail(email);
     }
 
-   /* @Secured("ROLE_ADMIN")
-    @PatchMapping
-    public User updateUser(@RequestBody UserDTO user){
-        return this.userService.updateUser(user);
-    }*/
+    @Secured("ROLE_USER")
+    @PutMapping
+    public ResponseEntity<?> updateUser(@RequestBody UserDTO user){
+        try {
+            this.userService.updateUser(user);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Data update failed",
+                    HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("User info successfuly updated",
+                HttpStatus.OK);
+    }
 
     @Secured("ROLE_ADMIN")
     @Transactional
