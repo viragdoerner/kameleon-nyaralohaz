@@ -20,7 +20,7 @@
           @change="dataChanged()"
         ></v-checkbox>
         <v-text-field
-          :value="'Fizetendő összeg: ' + totalCost"
+          :value="'Fizetendő összeg: ' + totalCost + ' Ft'"
           label="Solo"
           solo
           dense
@@ -45,6 +45,7 @@
           :allowed-dates="allowedDates"
           show-adjacent-months
           full-width
+          @click:date="dateClick"
         >
           <v-progress-linear
             :active="loading"
@@ -62,6 +63,8 @@
 
 <script>
 import ApiService from "../../services/api.service";
+import moment from 'moment';
+
 export default {
   name: "CBookingStepOne",
   props: [],
@@ -70,7 +73,7 @@ export default {
     selectedApartment: "",
     apartments: [],
     dogIncluded: false,
-    dates: ["2022-04-09"],
+    dates: [],
     disabled_dates: ["2022-04-09", "2022-04-08"],
     no_of_nights: 0,
     loading: false,
@@ -103,7 +106,7 @@ export default {
           .then((response) => {
             this.disabled_dates = [];
             this.disabled_dates = response.data;
-            setTimeout(() => this.loading = false, 1000);
+            setTimeout(() => (this.loading = false), 1000);
           })
           .catch((error) => {
             this.disabled_dates = -1;
@@ -117,9 +120,35 @@ export default {
       }
     },
     allowedDates(val) {
-      console.log(this.disabled_dates.includes(val));
-      console.log(this.disabled_dates);
       return !this.disabled_dates.includes(val);
+    },
+    getDaysBetweenDates(startDate, endDate) {
+      startDate = moment(startDate);
+      endDate = moment(endDate);
+      if(startDate >endDate){
+        var temp = startDate;
+        startDate = endDate;
+        endDate = temp;
+      }
+      var now = startDate.clone(),
+        dates = [];
+
+      while (now.isSameOrBefore(endDate)) {
+        dates.push(now.format("YYYY-MM-DD"));
+        now.add(1, "days");
+      }
+      return dates;
+    },
+    dateClick(date) {
+      if (this.dates.length > 1) {
+        var dateList = this.getDaysBetweenDates(this.dates[0], this.dates[1]);
+        const found = dateList.some((r) => this.disabled_dates.indexOf(r) >= 0);
+        if (found) {
+          this.dates = [];
+        } else{
+          this.no_of_nights =dateList.length-1;
+        }
+      }
     },
   },
   computed: {
