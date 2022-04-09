@@ -12,35 +12,14 @@
           ></c-rich-text-editor>
         </v-card-text>
       </v-card>
-      <v-card  class="pa-md-10 pa-4 ma-md-10  ma-0 mt-5 mt-md-10 col-12 col-sm-8 col-md-6 align-self-center ">
-        <v-card-text>
-          <v-row>
-            <v-text-field
-              v-model="dateRangeText"
-              label="Date range"
-              prepend-icon="mdi-calendar"
-              readonly
-            ></v-text-field>
-          </v-row>
-          <v-row>
-            <v-combobox filled solo></v-combobox>
-          </v-row>
-          <v-row>
-            <v-combobox filled solo></v-combobox>
-          </v-row>
-          <v-row>
-            <v-btn elevation="2" x-large color="corange" class="white--text"
-              >FOGLALÁS
-            </v-btn>
-          </v-row>
-        </v-card-text>
-      </v-card>
+      <reserve-section-date-picker :apartments="apartments"></reserve-section-date-picker>
     </v-container>
   </v-container>
 </template>
 
 <script>
 import CRichTextEditor from "./RichTextEditor.vue";
+import ReserveSectionDatePicker from "./ReserveSectionDatePicker.vue"
 export default {
   name: "CReserveSection",
   data: () => ({
@@ -51,8 +30,8 @@ export default {
       this.$emit("update-description", newDescription);
     },
   },
-  components: { CRichTextEditor },
-  props: ["description"],
+  components: { CRichTextEditor, ReserveSectionDatePicker },
+  props: ["description", "apartments"],
 };
 </script>
 <style  scoped>

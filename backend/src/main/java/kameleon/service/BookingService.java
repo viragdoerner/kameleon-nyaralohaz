@@ -159,7 +159,7 @@ public class BookingService {
 
     public List<String> getDisabledDates(Long apartment_id, Boolean dogIncluded) {
         Apartment a = getApartment(apartment_id);
-        List<Booking> bookings = new ArrayList<Booking>();
+        List<Booking> bookings;
         if(dogIncluded) {
             // össze olyan foglalás az adott apartmanra, és minden kutyás foglalás a másik apartmanra
             bookings = bookingRepository.findAllActiveByApartmentAndDogIncluded(apartment_id, true);

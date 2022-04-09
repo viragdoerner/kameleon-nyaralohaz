@@ -3,6 +3,7 @@
     <v-card-text class="d-flex justify-space-between align-center col-12">
       <v-col class="col-4 d-flex flex-column">
         <v-combobox
+          class="my-0"
           v-model="selectedApartment"
           :items="apartments"
           item-text="name"
@@ -12,6 +13,7 @@
           @change="dataChanged()"
         ></v-combobox>
         <v-checkbox
+          class="my-0"
           v-model="dogIncluded"
           label="Kutyussal jövünk"
           hint="Plusz költséggel nem jár, de korlátozhatja az elérhető dátumok számát."
@@ -86,7 +88,7 @@
 
 <script>
 import ApiService from "../../services/api.service";
-import moment from "moment";
+import BookingService from "../../services/booking.service";
 
 export default {
   name: "CBookingStepOne",
@@ -97,15 +99,13 @@ export default {
     apartments: [],
     dogIncluded: false,
     dates: [],
-    disabled_dates: ["2022-04-09", "2022-04-08"],
-    no_of_nights: 0,
+    disabled_dates: [],
     loading: false,
   }),
   methods: {
     getApartments() {
       ApiService.GET("apartment")
         .then((response) => {
-          if (!response.data) throw "empty list";
           this.apartments = response.data;
           this.selectedApartment = this.apartments[0];
           this.dataChanged();
@@ -119,75 +119,23 @@ export default {
         });
     },
     dataChanged() {
-      this.dates= [];
+      this.dates = [];
       this.loading = true;
-      if (!!this.selectedApartment) {
-        const data = {
-          apartmentId: this.selectedApartment.id,
-          dogIncluded: this.dogIncluded,
-        };
-        ApiService.GET(
-          "booking/disabled_dates/" + data.apartmentId + "/" + data.dogIncluded
-        )
-          .then((response) => {
-            this.disabled_dates = [];
-            this.disabled_dates = response.data;
-            setTimeout(() => (this.loading = false), 1000);
-          })
-          .catch((error) => {
-            this.disabled_dates = -1;
-            this.loading = false;
-            this.$store.commit("showMessage", {
-              active: true,
-              color: "error",
-              message: "Hiba történt az elérhető dátumok lekérdezésénél",
-            });
-          });
-      }
+      BookingService.getDisabledDates(this.selectedApartment, this.dogIncluded)
+        .then((data) => {
+          this.disabled_dates = data;
+          this.loading = false;
+        })
+        .catch((data) => {
+          this.disabled_dates = data;
+          this.loading = false;
+        });
     },
     allowedDates(val) {
-      if (moment(val) < moment().add(5, "days")) {
-        return false;
-      }
-      if (moment(val) > moment().add(2, "years")) {
-        return false;
-      }
-      return !this.disabled_dates.includes(val);
-    },
-    getDaysBetweenDates(startDate, endDate) {
-      startDate = moment(startDate);
-      endDate = moment(endDate);
-      if (startDate > endDate) {
-        var temp = startDate;
-        startDate = endDate;
-        endDate = temp;
-        [this.dates[0], this.dates[1]] = [this.dates[1], this.dates[0]];
-      }
-      var now = startDate.clone(),
-        dates = [];
-
-      while (now.isSameOrBefore(endDate)) {
-        dates.push(now.format("YYYY-MM-DD"));
-        now.add(1, "days");
-      }
-      return dates;
+      return BookingService.allowedDates(val, this.disabled_dates);
     },
     dateClick(date) {
-      if (this.dates.length > 1) {
-        if (this.dates[0] == this.dates[1]) {
-          this.dates = [];
-        } else {
-          var dateList = this.getDaysBetweenDates(this.dates[0], this.dates[1]);
-          const found = dateList.some(
-            (r) => this.disabled_dates.indexOf(r) >= 0
-          );
-          if (found) {
-            this.dates = [];
-          } else {
-            this.no_of_nights = dateList.length - 1;
-          }
-        }
-      }
+      this.dates = BookingService.dateClick(this.dates, this.disabled_dates);
     },
     finishStepOne() {
       var b = {
@@ -207,31 +155,31 @@ export default {
       return this.dates.join(" ~ ");
     },
     totalCost() {
-      const price =
-        this.selectedApartment && this.dates.length > 1
-          ? Number(this.selectedApartment.price)
-          : 0;
-      return (price * Number(this.no_of_nights)).toLocaleString();
+      if (!!!this.selectedApartment || !this.dates.length > 1) return "";
+      return BookingService.getTotalPriceForBooking(
+        this.dates[0],
+        this.dates[1],
+        this.selectedApartment.price
+      );
     },
     arrival() {
-      return (
-        moment(this.dates[0]).locale("hu").format("LL") +
-        " (" +
-        moment(this.dates[0]).locale("hu").format("dddd") +
-        ")"
-      );
+      return BookingService.formatDate(this.dates[0]);
     },
     departure() {
-      return (
-        moment(this.dates[1]).locale("hu").format("LL") +
-        " (" +
-        moment(this.dates[1]).locale("hu").format("dddd") +
-        ")"
-      );
+      return BookingService.formatDate(this.dates[1]);
     },
   },
   mounted() {
-    this.getApartments();
+    var bookingData = this.$store.getters.getBookingData;
+    if (bookingData) {
+      this.dogIncluded = bookingData.dogIncluded;
+      this.dates = bookingData.dates;
+      this.selectedApartment = bookingData.selectedApartment;
+      this.apartments = bookingData.apartments;
+      this.disabled_dates = bookingData.disabled_dates;
+    } else {
+      this.getApartments();
+    }
   },
 };
 </script>

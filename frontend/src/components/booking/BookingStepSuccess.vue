@@ -1,8 +1,8 @@
 <template>
-  <v-card elevation="0">
+  <v-card v-if="!!booking" elevation="0">
     <v-card-title h3 class="cyellow--text text-h3 zabatana"
       >Szeretettel várjuk nyaralónkban
-      {{booking.user ? booking.user.firstname : "" }}!</v-card-title
+      {{ booking.user ? booking.user.firstname : "" }}!</v-card-title
     >
     <v-card-text>
       <div class="mb-0">Sikeresen rögzítettük foglalását!</div>
@@ -18,7 +18,8 @@
         <v-col>
           <v-text-field
             label="Telefonszám"
-            solo dense
+            solo
+            dense
             readonly
             value="+36303699697, +36302560637"
             prepend-icon="mdi-phone"
@@ -28,7 +29,8 @@
         <v-col>
           <v-text-field
             label="Emailcím"
-            solo dense
+            solo
+            dense
             readonly
             value="kameleonnyaralohaz@gmail.com"
             prepend-icon="mdi-email"
@@ -36,13 +38,14 @@
           ></v-text-field
         ></v-col>
       </v-row>
-      <div >
-        A foglalás véglegesítéséhez <span class="overline corange--text">foglalót</span> kell fizetni. Ezt így meg így
-          lehet megtenni, ide meg ide lehet utalni. A foglaló befizetésére egy
-          hét áll rendelkezésre, utána a foglalást töröljük.
+      <div>
+        A foglalás véglegesítéséhez
+        <span class="overline corange--text">foglalót</span> kell fizetni. Ezt
+        így meg így lehet megtenni, ide meg ide lehet utalni. A foglaló
+        befizetésére egy hét áll rendelkezésre, utána a foglalást töröljük.
       </div>
       <div class="pt-3 overline font-weight-black clightgreen--text">
-          Várjuk szeretettel nyaralónkban!
+        Várjuk szeretettel nyaralónkban!
       </div>
       <v-divider class="my-5"></v-divider>
       <v-row>
@@ -51,7 +54,8 @@
         </v-col>
         <v-col cols="8">
           <v-text-field
-            readonly dense
+            readonly
+            dense
             value="Balatonszemes, Semmelweis utca 72/B"
             prepend-icon="mdi-location"
             color="cgreen"
@@ -64,7 +68,8 @@
         </v-col>
         <v-col cols="8">
           <v-text-field
-            readonly dense
+            readonly
+            dense
             :value="getDate"
             prepend-icon="mdi-location"
             color="cgreen"
@@ -77,7 +82,9 @@
         </v-col>
         <v-col cols="8">
           <v-text-field
-            readonly clear-icon=""dense
+            readonly
+            clear-icon=""
+            dense
             :value="getTotalPrice + ' Ft'"
             prepend-icon="mdi-location"
             color="cgreen"
@@ -92,47 +99,25 @@
 </template>
 
 <script>
-import moment from "moment";
+import BookingService from "../../services/booking.service";
 export default {
   name: "CBookingStepSuccess",
   props: ["booking"],
   data: () => ({}),
-  methods: {
-    getDaysBetweenDates(startDate, endDate) {
-      startDate = moment(startDate);
-      endDate = moment(endDate);
-      var now = startDate.clone(),
-        dates = [];
-
-      while (now.isSameOrBefore(endDate)) {
-        dates.push(now.format("YYYY-MM-DD"));
-        now.add(1, "days");
-      }
-      return dates;
-    },
-  },
+  methods: {},
   computed: {
     getDate() {
       return (
-        moment(this.booking.arrival).locale("hu").format("LL") +
-        " (" +
-        moment(this.booking.arrival).locale("hu").format("dddd") +
-        ") - " +
-        moment(this.booking.departure).locale("hu").format("LL") +
-        " (" +
-        moment(this.booking.departure).locale("hu").format("dddd") +
-        ")"
+        BookingService.formatDate(this.booking.arrival) +
+        " - " +
+        BookingService.formatDate(this.booking.departure)
       );
     },
     getTotalPrice() {
-      return (
-        this.booking.apartment.price *
-        this.getDaysBetweenDates(this.booking.arrival, this.booking.departure).length-1
-      ).toLocaleString();
+      if (!!!this.booking || !!!this.booking.apartment) return "";
+      return BookingService.getTotalPriceForBooking(this.booking.arrival, this.booking.departure, this.booking.apartment.price);
     },
   },
-  mounted() {
-    console.log(this.booking);
-  },
+  mounted() {},
 };
 </script>

@@ -82,11 +82,9 @@ export default {
       this.user = u;
     },
     finishStepThree(resp) {
-      console.log(this.currentStep);
       this.bookingResponse=resp;
       this.successfulBooking = true;
       this.currentStep = 4;
-      console.log(this.currentStep);
     },
   },
 };

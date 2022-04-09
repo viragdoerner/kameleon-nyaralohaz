@@ -14,9 +14,10 @@ const routes = [
     component: CHome
   },
   {
-    path: '/booking',
+    path: '/booking/',
     name: 'Booking',
-    component: CBooking
+    component: CBooking,
+    props: { bookingData: {} }
   },
   {
     path: '/login',
