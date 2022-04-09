@@ -42,9 +42,7 @@
               autocomplete="email"
               regular
               color="cgreen"
-              readonly
-              hint="Nem módosítható"
-              persistent-hint
+              disabled
             ></v-text-field>
           </v-col>
         </v-row>

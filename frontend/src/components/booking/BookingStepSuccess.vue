@@ -1,27 +1,24 @@
 <template>
   <v-card elevation="0">
-    <v-card-title
+    <v-card-title h3 class="cyellow--text text-h3 zabatana"
       >Szeretettel várjuk nyaralónkban
-      {{ booking.user.firstname }}!</v-card-title
+      {{booking.user ? booking.user.firstname : "" }}!</v-card-title
     >
     <v-card-text>
-      <v-row>
-        <p class="mb-0">Sikeresen rögzítettük foglalását!</p>
-        <p class="mb-0">
-          Elküldtünk minden szükséges tudnivalót erre az emailcímre:
-          {{ booking.user.email }}
-        </p>
-        <p>
-          Tovább érdeklődni, esetleg a foglalást lemondani, módosítani az alábbi
-          telefonszámon és emailcímen lehetséges. Várjuk szeretettel
-          nyaralónkban!
-        </p>
-      </v-row>
-      <v-row>
+      <div class="mb-0">Sikeresen rögzítettük foglalását!</div>
+      <div class="mb-0">
+        Elküldtünk minden szükséges tudnivalót erre az emailcímre:
+        {{ booking.user ? booking.user.email : "" }}
+      </div>
+      <div class="pt-3">
+        Tovább érdeklődni, esetleg a foglalást lemondani, módosítani az alábbi
+        telefonszámon és emailcímen, illetve a weblapon is lehetséges.
+      </div>
+      <v-row class="pt-4">
         <v-col>
           <v-text-field
             label="Telefonszám"
-            solo
+            solo dense
             readonly
             value="+36303699697, +36302560637"
             prepend-icon="mdi-phone"
@@ -31,7 +28,7 @@
         <v-col>
           <v-text-field
             label="Emailcím"
-            solo
+            solo dense
             readonly
             value="kameleonnyaralohaz@gmail.com"
             prepend-icon="mdi-email"
@@ -39,14 +36,22 @@
           ></v-text-field
         ></v-col>
       </v-row>
+      <div >
+        A foglalás véglegesítéséhez <span class="overline corange--text">foglalót</span> kell fizetni. Ezt így meg így
+          lehet megtenni, ide meg ide lehet utalni. A foglaló befizetésére egy
+          hét áll rendelkezésre, utána a foglalást töröljük.
+      </div>
+      <div class="pt-3 overline font-weight-black clightgreen--text">
+          Várjuk szeretettel nyaralónkban!
+      </div>
       <v-divider class="my-5"></v-divider>
       <v-row>
         <v-col cols="4">
-          <v-subheader>Cím:</v-subheader>
+          <v-subheader>Nyaraló címe:</v-subheader>
         </v-col>
         <v-col cols="8">
           <v-text-field
-            readonly
+            readonly dense
             value="Balatonszemes, Semmelweis utca 72/B"
             prepend-icon="mdi-location"
             color="cgreen"
@@ -55,11 +60,11 @@
       </v-row>
       <v-row>
         <v-col cols="4">
-          <v-subheader>Dátum:</v-subheader>
+          <v-subheader>Érkezés és távozás napja:</v-subheader>
         </v-col>
         <v-col cols="8">
           <v-text-field
-            readonly
+            readonly dense
             :value="getDate"
             prepend-icon="mdi-location"
             color="cgreen"
@@ -72,19 +77,12 @@
         </v-col>
         <v-col cols="8">
           <v-text-field
-            readonly
-            :value="getTotalPrice"
+            readonly clear-icon=""dense
+            :value="getTotalPrice + ' Ft'"
             prepend-icon="mdi-location"
             color="cgreen"
           ></v-text-field>
         </v-col>
-      </v-row>
-      <v-row>
-        <div>
-          A foglalás véglegesítéséhez foglalót kell fizetni. Ezt így meg így
-          lehet megtenni, ide meg ide lehet utalni. A foglaló befizetésére egy
-          hét áll rendelkezésre, utána a foglalást töröljük.
-        </div>
       </v-row>
     </v-card-text>
     <v-card-actions>
@@ -118,19 +116,23 @@ export default {
       return (
         moment(this.booking.arrival).locale("hu").format("LL") +
         " (" +
-        moment(this.booking.arrival).locale("hu").format('dddd') +
+        moment(this.booking.arrival).locale("hu").format("dddd") +
         ") - " +
         moment(this.booking.departure).locale("hu").format("LL") +
         " (" +
-        moment(this.booking.departure).locale("hu").format('dddd') +
+        moment(this.booking.departure).locale("hu").format("dddd") +
         ")"
       );
     },
     getTotalPrice() {
-      return this.booking.apartment.price *
-        this.getDaysBetweenDates(this.booking.arrival, this.booking.departure)
+      return (
+        this.booking.apartment.price *
+        this.getDaysBetweenDates(this.booking.arrival, this.booking.departure).length-1
+      ).toLocaleString();
     },
   },
-  mounted() {console.log(this.booking)},
+  mounted() {
+    console.log(this.booking);
+  },
 };
 </script>

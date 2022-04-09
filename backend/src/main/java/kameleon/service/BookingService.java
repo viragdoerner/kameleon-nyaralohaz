@@ -162,7 +162,7 @@ public class BookingService {
         List<Booking> bookings = new ArrayList<Booking>();
         if(dogIncluded) {
             // össze olyan foglalás az adott apartmanra, és minden kutyás foglalás a másik apartmanra
-            bookings = bookingRepository.findAllActiveByApartmentAndDogIncluded(apartment_id, false);
+            bookings = bookingRepository.findAllActiveByApartmentAndDogIncluded(apartment_id, true);
         } else{
             bookings = bookingRepository.findAllActiveByApartment(apartment_id);
         }

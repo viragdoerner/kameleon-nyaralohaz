@@ -31,7 +31,7 @@
           <v-text-field
           prepend-inner-icon="mdi-calendar-arrow-left"
             :value="booking.departure"
-            label="Utolsó éjszaka"
+            label="Távozás napja"
             outlined
             color="cgreen"
             dense
