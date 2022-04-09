@@ -19,7 +19,7 @@
         <v-divider v-if="successfulBooking"></v-divider>
         <v-stepper-step
           v-if="successfulBooking"
-          :complete="currentStep > 4"
+          :complete="currentStep > 3"
           step="4"
           color="cyellow"
         >
