@@ -89,6 +89,7 @@
 <script>
 import ApiService from "../../services/api.service";
 import BookingService from "../../services/booking.service";
+import MomentService from "../../services/moment.service";
 
 export default {
   name: "CBookingStepOne",
@@ -141,7 +142,7 @@ export default {
         });
     },
     allowedDates(val) {
-      return BookingService.allowedDates(val, this.disabled_dates);
+      return MomentService.allowedDates(val, this.disabled_dates);
     },
     dateClick(date) {
       this.dates = BookingService.dateClick(this.dates, this.disabled_dates);
@@ -172,10 +173,10 @@ export default {
       );
     },
     arrival() {
-      return BookingService.formatDate(this.dates[0]);
+      return MomentService.formatDate(this.dates[0]);
     },
     departure() {
-      return BookingService.formatDate(this.dates[1]);
+      return MomentService.formatDate(this.dates[1]);
     },
   },
   mounted() {

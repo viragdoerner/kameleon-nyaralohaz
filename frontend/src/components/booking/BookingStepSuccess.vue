@@ -100,6 +100,7 @@
 
 <script>
 import BookingService from "../../services/booking.service";
+import MomentService from "../../services/moment.service";
 export default {
   name: "CBookingStepSuccess",
   props: ["booking"],
@@ -108,9 +109,9 @@ export default {
   computed: {
     getDate() {
       return (
-        BookingService.formatDate(this.booking.arrival) +
+        MomentService.formatDate(this.booking.arrival) +
         " - " +
-        BookingService.formatDate(this.booking.departure)
+        MomentService.formatDate(this.booking.departure)
       );
     },
     getTotalPrice() {

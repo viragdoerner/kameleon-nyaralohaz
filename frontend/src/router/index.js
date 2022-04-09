@@ -4,6 +4,7 @@ import CHome from '../views/Home.vue'
 import CBooking from '../views/Booking.vue'
 import CLogin from '../views/Login.vue'
 import CUserManagement from '../views/UserManagement.vue'
+import CUserBooking from '../views/UserBooking.vue'
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,11 @@ const routes = [
     name: 'User Management',
     component: CUserManagement
   },
+  {
+    path: '/user-booking',
+    name: 'User Booking',
+    component: CUserBooking
+  }
 ]
 
 const router = new VueRouter({

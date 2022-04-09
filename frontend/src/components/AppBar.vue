@@ -4,6 +4,25 @@
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
       <v-toolbar-title>Kaméleon nyaralóház</v-toolbar-title>
+      <v-spacer></v-spacer>
+
+      <v-btn text> Foglalás </v-btn>
+
+      <v-menu bottom left>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn  icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-account</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item>
+            <v-btn  text @click="logout"> Kijelentkezés </v-btn>
+          </v-list-item>
+          <v-list-item>
+            <v-btn  text to="/user-booking"> Foglalásaim</v-btn>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" absolute temporary>
@@ -42,13 +61,16 @@
             </v-list-item-icon>
             <v-list-item-title>Bejelentkezés</v-list-item-title>
           </v-list-item>
-          <v-list-item v-if="$store.getters.loggedIn && $store.getters.isAdmin" to="/user-management">
+          <v-list-item
+            v-if="$store.getters.loggedIn && $store.getters.isAdmin"
+            to="/user-management"
+          >
             <v-list-item-icon>
               <v-icon>mdi-account-multiple</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Felhasználókezelés</v-list-item-title>
           </v-list-item>
-        <v-list-item v-if="$store.getters.loggedIn" @click="logout">
+          <v-list-item v-if="$store.getters.loggedIn" @click="logout">
             <v-list-item-icon>
               <v-icon>mdi-account-outline</v-icon>
             </v-list-item-icon>

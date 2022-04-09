@@ -3,6 +3,7 @@ package kameleon.service;
 import exception.CustomMessageException;
 import kameleon.dao.BookingRepository;
 import kameleon.dao.StatusTransitionRepository;
+import kameleon.dto.BookingListsDTO;
 import kameleon.dto.BookingRequest;
 import kameleon.dto.BookingStatusChangeRequest;
 import kameleon.model.apartman.Apartment;
@@ -97,8 +98,8 @@ public class BookingService {
     }
 
     boolean hasActiveBooking(){
-        Booking activeBooking = getActiveBookingFromUser();
-        return activeBooking != null;
+        List<Booking> activeBookings = getActiveBookingFromUser();
+        return activeBookings.size()>0;
     }
 
 
@@ -107,14 +108,15 @@ public class BookingService {
         return bookingRepository.findAllOwnedByUsername(userService.getCurrentUsername());
     }
 
-    public Booking getActiveBookingFromUser() {
+    public List<Booking> getActiveBookingFromUser() {
         List<Booking> bookings = getAllBookingFromUser();
+        List<Booking> active = new ArrayList<Booking>();
         for(Booking b : bookings){
             if(b.getStatus() != BookingStatus.DELETED && b.getStatus() != BookingStatus.OUTDATED){
-                return b;
+                active.add(b);
             }
         }
-        return null;
+        return active;
     }
 
     public Booking changeBookingStatus(Long booking_id, BookingStatusChangeRequest request) {
@@ -133,13 +135,18 @@ public class BookingService {
         return b;
     }
 
-    public Booking cancelBooking(BookingStatusChangeRequest request) {
-        Booking b = getActiveBookingFromUser();
-        if(b.getStatus() == request.getNewStatus()){
-            return b;
+    public Booking cancelBooking(BookingStatusChangeRequest request, Long booking_id) {
+
+        List<Booking> bookings = getActiveBookingFromUser();
+        Booking b =null;
+        for(Booking booking : bookings){
+            if(b.getId() == booking_id) b = booking;
         }
         if(b == null ){
             throw new CustomMessageException("Nincs aktív foglalás");
+        }
+        if( b.getStatus() == request.getNewStatus()){
+            return b;
         }
         request.setNewStatus(BookingStatus.DELETED);
         b.setStatus(BookingStatus.DELETED);
@@ -188,5 +195,19 @@ public class BookingService {
 
         return startDate.datesUntil(endDate)
                 .collect(Collectors.toList());
+    }
+
+
+    public BookingListsDTO getBookingListsFromUser() {
+        BookingListsDTO dto = new BookingListsDTO();
+        List<Booking> bookings = getAllBookingFromUser();
+        for(Booking b : bookings){
+            if(b.getStatus() == BookingStatus.DELETED || b.getStatus() == BookingStatus.OUTDATED){
+                dto.addInactive(b);
+            }else{
+                dto.addActive(b);
+            }
+        }
+        return dto;
     }
 }
