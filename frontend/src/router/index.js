@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import CHome from '../views/Home.vue'
-import CReserve from '../views/Reserve.vue'
+import CBooking from '../views/Booking.vue'
 import CLogin from '../views/Login.vue'
 import CUserManagement from '../views/UserManagement.vue'
+import CUserBooking from '../views/UserBooking.vue'
 
 Vue.use(VueRouter)
 
@@ -14,9 +15,10 @@ const routes = [
     component: CHome
   },
   {
-    path: '/reserve',
-    name: 'Reserve',
-    component: CReserve
+    path: '/booking/',
+    name: 'Booking',
+    component: CBooking,
+    props: { bookingData: {} }
   },
   {
     path: '/login',
@@ -28,6 +30,11 @@ const routes = [
     name: 'User Management',
     component: CUserManagement
   },
+  {
+    path: '/user-booking',
+    name: 'User Booking',
+    component: CUserBooking
+  }
 ]
 
 const router = new VueRouter({

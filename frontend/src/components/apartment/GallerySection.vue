@@ -36,7 +36,6 @@ export default {
       this.apartment = updatedApartment;
     },
     onDeletePicture(pic) {
-      console.log(pic);
       ApiService.DELETE( "apartment/deletepic/" + this.apartment.id + "/" + pic)
         .then((response) => {
           this.apartment = response.data;

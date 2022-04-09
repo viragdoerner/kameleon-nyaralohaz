@@ -2,7 +2,7 @@
   <div>
     <c-header></c-header>
     <c-reserve-section
-      :description="weekendhouse.description"
+      :description="weekendhouse.description" :apartments="apartments"
       v-on:update-description="onUpdateDescription"
     ></c-reserve-section>
     <c-icon-list

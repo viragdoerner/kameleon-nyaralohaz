@@ -3,6 +3,7 @@ package kameleon.service;
 import exception.CustomMessageException;
 import kameleon.dao.BookingRepository;
 import kameleon.dao.StatusTransitionRepository;
+import kameleon.dto.BookingListsDTO;
 import kameleon.dto.BookingRequest;
 import kameleon.dto.BookingStatusChangeRequest;
 import kameleon.model.apartman.Apartment;
@@ -16,8 +17,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
@@ -40,10 +46,17 @@ public class BookingService {
     }
 
     public Booking bookApartment(BookingRequest bookingRequest) {
-        //hibát dobni ha van más aktív foglalása a usernek
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(hasActiveBooking()){
-            throw new CustomMessageException("Már van érvényes foglalásod! Egyszerre csak egy foglalás lehetséges.");
+        //TODO check if the date is free in that apartment, and if dog also the other apartment is without a dog
+        Date today = new Date();
+        if(bookingRequest.getArrival().compareTo(today) == -1){
+            throw new CustomMessageException("A foglalás dátuma nem lehet korábbi a mai napnál");
+        }
+        Calendar c = Calendar.getInstance();
+        c.setTime(today);
+        c.add(Calendar.YEAR, 2);
+        Date dateInTwoYear = c.getTime();
+        if(bookingRequest.getDeparture().compareTo(dateInTwoYear) == 1){
+            throw new CustomMessageException("A foglalás dátuma nem lehet távolabb, mint 2 év");
         }
 
         //tentative típusú foglalás létrehozása
@@ -68,43 +81,42 @@ public class BookingService {
         transition.setNewStatus(BookingStatus.TENTATIVE);
         booking.addTransition(transition);
 
-        Apartment a = apartmentService.getApartmentById(bookingRequest.getApartmentId());
-        if(a == null ){
-            throw new CustomMessageException("Nincs ilyen apartman");
-        }
+        Apartment a = getApartment(bookingRequest.getApartmentId());
         booking.setApartment(a);
-        User u = userService.getFullUserByEmail(getCurrentUsername());
+        User u = userService.getFullUserByEmail(userService.getCurrentUsername());
         booking.setUser(u);
 
         return booking;
     }
 
-    boolean hasActiveBooking(){
-        Booking activeBooking = getActiveBookingFromUser();
-        return activeBooking != null;
+    private Apartment getApartment(Long apartmentId) {
+        Apartment a = apartmentService.getApartmentById(apartmentId);
+        if(a == null ){
+            throw new CustomMessageException("Nincs ilyen apartman");
+        }
+        return a;
     }
 
-    String getCurrentUsername(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserName = authentication.getName();
-            return currentUserName;
-        }
-        throw new CustomMessageException("Nincs bejelentkezett felhasználó!");
+    boolean hasActiveBooking(){
+        List<Booking> activeBookings = getActiveBookingFromUser();
+        return activeBookings.size()>0;
     }
+
+
 
     public List<Booking> getAllBookingFromUser() {
-        return bookingRepository.findAllOwnedByUsername(getCurrentUsername());
+        return bookingRepository.findAllOwnedByUsername(userService.getCurrentUsername());
     }
 
-    public Booking getActiveBookingFromUser() {
+    public List<Booking> getActiveBookingFromUser() {
         List<Booking> bookings = getAllBookingFromUser();
+        List<Booking> active = new ArrayList<Booking>();
         for(Booking b : bookings){
             if(b.getStatus() != BookingStatus.DELETED && b.getStatus() != BookingStatus.OUTDATED){
-                return b;
+                active.add(b);
             }
         }
-        return null;
+        return active;
     }
 
     public Booking changeBookingStatus(Long booking_id, BookingStatusChangeRequest request) {
@@ -123,13 +135,18 @@ public class BookingService {
         return b;
     }
 
-    public Booking cancelBooking(BookingStatusChangeRequest request) {
-        Booking b = getActiveBookingFromUser();
-        if(b.getStatus() == request.getNewStatus()){
-            return b;
+    public Booking cancelBooking(BookingStatusChangeRequest request, Long booking_id) {
+
+        List<Booking> bookings = getActiveBookingFromUser();
+        Booking b =null;
+        for(Booking booking : bookings){
+            if(b.getId() == booking_id) b = booking;
         }
         if(b == null ){
             throw new CustomMessageException("Nincs aktív foglalás");
+        }
+        if( b.getStatus() == request.getNewStatus()){
+            return b;
         }
         request.setNewStatus(BookingStatus.DELETED);
         b.setStatus(BookingStatus.DELETED);
@@ -145,5 +162,52 @@ public class BookingService {
         Booking b = bookingRepository.findById(booking_id).orElseThrow(() ->new CustomMessageException("Nem létezik foglalás ezzel az ID-val"));
         bookingRepository.deleteById(booking_id);
         //TODO email küldése??
+    }
+
+    public List<String> getDisabledDates(Long apartment_id, Boolean dogIncluded) {
+        Apartment a = getApartment(apartment_id);
+        List<Booking> bookings;
+        if(dogIncluded) {
+            // össze olyan foglalás az adott apartmanra, és minden kutyás foglalás a másik apartmanra
+            bookings = bookingRepository.findAllActiveByApartmentAndDogIncluded(apartment_id, true);
+        } else{
+            bookings = bookingRepository.findAllActiveByApartment(apartment_id);
+        }
+        Set<LocalDate> disabledDates = new HashSet<LocalDate>();
+        for(Booking b : bookings){
+            disabledDates.addAll(getDatesBetweenUsingJava9(b.getArrival(), incrementDateByOneDay(b.getDeparture())));
+        }
+        List<String> disabledDateStrings = disabledDates.stream()
+                .map(d -> d.toString())
+                .collect(Collectors.toList());
+        return disabledDateStrings;
+    }
+
+    private Date incrementDateByOneDay(Date d) {
+        Date dayAfter = new Date(d.getTime() + TimeUnit.DAYS.toMillis( 1 ));
+        return dayAfter;
+    }
+
+    public static List<LocalDate> getDatesBetweenUsingJava9(
+            Date start, Date end) {
+        LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        return startDate.datesUntil(endDate)
+                .collect(Collectors.toList());
+    }
+
+
+    public BookingListsDTO getBookingListsFromUser() {
+        BookingListsDTO dto = new BookingListsDTO();
+        List<Booking> bookings = getAllBookingFromUser();
+        for(Booking b : bookings){
+            if(b.getStatus() == BookingStatus.DELETED || b.getStatus() == BookingStatus.OUTDATED){
+                dto.addInactive(b);
+            }else{
+                dto.addActive(b);
+            }
+        }
+        return dto;
     }
 }

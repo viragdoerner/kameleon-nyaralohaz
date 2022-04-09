@@ -10,6 +10,9 @@ import kameleon.model.auth.RoleName;
 import kameleon.model.auth.User;
 import kameleon.model.auth.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -120,6 +123,30 @@ public class UserService {
     public void createVerificationToken(User user, String token) {
         VerificationToken myToken = new VerificationToken(token, user);
         tokenRepository.save(myToken);
+    }
+
+    public UserDTO getCurrentUser() {
+        String currentUsername = getCurrentUsername();
+        User user = userRepository.findByEmail(currentUsername).orElseThrow(() -> new RuntimeException("No user has been found with given email"));
+        return convertUser(user);
+    }
+
+    String getCurrentUsername(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = authentication.getName();
+            return currentUserName;
+        }
+        throw new CustomMessageException("Nincs bejelentkezett felhasználó!");
+    }
+
+    public void updateUser(UserDTO user) {
+        User u = userRepository.findByEmail(user.getEmail()).orElseThrow(() -> new RuntimeException("No user has been found with given email"));
+        u.setFirstName(user.getFirstname());
+        u.setLastName(user.getLastname());
+        u.setPhonenumber(user.getPhonenumber());
+
+        userRepository.save(u);
     }
 }
 

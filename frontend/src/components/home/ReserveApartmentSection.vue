@@ -43,7 +43,7 @@
               </v-row>
               <v-row>
                 <v-btn
-                  to="/reserve"
+                  @click="toBooking()"
                   elevation="2"
                   x-large
                   color="corange"
@@ -96,6 +96,10 @@ export default {
         .replace(/-+/g, "-"); // collapse dashes
 
       return str;
+    },
+    toBooking() {
+      this.$store.commit("selectApartmentId", this.apartment.id);
+      this.$router.push("/booking");
     },
   },
   computed: {
