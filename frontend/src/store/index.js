@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     snackbar: {},
     imgPath: "./images/apartments/",
-    bookingData: {}
+    bookingData: {},
+    selectedApartmentId: null
   },
   mutations: {
     showMessage(state, payload) {
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     },
     saveBookingData(state, payload) {
       state.bookingData = payload;
+    },
+    selectApartmentId(state, id) {
+      state.selectedApartmentId = id;
     },
   },
   actions: {
@@ -35,7 +39,16 @@ export default new Vuex.Store({
     },
     getBookingData: state => {
       return state.bookingData;
-    }
+    },
+    getSelectedApartmentId: state => {
+      return state.selectedApartmentId;
+    },
+    isApartmentSelected: state => {
+      return state.selectedApartmentId != null;
+    },
+    isAvailableBookingData: state => {
+      return Object.keys(state.bookingData).length !== 0;
+    },
   },
   modules: {
     auth

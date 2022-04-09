@@ -108,6 +108,15 @@ export default {
         .then((response) => {
           this.apartments = response.data;
           this.selectedApartment = this.apartments[0];
+          if (this.$store.getters.isApartmentSelected) {
+            var selectedId = this.$store.getters.getSelectedApartmentId;
+            this.$store.commit("selectApartmentId", null);
+            this.apartments.forEach((element) => {
+              if (element.id == selectedId) {
+                this.selectedApartment = element;
+              }
+            });
+          }
           this.dataChanged();
         })
         .catch((error) => {
@@ -170,8 +179,9 @@ export default {
     },
   },
   mounted() {
-    var bookingData = this.$store.getters.getBookingData;
-    if (bookingData) {
+    if (this.$store.getters.isAvailableBookingData) {
+      var bookingData = this.$store.getters.getBookingData;
+      this.$store.commit("saveBookingData", {});
       this.dogIncluded = bookingData.dogIncluded;
       this.dates = bookingData.dates;
       this.selectedApartment = bookingData.selectedApartment;
