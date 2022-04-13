@@ -30,6 +30,11 @@ class MomentService {
             ")"
         );
     }
+    formatDateTime(d) {
+        return (
+            moment(d).locale("hu").format("LLLL") 
+        );
+    }
     isGreatherThan(firstDate, secondDate) {
         return moment(firstDate) > moment(secondDate)
     }

@@ -80,6 +80,7 @@ public class BookingService {
         transition.setCreated(new Date());
         transition.setNewStatus(BookingStatus.TENTATIVE);
         transition.setEditor(userService.getCurrentFullUser());
+        transition.setBooking(booking);
         booking.addTransition(transition);
 
         Apartment a = getApartment(bookingRequest.getApartmentId());
