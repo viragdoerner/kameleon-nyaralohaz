@@ -12,6 +12,7 @@ import kameleon.model.apartman.ApartmentProperty;
 import kameleon.model.auth.User;
 import serializer.CustomApartmentSerializer;
 import serializer.CustomTransitionSerializer;
+import serializer.CustomUserSerializer;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -43,22 +44,28 @@ public class StatusTransition {
     @ManyToOne(fetch = FetchType.LAZY)
     private Booking booking;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonSerialize(using = CustomUserSerializer.class)
+    private User editor;
+
     public StatusTransition() {
     }
-    public StatusTransition(BookingStatusChangeRequest request, Booking b) {
+    public StatusTransition(BookingStatusChangeRequest request, Booking b, User editor) {
         this.comment = request.getComment();
         this.newStatus = request.getNewStatus();
         this.created = new Date();
         this.booking = b;
+        this.editor = editor;
     }
 
     public StatusTransition(@JsonProperty("comment") String comment, @JsonProperty("created") Date created,
                    @JsonProperty("newStatus") BookingStatus newStatus,
-                   @JsonProperty("booking") Booking booking ){
+                            @JsonProperty("booking") Booking booking, @JsonProperty("editor") User editor ){
         this.comment = comment;
         this.created = created;
         this.newStatus = newStatus;
         this.booking = booking;
+        this.editor = editor;
     }
 
     public Long getId() {
@@ -99,5 +106,13 @@ public class StatusTransition {
 
     public void setBooking(Booking booking) {
         this.booking = booking;
+    }
+
+    public User getEditor() {
+        return editor;
+    }
+
+    public void setEditor(User editor) {
+        this.editor = editor;
     }
 }

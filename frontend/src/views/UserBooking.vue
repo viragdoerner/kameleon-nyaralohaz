@@ -5,35 +5,29 @@
         Aktív foglalásaid
       </v-card-title>
       <v-card-text>
-          Jelenleg nincs foglalásod. Foglalni <span to="/booking" class="overline cgreen--text">ezen a linken</span> tudsz
+        <div v-if="active_bookings.length < 1">
+          Jelenleg nincs foglalásod. Foglalni
+          <span
+            ><v-btn text class="overline cgreen--text" href="/booking"
+              >ezen a linken</v-btn
+            ></span
+          >
+          tudsz
+        </div>
         <v-expansion-panels multiple>
           <v-expansion-panel v-for="(item, i) in active_bookings" :key="i">
             <v-expansion-panel-header>
               <template>
-                <v-row no-gutters v-if="item.status == 'TENTATIVE'">
+                <v-row no-gutters>
                   <v-col cols="1">
-                    <v-icon color="cyellow"> mdi-clock </v-icon>
-                  </v-col>
-                  <v-col cols="4" class="d-flex align-center">
-                    <div class="overline">Foglalás alatt</div>
-                  </v-col>
-                </v-row>
-                <v-row no-gutters v-if="item.status == 'BOOKED'">
-                  <v-col cols="1">
-                    <v-icon color="corange"> mdi-book </v-icon>
-                  </v-col>
-                  <v-col cols="4" class="d-flex align-center">
-                    <div class="overline">Lefoglalva, foglalóra vár</div>
-                  </v-col>
-                </v-row>
-                <v-row no-gutters v-if="item.status == 'PAID'">
-                  <v-col cols="1">
-                    <v-icon color="clightgreen">
-                      mdi-checkbox-marked-circle
+                    <v-icon :color="statusAttrs(item.status).color">
+                      {{ statusAttrs(item.status)["icon"] }}
                     </v-icon>
                   </v-col>
                   <v-col cols="4" class="d-flex align-center">
-                    <div class="overline">Lefoglalva, foglaló kifizetve</div>
+                    <div class="overline">
+                      {{ statusAttrs(item.status).title }}
+                    </div>
                   </v-col>
                 </v-row>
               </template>
@@ -44,7 +38,10 @@
           </v-expansion-panel>
         </v-expansion-panels>
       </v-card-text>
-      <v-card-title v-if="inactive_bookings.length>0" class="cgreen--text text-h4">
+      <v-card-title
+        v-if="inactive_bookings.length > 0"
+        class="cgreen--text text-h4"
+      >
         Lejárt foglalások
       </v-card-title>
       <v-card-text>
@@ -52,20 +49,16 @@
           <v-expansion-panel v-for="(item, i) in inactive_bookings" :key="i">
             <v-expansion-panel-header>
               <template>
-                <v-row no-gutters v-if="item.status == 'DELETED'">
+                <v-row no-gutters>
                   <v-col cols="1">
-                    <v-icon color="red"> mdi-close-circle </v-icon>
+                    <v-icon :color="statusAttrs(item.status).color">
+                      {{ statusAttrs(item.status)["icon"] }}
+                    </v-icon>
                   </v-col>
                   <v-col cols="4" class="d-flex align-center">
-                    <div class="overline">Törölve</div>
-                  </v-col>
-                </v-row>
-                <v-row no-gutters v-if="item.status == 'OUTDATED'">
-                  <v-col cols="1">
-                    <v-icon color="purple"> mdi-timer-sand-empty </v-icon>
-                  </v-col>
-                  <v-col cols="4" class="d-flex align-center">
-                    <div class="overline">Lejárt</div>
+                    <div class="overline">
+                      {{ statusAttrs(item.status).title }}
+                    </div>
                   </v-col>
                 </v-row>
               </template>
@@ -82,6 +75,7 @@
 
 <script>
 import ApiService from "../services/api.service";
+import BookingService from "../services/booking.service";
 
 export default {
   name: "CUserBooking",
@@ -125,7 +119,9 @@ export default {
           });
         });
     },
-
+    statusAttrs(status) {
+      return BookingService.bookingStatusAttrs(status);
+    },
     cancelBooking(item) {
       this.editedIndex = this.bookings.indexOf(item);
       this.editedItem = Object.assign({}, item);

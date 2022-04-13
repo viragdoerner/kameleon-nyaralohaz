@@ -36,6 +36,7 @@ public class BookingController {
         public BookingController(BookingService bookingService) {
             this.bookingService = bookingService;
         }
+
         @Secured("ROLE_ADMIN")
         @GetMapping
         public List<Booking> getAllBooking() {

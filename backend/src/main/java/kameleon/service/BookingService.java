@@ -79,6 +79,7 @@ public class BookingService {
         transition.setComment(bookingRequest.getComment());
         transition.setCreated(new Date());
         transition.setNewStatus(BookingStatus.TENTATIVE);
+        transition.setEditor(userService.getCurrentFullUser());
         booking.addTransition(transition);
 
         Apartment a = getApartment(bookingRequest.getApartmentId());
@@ -127,7 +128,7 @@ public class BookingService {
             return b;
         }
         b.setStatus(request.getNewStatus());
-        StatusTransition transition = new StatusTransition(request, b);
+        StatusTransition transition = new StatusTransition(request, b, userService.getCurrentFullUser());
         b.addTransition(transition);
         bookingRepository.save(b);
         transitionRepository.save(transition);
@@ -150,7 +151,7 @@ public class BookingService {
         }
         request.setNewStatus(BookingStatus.DELETED);
         b.setStatus(BookingStatus.DELETED);
-        StatusTransition transition = new StatusTransition(request, b);
+        StatusTransition transition = new StatusTransition(request, b, userService.getCurrentFullUser());
         b.addTransition(transition);
         bookingRepository.save(b);
         transitionRepository.save(transition);

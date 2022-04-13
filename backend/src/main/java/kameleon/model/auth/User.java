@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import kameleon.model.apartman.Property;
 import kameleon.model.auth.Role;
 import kameleon.model.booking.Booking;
+import kameleon.model.booking.StatusTransition;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;

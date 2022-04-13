@@ -126,9 +126,13 @@ public class UserService {
     }
 
     public UserDTO getCurrentUser() {
+        return convertUser(getCurrentFullUser());
+    }
+
+    public User getCurrentFullUser() {
         String currentUsername = getCurrentUsername();
         User user = userRepository.findByEmail(currentUsername).orElseThrow(() -> new RuntimeException("No user has been found with given email"));
-        return convertUser(user);
+        return user;
     }
 
     String getCurrentUsername(){

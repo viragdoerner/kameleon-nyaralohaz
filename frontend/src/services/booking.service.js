@@ -90,5 +90,45 @@ class BookingService {
         }
         return dates;
     }
+    bookingStatusAttrs(status) {
+        switch (status) {
+            case "TENTATIVE":
+                return {
+                    color: "cyellow",
+                    icon: "mdi-clock",
+                    title: "Foglalás alatt",
+                };
+            case "BOOKED":
+                return {
+                    color: "corange",
+                    icon: "mdi-book",
+                    title: "Lefoglalva, foglalóra vár",
+                };
+            case "PAID":
+                return {
+                    color: "clightgreen",
+                    icon: "mdi-checkbox-marked-circle",
+                    title: "Lefoglalva, foglaló kifizetve",
+                };
+            case "DELETED":
+                return {
+                    color: "red",
+                    icon: "mdi-close-circle",
+                    title: "Törölve",
+                };
+            case "OUTDATED":
+                return {
+                    color: "purple",
+                    icon: "mdi-timer-sand-empty",
+                    title: "Lejárt",
+                };
+            default:
+                return {
+                    color: "cyellow",
+                    icon: "mdi-clock",
+                    title: "Foglalás alatt",
+                };
+        }
+    }
 }
 export default new BookingService();
