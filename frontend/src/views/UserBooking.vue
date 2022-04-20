@@ -33,88 +33,7 @@
               </template>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-tabs vertical color="cgreen">
-                <v-tab class="d-flex justify-start caption">
-                  <v-icon small left> mdi-android-messages </v-icon>
-                  Leírás
-                </v-tab>
-                <v-tab class="d-flex justify-start caption">
-                  <v-icon small left> mdi-information </v-icon>
-                  Részletek
-                </v-tab>
-                <v-tab class="d-flex justify-start caption">
-                  <v-icon small left> mdi-history </v-icon>
-                  Történet
-                </v-tab>
-
-                <v-tab-item>
-                  <v-card flat>
-                    <v-card-text>
-                      <p>
-                        {{ statusAttrs(item.status, item).info }}
-                      </p>
-                    </v-card-text>
-                  </v-card>
-                </v-tab-item>
-                <v-tab-item>
-                  <v-card flat>
-                    <v-card-text>
-                      <v-simple-table>
-                        <template v-slot:default>
-                          <tbody>
-                            <tr>
-                              <td>Érkezés napja</td>
-                              <td>{{ formatDate(item.arrival) }}</td>
-                            </tr>
-                            <tr>
-                              <td>Távozás napja</td>
-                              <td>{{ formatDate(item.departure) }}</td>
-                            </tr>
-                            <tr>
-                              <td>Kutyussal jövünk</td>
-                              <td>{{ item.dogIncluded ? "Igen" : "Nem" }}</td>
-                            </tr>
-                            <tr>
-                              <td>Lefoglalt apartman</td>
-                              <td>{{ item.apartment.name }}</td>
-                            </tr>
-                            <tr>
-                              <td>Foglalás teljes ára</td>
-                              <td>{{ getTotalPrice(item) }} Ft</td>
-                            </tr>
-                          </tbody>
-                        </template>
-                      </v-simple-table>
-                    </v-card-text>
-                  </v-card>
-                </v-tab-item>
-                <v-tab-item>
-                  <v-card flat>
-                    <v-card-text>
-                      <v-timeline align-top dense>
-                        <v-timeline-item
-                          v-for="(transition, i) in item.transitions"
-                          :key="i"
-                          small
-                          fill-dot
-                          color="cgreen"
-                        >
-                          <v-row class="pt-1">
-                            <v-col cols="3">
-                              <strong>{{
-                                formatDateTime(transition.created)
-                              }}</strong>
-                            </v-col>
-                            <v-col>
-                              <strong>{{transition.newStatus}}</strong>
-                            </v-col>
-                          </v-row></v-timeline-item
-                        >
-                      </v-timeline>
-                    </v-card-text>
-                  </v-card>
-                </v-tab-item>
-              </v-tabs>
+              <booking-tabs :booking="item"></booking-tabs>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -145,7 +64,7 @@
               </template>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              {{ item.arrival }}
+              <booking-tabs :booking="item"></booking-tabs>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -156,12 +75,12 @@
 
 <script>
 import ApiService from "../services/api.service";
-import BookingService from "../services/booking.service";
-import MomentService from "../services/moment.service";
+import BookingDataService from "../services/bookingData.service";
+import BookingTabs from "../components/booking/BookingTabs.vue"
 
 export default {
   name: "CUserBooking",
-  components: {},
+  components: {BookingTabs},
   data: () => ({
     dialogCancel: false,
     active_bookings: [],
@@ -202,21 +121,8 @@ export default {
           });
         });
     },
-    getTotalPrice(booking) {
-      return BookingService.getTotalPriceForBooking(
-        booking.arrival,
-        booking.departure,
-        booking.apartment.price
-      );
-    },
-    formatDate(d) {
-      return MomentService.formatDate(d);
-    },
-    formatDateTime(d) {
-      return MomentService.formatDateTime(d);
-    },
     statusAttrs(status, booking) {
-      return BookingService.bookingStatusAttrs(status, booking);
+      return BookingDataService.bookingStatusAttrsForUser(status, booking);
     },
     cancelBooking(item) {
       this.editedIndex = this.bookings.indexOf(item);

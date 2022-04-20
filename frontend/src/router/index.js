@@ -15,7 +15,7 @@ const routes = [
     component: CHome
   },
   {
-    path: '/booking/',
+    path: '/booking',
     name: 'Booking',
     component: CBooking,
     props: { bookingData: {} }
@@ -46,7 +46,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const adminPages = ['/user-management'];
-  const userPages = ['/reserve', '/user-management'];
+  const userPages = ['/booking', '/user-management', '/user-booking'];
   const adminAuthRequired = adminPages.includes(to.path);
   const authRequired = userPages.includes(to.path);
 

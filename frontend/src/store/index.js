@@ -31,6 +31,9 @@ export default new Vuex.Store({
       }
       return false;
     },
+    getCurrentEmail: state => {
+      return state.user ?  state.user.username : "";
+    },
     loggedIn: state => {
       if (auth.state.status && auth.state.status.loggedIn) {
         return auth.state.status.loggedIn;
