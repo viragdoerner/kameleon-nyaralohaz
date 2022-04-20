@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -84,7 +85,7 @@ public class UserService {
         oldUser.setRoles(newRoles);
         return this.userRepository.save(oldUser);
     }*/
-
+   @Transactional
     public void deleteUserById(long id) throws CustomMessageException{
         User user = userRepository.findById(id).orElseThrow(() -> new CustomMessageException("Nincs felhasználó ilyen id-val!"));
         Role isAdmin = user.getRoles().stream().filter(x -> x.getName().equals(RoleName.ROLE_ADMIN)).findFirst().orElse(null);
@@ -97,6 +98,9 @@ public class UserService {
         }
 
         user.setRoles(null);
+        //VerificationToken token = tokenRepository.findByUser(user);
+        //token.setUser(null);
+        //this.tokenRepository.saveAndFlush(token);
         this.userRepository.saveAndFlush(user);
         this.userRepository.deleteById(id);
     }

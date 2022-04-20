@@ -1,10 +1,27 @@
 <template>
   <v-container fluid class="icons-container">
-    <v-row class="d-flex justify-center justify-md-space-between px-md-16 px-5 icons-container my-16">
+    <v-row
+      class="
+        d-flex
+        justify-center justify-md-space-between
+        px-md-16 px-5
+        icons-container
+        my-16
+      "
+    >
       <div
         v-for="(p, index) in properties"
         :key="p.id"
-        class="pa-md-2 px-4 py-6 d-flex align-center justify-start flex-column col-4 col-sm-2 col-md-1 "
+        class="
+          pa-md-2
+          px-4
+          py-6
+          d-flex
+          align-center
+          justify-start
+          flex-column
+          col-4 col-sm-2 col-md-1
+        "
       >
         <v-btn
           icon
@@ -14,7 +31,7 @@
           v-bind:style="{ color: colors[index % 5] }"
           ><v-icon x-large> {{ p.icon_name }} </v-icon>
         </v-btn>
-        <div class="cgreen--text ">{{ p.name }}</div>
+        <div class="cgreen--text">{{ p.name }}</div>
         <v-btn
           v-if="$store.getters.loggedIn && $store.getters.isAdmin"
           icon
@@ -24,20 +41,10 @@
           ><v-icon small> fa-close </v-icon>
         </v-btn>
       </div>
-      <v-dialog v-model="dialog" max-width="290">
-        <v-card>
-          <v-card-title> Biztos törölni szeretnéd? </v-card-title>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="cgreen darken-1" text @click="dialog = false">
-              Mégse
-            </v-btn>
-            <v-btn color="corange darken-1" text @click="deleteProperty()">
-              Törlés
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <confirm-dialog
+        :confirmDialog="confirmDialog"
+        v-on:confirm="deleteProperty"
+      ></confirm-dialog>
     </v-row>
     <v-container
       v-if="$store.getters.loggedIn && $store.getters.isAdmin"
@@ -88,7 +95,7 @@
               </v-col>
               <v-col cols="6" sm="6" md="1">
                 <v-icon large size="24px" color="cgreen">
-                  {{ 'fa-' + newProperty.icon_name }}
+                  {{ "fa-" + newProperty.icon_name }}
                 </v-icon>
               </v-col>
             </v-row>
@@ -112,32 +119,36 @@
 </template>
 
 <script>
+import ConfirmDialog from "../ConfirmDialog.vue";
 export default {
   name: "CIconList",
   props: ["properties"],
-  components: {},
+  components: { ConfirmDialog },
   data: () => ({
     colors: ["darkblue", "orange", "purple", "green", "darkred"],
     newProperty: {
       name: "",
       icon_name: "",
     },
-    dialog: false,
+    confirmDialog: {
+      isOpen: false,
+      text: "Biztosan törölni szeretnéd?",
+      confirmButton: "Törlés",
+    },
     propertyToBeRemoved: null,
     rules: {
       required: (value) => !!value || "Kötelező.",
     },
-    valid: true
+    valid: true,
   }),
   methods: {
     deleteProperty() {
-      this.dialog = false;
       this.$emit("delete-property", this.propertyToBeRemoved);
     },
 
     addProperty() {
       if (this.$refs.loginForm.validate()) {
-        this.newProperty.icon_name = 'fa-' + this.newProperty.icon_name
+        this.newProperty.icon_name = "fa-" + this.newProperty.icon_name;
         this.$emit("add-property", this.newProperty);
         this.newProperty = {
           name: "",
@@ -146,7 +157,7 @@ export default {
       }
     },
     openDialog(p) {
-      this.dialog = true;
+      this.confirmDialog.isOpen = true;
       this.propertyToBeRemoved = p;
     },
   },

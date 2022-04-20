@@ -9,7 +9,6 @@
           @close="index = null"
         />
 
-        
         <v-col
           v-for="(pic, thumbIndex) in pictures"
           :key="thumbIndex"
@@ -19,7 +18,8 @@
             :src="$store.state.imgPath + pic"
             :lazy-src="`https://picsum.photos/10/6?image=${index * 5 + 10}`"
             aspect-ratio="1"
-            class="grey lighten-2" id="picture"
+            class="grey lighten-2"
+            id="picture"
             @click="index = thumbIndex"
           >
             <v-app-bar
@@ -44,35 +44,29 @@
         </v-col>
       </v-row>
     </div>
-    <v-dialog v-model="dialog" max-width="290">
-      <v-card>
-        <v-card-title> Biztos törölni szeretnéd? </v-card-title>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="cgreen darken-1" text @click="dialog = false">
-            Mégse
-          </v-btn>
-          <v-btn color="corange darken-1" text @click="deletePicture()">
-            Törlés
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <confirm-dialog :confirmDialog="confirmDialog"
+        v-on:confirm="deletePicture"></confirm-dialog>
   </div>
 </template>
 
 <script>
 import { LightGallery } from "vue-light-gallery";
+import ConfirmDialog from "../components/ConfirmDialog.vue";
 export default {
   name: "CGallery",
   props: ["pictures"],
   components: {
     LightGallery,
+    ConfirmDialog,
   },
   data() {
     return {
       index: null,
-      dialog: false,
+      confirmDialog: {
+        isOpen: false,
+        text: "Biztosan törölni szeretnéd?",
+        confirmButton: "Törlés"
+      },
       pictureToBeRemoved: null,
     };
   },
@@ -80,11 +74,10 @@ export default {
   methods: {
     deletePicture() {
       this.$emit("delete-picture", this.pictureToBeRemoved);
-       this.dialog = false;
     },
     openDialog(e, pic) {
       e.stopImmediatePropagation();
-      this.dialog = true;
+      this.confirmDialog.isOpen = true;
       this.pictureToBeRemoved = pic;
     },
   },
@@ -101,7 +94,7 @@ export default {
 </script>
 
 <style>
-#picture{
+#picture {
   cursor: pointer;
 }
 </style>
