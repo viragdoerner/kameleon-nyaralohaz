@@ -31,6 +31,7 @@ export default {
   name: "CAdminBooking",
   components: {ConfirmDialog},
   data: () => ({
+    bookingToBeRemoved = {},
     confirmDialog: {
         isOpen: false,
         text: "Biztosan törölni szeretnéd?",

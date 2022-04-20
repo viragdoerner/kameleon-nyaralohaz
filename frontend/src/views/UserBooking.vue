@@ -29,12 +29,30 @@
                       {{ statusAttrs(item.status, item).status }}
                     </div>
                   </v-col>
-                  
                 </v-row>
               </template>
             </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            <v-expansion-panel-content class="d-flex flex-column">
               <booking-tabs :booking="item"></booking-tabs>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="openDialog(item)"
+                    elevation="2"
+                    small
+                    color="white"
+                    class="mt-auto align-self-end"
+                    ><v-icon left color="red"> fa-ban </v-icon>FOGLALÁS
+                    LEMONDÁSA
+                  </v-btn>
+                </template>
+                <span class="text-caption"
+                  ><p class="mb-0">Meglévő foglalást bármikor lemondhatsz,</p>
+                  de a befizetett foglaló nem kerül visszafizetésre.</span
+                >
+              </v-tooltip>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -64,13 +82,37 @@
                 </v-row>
               </template>
             </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            <v-expansion-panel-content class="d-flex flex-column">
               <booking-tabs :booking="item"></booking-tabs>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="openDialog(item)"
+                    elevation="2"
+                    small
+                    color="white"
+                    class="mt-auto align-self-end"
+                    ><v-icon left color="red"> fa-ban </v-icon>FOGLALÁS
+                    LEMONDÁSA
+                  </v-btn>
+                </template>
+                <span class="text-caption"
+                  ><p class="mb-0">Meglévő foglalást bármikor lemondhatsz,</p>
+                  de a befizetett foglaló nem kerül visszafizetésre.</span
+                >
+              </v-tooltip>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
       </v-card-text>
     </v-card>
+    
+    <confirm-dialog
+      :confirmDialog="confirmDialog"
+      v-on:confirm="cancelBooking()"
+    ></confirm-dialog>
   </v-container>
 </template>
 
@@ -78,28 +120,22 @@
 import ApiService from "../services/api.service";
 import BookingDataService from "../services/bookingData.service";
 import BookingTabs from "../components/booking/BookingTabs.vue";
+import bookingService from "../services/booking.service";
+import ConfirmDialog from "../components/ConfirmDialog.vue";
 
 export default {
   name: "CUserBooking",
-  components: { BookingTabs },
+  components: { BookingTabs, ConfirmDialog },
   data: () => ({
-    dialogCancel: false,
     active_bookings: [],
     inactive_bookings: [],
-    editedIndex: -1,
-    editedItem: {
-      email: "",
-      lastname: 0,
-      firstname: 0,
-      phonenumber: 0,
+    confirmDialog: {
+      isOpen: false,
+      text: "Biztosan le szeretnéd mondani a foglalást? Amennyiben már kifizetted a foglalót az nem jár vissza.",
+      confirmButton: "Törlés",
     },
+    bookingToBeRemoved: {},
   }),
-
-  watch: {
-    dialogCancel(val) {
-      val || this.closeCancel();
-    },
-  },
 
   created() {
     this.initialize();
@@ -125,17 +161,22 @@ export default {
     statusAttrs(status, booking) {
       return BookingDataService.bookingStatusAttrsForUser(status, booking);
     },
-    cancelBooking(item) {
-      this.editedIndex = this.bookings.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialogCancel = true;
+    openDialog(item) {
+      console.log(item);
+      this.confirmDialog.isOpen = true;
+      this.bookingToBeRemoved = item;
+      console.log(this.bookingToBeRemoved);
     },
-
-    cancelBookingConfirm() {
-      this.closeCancel();
-      ApiService.PUT("booking/cancel/" + this.editedItem.id)
+    cancelBooking() {
+      console.log(this.bookingToBeRemoved);
+      ApiService.PUT("booking/cancel/" + this.bookingToBeRemoved.id, )
         .then((response) => {
-          this.users.splice(this.editedIndex, 1);
+          this.active_bookings = this.active_bookings.filter(function (b) {
+            return b.id !== bookingService.id;
+          });
+          this.inactive_bookings = this.active_bookings.filter(function (b) {
+            return b.id !== b.id;
+          });
           this.$store.commit("showMessage", {
             active: true,
             color: "success", // You can create another actions for diferent color.
@@ -150,14 +191,6 @@ export default {
               "Nem sikerült lemondani a foglalást. Próbáld újra, vagy mondd le telefonon vagy emailben!",
           });
         });
-    },
-
-    closeCancel() {
-      this.dialogCancel = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
     },
   },
 };
