@@ -130,7 +130,7 @@ public class BookingService {
         }
         b.setStatus(request.getNewStatus());
         StatusTransition transition = new StatusTransition(request, b, userService.getCurrentFullUser());
-        b.addTransition(transition);
+        //b.addTransition(transition);
         bookingRepository.save(b);
         transitionRepository.save(transition);
         //TODO emailek küldése

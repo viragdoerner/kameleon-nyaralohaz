@@ -15,10 +15,25 @@
 
     <v-tab-item>
       <v-card flat>
-        <v-card-text>
+        <v-card-text class="d-flex flex-column">
           <p>
             {{ statusAttrs(booking.status, booking).info }}
           </p>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                v-bind="attrs"
+                v-on="on"
+                @click="cancelBooking()"
+                elevation="2"
+                small
+                color="white"
+                class="mt-auto align-self-end"
+                ><v-icon left color="red"> fa-ban </v-icon>FOGLALÁS LEMONDÁSA
+              </v-btn>
+            </template>
+            <span class="text-caption"><p class="mb-0">Meglévő foglalást bármikor lemondhatsz, </p> de a befizetett foglaló nem kerül visszafizetésre.</span>
+          </v-tooltip>
         </v-card-text>
       </v-card>
     </v-tab-item>
@@ -66,13 +81,17 @@
               color="cgreen"
             >
               <v-row class="pt-1">
-                <v-col cols="3">
+                <v-col cols="4">
                   <strong>{{ formatDateTime(transition.created) }}</strong>
+                  <p class="text-caption mb-2">{{ transition.editor.email }}</p>
                 </v-col>
                 <v-col>
-                  <strong>{{statusTransition(transition,) }}</strong>
-                  <div class="text-caption mb-2" >{{transition.editor.email}}</div>
-                  <div class="text-caption mb-2">{{transition.editor.comment}}</div>
+                  <strong>{{
+                    statusAttrs(transition.newStatus, booking).status
+                  }}</strong>
+                  <p class="text-caption mb-2" readonly>
+                    {{ transition.comment }}
+                  </p>
                 </v-col>
               </v-row></v-timeline-item
             >

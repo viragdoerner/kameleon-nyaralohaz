@@ -73,7 +73,7 @@ public class BookingController {
 
         @Secured("ROLE_ADMIN")
         @DeleteMapping(path = "/{booking_id}")
-        public ResponseEntity<?> cancelBooking(@PathVariable("booking_id") Long booking_id) {
+        public ResponseEntity<?> deleteBooking(@PathVariable("booking_id") Long booking_id) {
             try {
                 bookingService.deleteBooking(booking_id);
             } catch (CustomMessageException e) {

@@ -26,9 +26,10 @@
                   </v-col>
                   <v-col cols="4" class="d-flex align-center">
                     <div class="overline">
-                      {{ statusAttrs(item.status, item).title }}
+                      {{ statusAttrs(item.status, item).status }}
                     </div>
                   </v-col>
+                  
                 </v-row>
               </template>
             </v-expansion-panel-header>
@@ -57,7 +58,7 @@
                   </v-col>
                   <v-col cols="4" class="d-flex align-center">
                     <div class="overline">
-                      {{ statusAttrs(item.status, item).title }}
+                      {{ statusAttrs(item.status, item).status }}
                     </div>
                   </v-col>
                 </v-row>
@@ -76,11 +77,11 @@
 <script>
 import ApiService from "../services/api.service";
 import BookingDataService from "../services/bookingData.service";
-import BookingTabs from "../components/booking/BookingTabs.vue"
+import BookingTabs from "../components/booking/BookingTabs.vue";
 
 export default {
   name: "CUserBooking",
-  components: {BookingTabs},
+  components: { BookingTabs },
   data: () => ({
     dialogCancel: false,
     active_bookings: [],
