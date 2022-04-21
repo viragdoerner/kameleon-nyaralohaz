@@ -7,36 +7,36 @@ import java.util.List;
 
 public class BookingListsDTO {
 
-    private List<Booking> active;
+    private List<BookingDTO> active;
 
-    private List<Booking> inactive;
+    private List<BookingDTO> inactive;
 
     public BookingListsDTO() {
-        this.active = new ArrayList<Booking>();
-        this.inactive = new ArrayList<Booking>();
+        this.active = new ArrayList<BookingDTO>();
+        this.inactive = new ArrayList<BookingDTO>();
     }
 
-    public List<Booking> getActive() {
+    public List<BookingDTO> getActive() {
         return active;
     }
 
-    public void setActive(List<Booking> active) {
+    public void setActive(List<BookingDTO> active) {
         this.active = active;
     }
 
-    public void addActive(Booking b) {
+    public void addActive(BookingDTO b) {
         this.active.add(b);
     }
 
-    public void addInactive(Booking b) {
+    public void addInactive(BookingDTO b) {
         this.inactive.add(b);
     }
 
-    public List<Booking> getInactive() {
+    public List<BookingDTO> getInactive() {
         return inactive;
     }
 
-    public void setInactive(List<Booking> inactive) {
+    public void setInactive(List<BookingDTO> inactive) {
         this.inactive = inactive;
     }
 }

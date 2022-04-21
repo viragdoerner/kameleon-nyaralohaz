@@ -3,9 +3,7 @@ package kameleon.service;
 import exception.CustomMessageException;
 import kameleon.dao.BookingRepository;
 import kameleon.dao.StatusTransitionRepository;
-import kameleon.dto.BookingListsDTO;
-import kameleon.dto.BookingRequest;
-import kameleon.dto.BookingStatusChangeRequest;
+import kameleon.dto.*;
 import kameleon.model.apartman.Apartment;
 import kameleon.model.auth.User;
 import kameleon.model.booking.Booking;
@@ -41,11 +39,11 @@ public class BookingService {
         this.apartmentService = as;
     }
 
-    public List<Booking> getAllBooking() {
-        return bookingRepository.findAll();
+    public List<BookingDTO> getAllBooking() {
+        return bookingRepository.findAll().stream().map(b -> convertBookingToDTO(b)).collect(Collectors.toList());
     }
 
-    public Booking bookApartment(BookingRequest bookingRequest) {
+    public BookingDTO bookApartment(BookingRequest bookingRequest) {
         //TODO check if the date is free in that apartment, and if dog also the other apartment is without a dog
         Date today = new Date();
         if(bookingRequest.getArrival().compareTo(today) == -1){
@@ -65,7 +63,7 @@ public class BookingService {
 
         //TODO email admin
         //TODO email user
-        return booking;
+        return convertBookingToDTO(booking);
     }
 
     private Booking createBookingFromRequest(BookingRequest bookingRequest) {
@@ -121,12 +119,12 @@ public class BookingService {
         return active;
     }
 
-    public Booking changeBookingStatus(Long booking_id, BookingStatusChangeRequest request) {
+    public BookingDTO changeBookingStatus(Long booking_id, BookingStatusChangeRequest request) {
         //státusz módosíása
         //statustransition létrehozása
         Booking b = bookingRepository.findById(booking_id).orElseThrow(() ->new CustomMessageException("Nem létezik foglalás ezzel az ID-val"));
         if(b.getStatus() == request.getNewStatus()){
-            return b;
+            return convertBookingToDTO(b);
         }
         b.setStatus(request.getNewStatus());
         StatusTransition transition = new StatusTransition(request, b, userService.getCurrentFullUser());
@@ -134,30 +132,30 @@ public class BookingService {
         bookingRepository.save(b);
         transitionRepository.save(transition);
         //TODO emailek küldése
-        return b;
+        return convertBookingToDTO(b);
     }
 
-    public Booking cancelBooking(BookingStatusChangeRequest request, Long booking_id) {
+    public BookingDTO cancelBooking(BookingStatusChangeRequest request, Long booking_id) {
 
         List<Booking> bookings = getActiveBookingFromUser();
         Booking b =null;
         for(Booking booking : bookings){
-            if(b.getId() == booking_id) b = booking;
+            if(booking.getId() == booking_id) b = booking;
         }
         if(b == null ){
             throw new CustomMessageException("Nincs aktív foglalás");
         }
         if( b.getStatus() == request.getNewStatus()){
-            return b;
+            return convertBookingToDTO(b);
         }
         request.setNewStatus(BookingStatus.DELETED);
         b.setStatus(BookingStatus.DELETED);
         StatusTransition transition = new StatusTransition(request, b, userService.getCurrentFullUser());
-        b.addTransition(transition);
+        //b.addTransition(transition);
         bookingRepository.save(b);
         transitionRepository.save(transition);
         //TODO emailek küldése
-        return b;
+        return convertBookingToDTO(b);
     }
 
     public void deleteBooking(Long booking_id) {
@@ -205,11 +203,15 @@ public class BookingService {
         List<Booking> bookings = getAllBookingFromUser();
         for(Booking b : bookings){
             if(b.getStatus() == BookingStatus.DELETED || b.getStatus() == BookingStatus.OUTDATED){
-                dto.addInactive(b);
+                dto.addInactive(convertBookingToDTO(b));
             }else{
-                dto.addActive(b);
+                dto.addActive(convertBookingToDTO(b));
             }
         }
+        return dto;
+    }
+    public BookingDTO convertBookingToDTO(Booking b) {
+        BookingDTO dto = new BookingDTO(b);
         return dto;
     }
 }

@@ -64,7 +64,7 @@ export default {
       index: null,
       confirmDialog: {
         isOpen: false,
-        text: "Biztosan törölni szeretnéd?",
+        title: "Biztosan törölni szeretnéd?",
         confirmButton: "Törlés"
       },
       pictureToBeRemoved: null,

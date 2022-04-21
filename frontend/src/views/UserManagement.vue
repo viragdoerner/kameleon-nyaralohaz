@@ -33,7 +33,7 @@ export default {
   data: () => ({
     confirmDialog: {
       isOpen: false,
-      text: "Biztosan törölni szeretnéd?",
+      title: "Biztosan törölni szeretnéd?",
       confirmButton: "Törlés",
     },
     headers: [

@@ -1,6 +1,7 @@
 package kameleon.api;
 
 import exception.CustomMessageException;
+import kameleon.dto.BookingDTO;
 import kameleon.dto.BookingListsDTO;
 import kameleon.dto.BookingRequest;
 import kameleon.dto.BookingStatusChangeRequest;
@@ -39,7 +40,7 @@ public class BookingController {
 
         @Secured("ROLE_ADMIN")
         @GetMapping
-        public List<Booking> getAllBooking() {
+        public List<BookingDTO> getAllBooking() {
             return bookingService.getAllBooking();
         }
 
@@ -52,22 +53,22 @@ public class BookingController {
 
         @Secured("ROLE_USER")
         @PostMapping
-        public Booking bookApartment(@RequestBody BookingRequest booking) {
-            Booking b =bookingService.bookApartment(booking);
+        public BookingDTO bookApartment(@RequestBody BookingRequest booking) {
+            BookingDTO b =bookingService.bookApartment(booking);
             return b;
         }
 
         @Secured("ROLE_ADMIN")
         @PutMapping(path = "/{booking_id}")
-        public Booking bookApartment(@PathVariable("booking_id") Long booking_id, @RequestBody BookingStatusChangeRequest request) {
-            Booking b =bookingService.changeBookingStatus(booking_id, request);
+        public BookingDTO bookApartment(@PathVariable("booking_id") Long booking_id, @RequestBody BookingStatusChangeRequest request) {
+            BookingDTO b =bookingService.changeBookingStatus(booking_id, request);
             return b;
         }
 
         @Secured("ROLE_USER")
         @PutMapping(path = "/cancel/{booking_id}")
-        public Booking cancelBooking(@PathVariable("booking_id") Long booking_id, @RequestBody BookingStatusChangeRequest request) {
-            Booking b =bookingService.cancelBooking(request, booking_id);
+        public BookingDTO cancelBooking(@PathVariable("booking_id") Long booking_id, @RequestBody BookingStatusChangeRequest request) {
+            BookingDTO b =bookingService.cancelBooking(request, booking_id);
             return b;
         }
 

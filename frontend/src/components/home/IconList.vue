@@ -132,7 +132,7 @@ export default {
     },
     confirmDialog: {
       isOpen: false,
-      text: "Biztosan törölni szeretnéd?",
+      title: "Biztosan törölni szeretnéd?",
       confirmButton: "Törlés",
     },
     propertyToBeRemoved: null,

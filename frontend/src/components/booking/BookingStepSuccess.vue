@@ -93,7 +93,7 @@
       </v-row>
     </v-card-text>
     <v-card-actions>
-      <v-btn color="cyellow" to="/" class="white--text"> OK! </v-btn>
+      <v-btn color="cyellow" to="/user-booking" class="white--text"> OK! </v-btn>
     </v-card-actions>
   </v-card>
 </template>
