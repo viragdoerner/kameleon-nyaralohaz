@@ -10,16 +10,19 @@
 
       <v-menu bottom left>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn  icon v-bind="attrs" v-on="on">
+          <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-account</v-icon>
           </v-btn>
         </template>
         <v-list>
           <v-list-item>
-            <v-btn  text @click="logout"> Kijelentkezés </v-btn>
+            <v-btn text @click="logout"> Kijelentkezés </v-btn>
           </v-list-item>
           <v-list-item>
-            <v-btn  text to="/user-booking"> Foglalásaim</v-btn>
+            <v-btn text to="/admin-booking"> Foglalások</v-btn>
+          </v-list-item>
+          <v-list-item>
+            <v-btn text to="/user-booking"> Foglalásaim</v-btn>
           </v-list-item>
         </v-list>
       </v-menu>

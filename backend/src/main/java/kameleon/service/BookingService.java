@@ -40,8 +40,17 @@ public class BookingService {
         this.apartmentService = as;
     }
 
-    public List<BookingDTO> getAllBooking() {
-        return bookingRepository.findAll().stream().map(b -> convertBookingToDTO(b)).collect(Collectors.toList());
+    public BookingListsDTO getAllBooking() {
+        BookingListsDTO dto = new BookingListsDTO();
+        List<Booking> bookings = bookingRepository.findAll();
+        for(Booking b : bookings){
+            if(b.getStatus() == BookingStatus.DELETED || b.getStatus() == BookingStatus.OUTDATED){
+                dto.addInactive(convertBookingToDTO(b));
+            }else{
+                dto.addActive(convertBookingToDTO(b));
+            }
+        }
+        return dto;
     }
 
     @Transactional

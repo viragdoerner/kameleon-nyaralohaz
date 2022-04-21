@@ -5,6 +5,7 @@ import CBooking from '../views/Booking.vue'
 import CLogin from '../views/Login.vue'
 import CUserManagement from '../views/UserManagement.vue'
 import CUserBooking from '../views/UserBooking.vue'
+import CAdminBooking from '../views/AdminBooking.vue'
 
 Vue.use(VueRouter)
 
@@ -34,6 +35,11 @@ const routes = [
     path: '/user-booking',
     name: 'User Booking',
     component: CUserBooking
+  },
+  {
+    path: '/admin-booking',
+    name: 'Admin Booking',
+    component: CAdminBooking
   }
 ]
 
@@ -45,7 +51,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const adminPages = ['/user-management'];
+  const adminPages = ['/user-management', '/admin-booking'];
   const userPages = ['/booking', '/user-management', '/user-booking'];
   const adminAuthRequired = adminPages.includes(to.path);
   const authRequired = userPages.includes(to.path);

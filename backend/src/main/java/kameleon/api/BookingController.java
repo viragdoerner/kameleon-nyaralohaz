@@ -40,7 +40,7 @@ public class BookingController {
 
         @Secured("ROLE_ADMIN")
         @GetMapping
-        public List<BookingDTO> getAllBooking() {
+        public BookingListsDTO getAllBooking() {
             return bookingService.getAllBooking();
         }
 

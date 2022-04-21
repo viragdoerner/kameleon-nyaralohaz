@@ -1,120 +1,97 @@
 <template>
-  <v-container class="d-flex justify-center pb-10">
-    <v-data-table :headers="headers" :items="users" class="elevation-1 col-12">
-      <template v-slot:top>
-        <v-toolbar flat>
-          <v-toolbar-title>Felhasználók</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider>
-          <v-spacer></v-spacer>
-          <confirm-dialog
-            :confirmDialog="confirmDialog"
-            v-on:confirm="deleteItemConfirm"
-            v-on:cancel="closeDelete"
-          ></confirm-dialog>
-        </v-toolbar>
-      </template>
-      <template v-slot:item.actions="{ item }">
-        <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
-      </template>
-      <template v-slot:no-data>
-        <v-btn color="primary" @click="initialize"> Reset </v-btn>
-      </template>
-    </v-data-table>
+  <v-container class="d-flex justify-center pb-10 flex-column">
+    <div class="cgreen--text text-h3 py-3 pt-5">Összes foglalás</div>
+    <v-tabs
+      v-model="tab"
+      background-color="cbggreen"
+      color="cgreen"
+      center-active
+    >
+      <v-tabs-slider color="yellow"></v-tabs-slider>
+
+      <v-tab> Aktív</v-tab>
+      <v-tab> Inaktív </v-tab>
+    </v-tabs>
+
+    <v-card class="col-12">
+      <v-tabs-items v-model="tab">
+        <v-tab-item>
+          <div v-if="active_bookings.length < 1">
+            Jelenleg nincs egy foglalás sem.
+          </div>
+          <div v-else>
+            <admin-booking-table
+              :bookings="active_bookings"
+              :active="true"
+              v-on:activeStateChanged="addToInactive"
+            ></admin-booking-table>
+          </div>
+        </v-tab-item>
+        <v-tab-item>
+          <div v-if="inactive_bookings.length < 1">
+            Jelenleg nincs egy lejárt/törölt foglalás sem.
+          </div>
+          <div v-else>
+            <admin-booking-table
+              :bookings="inactive_bookings"
+              :active="true"
+            ></admin-booking-table>
+          </div>
+        </v-tab-item>
+      </v-tabs-items>
+    </v-card>
   </v-container>
 </template>
 
 <script>
 import ApiService from "../services/api.service";
-import ConfirmDialog from "../components/ConfirmDialog.vue";
+import BookingDataService from "../services/bookingData.service";
+import AdminBookingTable from "../components/booking/AdminBookingTable.vue";
 
 export default {
   name: "CAdminBooking",
-  components: {ConfirmDialog},
+  components: { AdminBookingTable },
   data: () => ({
-    bookingToBeRemoved = {},
-    confirmDialog: {
-        isOpen: false,
-        title: "Biztosan törölni szeretnéd?",
-        confirmButton: "Törlés"
-    },
-    headers: [
-      { text: "Email", value: "email" },
-      {
-        text: "Vezetéknév",
-        align: "start",
-        value: "lastname",
-      },
-      { text: "Keresztnév", value: "firstname" },
-      { text: "Telefonszám", sortable: false, value: "phonenumber" },
-      { text: "", value: "actions", sortable: false },
-    ],
-    bookings: [],
-    editedIndex: -1,
-    editedItem: {
-      email: "",
-      lastname: 0,
-      firstname: 0,
-      phonenumber: 0,
-    },
+    active_bookings: [],
+    inactive_bookings: [],
+    tab: null,
   }),
-
-  watch: {
-    confirmDialog(val) {
-      val || this.closeDelete();
-    },
-  },
 
   created() {
     this.initialize();
   },
-
-  mounted() {},
   methods: {
-    initialize() {
-      ApiService.GET("user")
-        .then((response) => {
-          this.users = response.data;
-        })
-        .catch((error) => {
-          this.$store.commit("showMessage", {
-            active: true,
-            color: "error", // You can create another actions for diferent color.
-            message: "Hiba történt a felhasználók adatainak lekérésénél",
-          });
-        });
-    },
-
-    deleteItem(item) {
-      this.editedIndex = this.users.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.confirmDialog.isOpen = true;
-    },
-
-    deleteItemConfirm() {
-      this.closeDelete();
-      ApiService.DELETE("user/" + this.editedItem.id)
-        .then((response) => {
-          this.users.splice(this.editedIndex, 1);
-          this.$store.commit("showMessage", {
-            active: true,
-            color: "success", // You can create another actions for diferent color.
-            message: "Sikeres törlés",
-          });
-        })
-        .catch((error) => {
-          this.$store.commit("showMessage", {
-            active: true,
-            color: "error", // You can create another actions for diferent color.
-            message: "Nem sikerült törölni a felhasználót",
-          });
-        });
-    },
-
-    closeDelete() {
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
+    addToInactive(b) {
+      console.log(b);
+      this.active_bookings = this.active_bookings.filter(function (booking) {
+        return booking.id !== b.id;
       });
+      this.inactive_bookings.push(b);
+    },
+    addToActive(b) {
+      this.inactive_bookings = this.inactive_bookings.filter(function (
+        booking
+      ) {
+        return booking.id !== b.id;
+      });
+      this.active_bookings.push(b);
+    },
+    initialize() {
+      ApiService.GET("booking")
+        .then((response) => {
+          this.active_bookings = response.data.active;
+          this.inactive_bookings = response.data.inactive;
+        })
+        .catch((error) => {
+          this.$store.commit("showMessage", {
+            active: true,
+            color: "error",
+            message: "Hiba történt a foglalások adatainak lekérésénél",
+          });
+        });
+    },
+    statusAttrs(status, booking) {
+      return BookingDataService.bookingStatusAttrsForUser(status, booking);
     },
   },
 };
