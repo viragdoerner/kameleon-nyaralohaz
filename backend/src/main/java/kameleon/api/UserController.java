@@ -49,7 +49,7 @@ public class UserController {
         try {
             this.userService.updateUser(user);
         } catch (Exception e) {
-            return new ResponseEntity<>("Data update failed",
+            return new ResponseEntity<>("Data update failed: " + e.getMessage(),
                     HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("User info successfuly updated",

@@ -60,7 +60,7 @@ public class BookingController {
 
         @Secured("ROLE_ADMIN")
         @PutMapping(path = "/{booking_id}")
-        public BookingDTO bookApartment(@PathVariable("booking_id") Long booking_id, @RequestBody BookingStatusChangeRequest request) {
+        public BookingDTO changeBookingStatus(@PathVariable("booking_id") Long booking_id, @RequestBody BookingStatusChangeRequest request) {
             BookingDTO b =bookingService.changeBookingStatus(booking_id, request);
             return b;
         }

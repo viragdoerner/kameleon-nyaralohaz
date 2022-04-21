@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -43,6 +44,7 @@ public class BookingService {
         return bookingRepository.findAll().stream().map(b -> convertBookingToDTO(b)).collect(Collectors.toList());
     }
 
+    @Transactional
     public BookingDTO bookApartment(BookingRequest bookingRequest) {
         //TODO check if the date is free in that apartment, and if dog also the other apartment is without a dog
         Date today = new Date();
@@ -119,6 +121,7 @@ public class BookingService {
         return active;
     }
 
+    @Transactional
     public BookingDTO changeBookingStatus(Long booking_id, BookingStatusChangeRequest request) {
         //státusz módosíása
         //statustransition létrehozása
@@ -135,6 +138,7 @@ public class BookingService {
         return convertBookingToDTO(b);
     }
 
+    @Transactional
     public BookingDTO cancelBooking(BookingStatusChangeRequest request, Long booking_id) {
 
         List<Booking> bookings = getActiveBookingFromUser();
@@ -158,6 +162,7 @@ public class BookingService {
         return convertBookingToDTO(b);
     }
 
+    @Transactional
     public void deleteBooking(Long booking_id) {
         Booking b = bookingRepository.findById(booking_id).orElseThrow(() ->new CustomMessageException("Nem létezik foglalás ezzel az ID-val"));
         bookingRepository.deleteById(booking_id);

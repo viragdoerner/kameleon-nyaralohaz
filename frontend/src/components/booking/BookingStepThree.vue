@@ -130,6 +130,7 @@ export default {
   }),
   methods: {
     finishStepThree() {
+      this.booking["comment"]= this.comment;
       ApiService.POST("booking", this.booking)
         .then((response) => {
           this.$emit("next-step", response.data);

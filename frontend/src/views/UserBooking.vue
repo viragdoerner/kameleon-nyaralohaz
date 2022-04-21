@@ -8,7 +8,7 @@
         <div v-if="active_bookings.length < 1">
           Jelenleg nincs foglalásod. Foglalni
           <span
-            ><v-btn text class="overline cgreen--text" href="/booking"
+            ><v-btn text class="overline cgreen--text" to="/booking"
               >ezen a linken</v-btn
             ></span
           >
