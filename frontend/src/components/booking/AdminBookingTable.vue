@@ -1,49 +1,101 @@
 <template>
   <div>
-    <v-expansion-panels multiple>
-      <v-expansion-panel v-for="(item, i) in bookings" :key="i">
-        <v-expansion-panel-header>
-          <template>
-            <v-row no-gutters>
-              <v-col cols="1">
-                <v-icon :color="statusAttrs(item.status, item).color">
-                  {{ statusAttrs(item.status, item)["icon"] }}
-                </v-icon>
-              </v-col>
-              <v-col cols="4" class="d-flex align-center">
-                <div class="overline">
-                  {{ statusAttrs(item.status, item).status }}
-                </div>
-              </v-col>
-            </v-row>
+    <v-data-table
+      :headers="headers"
+      :items="bookings"
+      :single-expand="singleExpand"
+      :expanded.sync="expanded"
+      item-key="id"
+      show-expand
+      class="elevation-1 col-12"
+    >
+      <template v-slot:top>
+        <v-toolbar flat>
+          <v-toolbar-title>Felhasználók</v-toolbar-title>
+          <v-divider class="mx-4" inset vertical></v-divider>
+          <v-spacer></v-spacer>
+          <confirm-dialog
+            :confirmDialog="confirmDialog"
+            v-on:confirm="cancelBooking"
+          ></confirm-dialog>
+        </v-toolbar>
+      </template>
+      <template v-slot:[`item.icon`]="{ item }">
+        <v-icon :color="statusAttrs(item.status, item).color">
+          {{ statusAttrs(item.status, item)["icon"] }}
+        </v-icon>
+      </template>
+      <template v-slot:[`item.status`]="{ item }">
+        <div class="overline">
+          {{ statusAttrs(item.status, item).status_admin }}
+        </div>
+      </template>
+      <template v-slot:[`item.user.lastname`]="{ item }">
+        {{ item.user.lastname + " " + item.user.firstname }}
+      </template>
+      <template v-slot:[`item.lastmodified`]="{ item }">
+        {{
+          item.transitions[item.transitions.length - 1] ? formatDateTime(item.transitions[item.transitions.length - 1].created) : ""
+        }}
+      </template>
+      <template v-slot:[`item.arrival`]="{ item }">
+        {{ formatDate(item.arrival) }}
+      </template>
+      <template v-slot:[`item.actions`]="{ item }">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              v-if="item.status == 'TENTATIVE' || item.status == 'BOOKED'"
+              fab
+              v-bind="attrs"
+              v-on="on"
+              @click="openOKDialog(item)"
+              x-small
+              color="transparent"
+              class="mt-auto align-self-end mr-2"
+              ><v-icon small color="success">
+                {{ statusAttrs(item.status, item).action_admin_icon_ok }}
+              </v-icon>
+            </v-btn>
           </template>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <div class="d-flex flex-column">
-            <booking-tabs :booking="item"></booking-tabs>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  v-if="active"
-                  v-bind="attrs"
-                  v-on="on"
-                  @click="openDialog(item)"
-                  elevation="2"
-                  small
-                  color="white"
-                  class="mt-auto align-self-end"
-                  ><v-icon left color="red"> fa-ban </v-icon>FOGLALÁS LEMONDÁSA
-                </v-btn>
-              </template>
-              <span class="text-caption"
-                ><p class="mb-0">Meglévő foglalást bármikor lemondhatsz,</p>
-                de a befizetett foglaló nem kerül visszafizetésre.</span
-              >
-            </v-tooltip>
-          </div>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
+          <span class="text-caption">{{
+            statusAttrs(item.status, item).action_admin_ok
+          }}</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              v-if="item.status == 'TENTATIVE' || item.status == 'BOOKED'"
+              fab
+              v-bind="attrs"
+              v-on="on"
+              @click="openCancelDialog(item)"
+              x-small
+              color="transparent"
+              class="mt-auto align-self-end mr-2"
+              ><v-icon small color="corange">
+                {{ statusAttrs(item.status, item).action_admin_icon_cancel }}
+              </v-icon>
+            </v-btn>
+          </template>
+          <span class="text-caption">{{
+            statusAttrs(item.status, item).action_admin_cancel
+          }}</span>
+        </v-tooltip>
+      </template>
+      <template v-slot:no-data>
+        <v-btn color="primary" @click="initialize"> Frissítés </v-btn>
+      </template>
+      <template v-slot:expanded-item="{ headers, item }">
+        <td :colspan="headers.length">
+          <booking-tabs
+            :booking="item"
+            :admin="true"
+            class="py-4"
+          ></booking-tabs>
+        </td>
+      </template>
+    </v-data-table>
     <confirm-dialog
       :confirmDialog="confirmDialog"
       v-on:confirm="cancelBooking"
@@ -56,12 +108,33 @@ import ApiService from "../../services/api.service";
 import BookingDataService from "../../services/bookingData.service";
 import BookingTabs from "./BookingTabs.vue";
 import ConfirmDialog from "../ConfirmDialog.vue";
+import MomentService from "../../services/moment.service";
 
 export default {
   name: "CUserBookingExpPanels",
   components: { BookingTabs, ConfirmDialog },
   props: ["bookings", "active"],
   data: () => ({
+    expanded: [],
+    singleExpand: false,
+    headers: [
+      { text: "", value: "data-table-expand" },
+      {
+        text: "",
+        align: "end",
+        value: "icon",
+        sortable: false,
+      },
+      {
+        text: "Státusz",
+        align: "start",
+        value: "status",
+      },
+      { text: "Legutoljára módosítva", value: "lastmodified" },
+      { text: "Vendég", value: "user.lastname" },
+      { text: "Érkezés", value: "arrival" },
+      { text: "", value: "actions", sortable: false },
+    ],
     confirmDialog: {
       isOpen: false,
       title: "Foglalás lemondása",
@@ -77,6 +150,12 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    formatDate(d) {
+      return MomentService.formatDate(d);
+    },
+    formatDateTime(d) {
+      return MomentService.formatDateTime(d);
+    },
     statusAttrs(status, booking) {
       return BookingDataService.bookingStatusAttrsForUser(status, booking);
     },

@@ -35,6 +35,9 @@ class MomentService {
             moment(d).locale("hu").format("LLLL") 
         );
     }
+    formatDateFromNow(d){
+        return moment(d).locale("hu").fromNow();
+    }
     isGreatherThan(firstDate, secondDate) {
         return moment(firstDate) > moment(secondDate)
     }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-tabs vertical color="cgreen">
-      <v-tab class="d-flex justify-start caption">
+      <v-tab class="d-flex justify-start caption" v-if="!admin">
         <v-icon small left> mdi-android-messages </v-icon>
         Leírás
       </v-tab>
@@ -13,11 +13,15 @@
         <v-icon small left> mdi-history </v-icon>
         Történet
       </v-tab>
+      <v-btn large text class="d-flex justify-start caption" @click="hello">
+        <v-icon small left> mdi-history </v-icon>
+        Történet
+      </v-btn>
 
-      <v-tab-item>
+      <v-tab-item v-if="!admin">
         <v-card flat>
           <v-card-text>
-            <p>
+            <p v-if="!admin">
               {{ statusAttrs(booking.status, booking).info }}
             </p>
           </v-card-text>
@@ -26,6 +30,11 @@
       <v-tab-item>
         <v-card flat>
           <v-card-text>
+            <div v-if="admin" class="d-flex flex-column">
+              <v-alert type="info" text color="cgreen">
+                {{ statusAttrs(booking.status, booking).info_admin }}
+              </v-alert>
+            </div>
             <v-simple-table>
               <template v-slot:default>
                 <tbody>
@@ -98,10 +107,9 @@ import MomentService from "../../services/moment.service";
 
 export default {
   name: "CBookingTabs",
-  props: ["booking"],
-  components: {  },
-  data: () => ({
-  }),
+  props: ["booking", "admin"],
+  components: {},
+  data: () => ({}),
   methods: {
     getTotalPrice(booking) {
       return BookingService.getTotalPriceForBooking(
@@ -118,7 +126,7 @@ export default {
     },
     statusAttrs(status, booking) {
       return BookingDataService.bookingStatusAttrsForUser(status, booking);
-    }
+    },
   },
   computed: {},
   mounted() {},

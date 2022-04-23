@@ -34,7 +34,7 @@
           <div v-else>
             <admin-booking-table
               :bookings="inactive_bookings"
-              :active="true"
+              :active="false"
             ></admin-booking-table>
           </div>
         </v-tab-item>
