@@ -92,7 +92,7 @@
       </template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
-          <row class="d-flex">
+          <div class="d-flex">
             <booking-tabs
               :booking="item"
               :admin="true"
@@ -142,7 +142,7 @@
                 Végleges törlés
               </v-btn>
             </div>
-          </row>
+          </div>
         </td>
       </template>
     </v-data-table>
@@ -185,7 +185,7 @@ export default {
       { text: "Érkezés", value: "arrival" },
       { text: "", value: "actions", sortable: false },
     ],
-    confirmDialog: {
+    confirmDialogOriginal: {
       isOpen: false,
       title: "",
       text: "",
@@ -198,6 +198,7 @@ export default {
         dropdownItems: [],
       },
     },
+    confirmDialog: {},
     selectedBooking: {},
     payload: {
       comment: "",
@@ -209,6 +210,7 @@ export default {
   computed: {},
   methods: {
     mouseClickAccept(item) {
+      this.confirmDialog = JSON.parse(JSON.stringify(this.confirmDialogOriginal));
       console.log("accept");
       this.selectedBooking = item;
       this.actionType = "accept";
@@ -229,6 +231,7 @@ export default {
       return;
     },
     mouseClickCancel(item) {
+      this.confirmDialog = JSON.parse(JSON.stringify(this.confirmDialogOriginal));
       console.log("cancel");
       this.selectedBooking = item;
       this.actionType = "cancel";
@@ -247,6 +250,7 @@ export default {
       return;
     },
     mouseClickUpdate(item) {
+     this.confirmDialog = JSON.parse(JSON.stringify(this.confirmDialogOriginal));
       console.log("update");
       this.selectedBooking = item;
       this.actionType = "update";
@@ -260,16 +264,17 @@ export default {
       this.confirmDialog.commentForm.dropdownLabel =
         "Válaszd ki a foglalás új állapotát";
       this.confirmDialog.commentForm.dropdownItems = [
-        this.statusAttrs("TENTATIVE", item).status,
-        this.statusAttrs("BOOKED", item).status,
-        this.statusAttrs("PAID", item).status,
-        this.statusAttrs("DELETED", item).status,
-        this.statusAttrs("OUTDATED", item).status,
+        this.statusAttrs("TENTATIVE", item).status_admin,
+        this.statusAttrs("BOOKED", item).status_admin,
+        this.statusAttrs("PAID", item).status_admin,
+        this.statusAttrs("DELETED", item).status_admin,
+        this.statusAttrs("OUTDATED", item).status_admin,
       ];
       this.confirmDialog.isOpen = true;
       return;
     },
     mouseClickDelete(item) {
+      this.confirmDialog = JSON.parse(JSON.stringify(this.confirmDialogOriginal));
       console.log("delete");
       this.actionType = "delete";
       this.selectedBooking = item;

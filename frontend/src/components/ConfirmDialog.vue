@@ -50,25 +50,18 @@ export default {
       comment: "",
       newStatus: "",
     },
-    //   isOpen: false,
-    //   title: "",
-    //   text: "",
-    //   confirmButton: "OK",
-    //   confirmButtonColor: "success",
-    //   commentForm: {
-    //     textfieldLabel: "",
-    //     textfieldRequired: true,
-    //     dropdownLabel: "",
-    //     dropdownItems: [],
-    //   }
   }),
   computed: {
     isButtonDisabled() {
+
+      console.log(!!this.confirmDialog.commentForm);
+      console.log(!!this.confirmDialog.dropdownLabel);
+      console.log(!this.form.newStatus);
       return (
-        (this.confirmDialog.commentForm && this.confirmDialog.commentForm.textfieldRequired &&
-          !this.form.comment) ||
-        (this.confirmDialog.commentForm && this.commentForm.dropdownLabel && this.commentForm.dropdownItems.length > 0 && !this.form.newStatus)
-      );
+        !!this.confirmDialog.commentForm &&
+        this.confirmDialog.commentForm.textfieldRequired &&
+        !this.form.comment
+      ) || (!!this.confirmDialog.commentForm && this.confirmDialog.commentForm.dropdownItems.length >0 && !this.form.newStatus );
     },
   },
   mounted() {},
@@ -84,6 +77,8 @@ export default {
       }
     },
     cancel() {
+      this.form.comment = "";
+      this.form.newStatus="";
       this.confirmDialog.isOpen = false;
       this.$emit("cancel");
     },
