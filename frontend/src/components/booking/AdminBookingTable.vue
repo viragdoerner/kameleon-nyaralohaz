@@ -210,7 +210,9 @@ export default {
   computed: {},
   methods: {
     mouseClickAccept(item) {
-      this.confirmDialog = JSON.parse(JSON.stringify(this.confirmDialogOriginal));
+      this.confirmDialog = JSON.parse(
+        JSON.stringify(this.confirmDialogOriginal)
+      );
       console.log("accept");
       this.selectedBooking = item;
       this.actionType = "accept";
@@ -231,7 +233,9 @@ export default {
       return;
     },
     mouseClickCancel(item) {
-      this.confirmDialog = JSON.parse(JSON.stringify(this.confirmDialogOriginal));
+      this.confirmDialog = JSON.parse(
+        JSON.stringify(this.confirmDialogOriginal)
+      );
       console.log("cancel");
       this.selectedBooking = item;
       this.actionType = "cancel";
@@ -250,7 +254,9 @@ export default {
       return;
     },
     mouseClickUpdate(item) {
-     this.confirmDialog = JSON.parse(JSON.stringify(this.confirmDialogOriginal));
+      this.confirmDialog = JSON.parse(
+        JSON.stringify(this.confirmDialogOriginal)
+      );
       console.log("update");
       this.selectedBooking = item;
       this.actionType = "update";
@@ -264,17 +270,39 @@ export default {
       this.confirmDialog.commentForm.dropdownLabel =
         "Válaszd ki a foglalás új állapotát";
       this.confirmDialog.commentForm.dropdownItems = [
-        this.statusAttrs("TENTATIVE", item).status_admin,
-        this.statusAttrs("BOOKED", item).status_admin,
-        this.statusAttrs("PAID", item).status_admin,
-        this.statusAttrs("DELETED", item).status_admin,
-        this.statusAttrs("OUTDATED", item).status_admin,
+        {
+          name: this.statusAttrs("TENTATIVE", item).status_admin,
+          status: "TENTATIVE",
+        },
+        {
+          name: this.statusAttrs("BOOKED", item).status_admin,
+          status: "BOOKED",
+        },
+        {
+          name: this.statusAttrs("PAID", item).status_admin,
+          status: "PAID",
+        },
+        {
+          name: this.statusAttrs("DELETED", item).status_admin,
+          status: "DELETED",
+        },
+        {
+          name: this.statusAttrs("OUTDATED", item).status_admin,
+          status: "OUTDATED",
+        }
       ];
+      this.confirmDialog.commentForm.dropdownItems = this.confirmDialog.commentForm.dropdownItems.filter(function (
+        s
+      ) {
+        return s.status !== item.status;
+      });
       this.confirmDialog.isOpen = true;
       return;
     },
     mouseClickDelete(item) {
-      this.confirmDialog = JSON.parse(JSON.stringify(this.confirmDialogOriginal));
+      this.confirmDialog = JSON.parse(
+        JSON.stringify(this.confirmDialogOriginal)
+      );
       console.log("delete");
       this.actionType = "delete";
       this.selectedBooking = item;
@@ -283,20 +311,23 @@ export default {
         "Biztosan ki szeretnéd véglegesen törölni a foglalást? Ezt a műveletet nem lehet visszavonni.";
       this.confirmDialog.confirmButton = "TÖRLÉS";
       this.confirmDialog.confirmButtonColor = "red";
+      this.confirmDialog.commentForm = null;
       this.confirmDialog.isOpen = true;
       return;
     },
     dialogOkEvent(result) {
       console.log("dialog ok");
+      console.log(result);
       if (this.actionType === "delete") {
-        deleteBooking();
+        this.deleteBooking();
       } else {
         if (this.actionType === "update") {
-          this.newStatus = result.newStatus;
+          console.log("update");
+          this.payload.newStatus = result.newStatus;
         }
         this.payload.comment = result.comment;
         console.log(this.payload);
-        ApiService.PUT("booking/" + this.selectedBooking.id, payload)
+        ApiService.PUT("booking/" + this.selectedBooking.id, this.payload)
           .then((response) => {
             console.log(response.data);
             if (response.data.active && this.active != response.data.active) {
@@ -320,7 +351,9 @@ export default {
       }
       return;
     },
-    deleteBooking() {},
+    deleteBooking() {
+      console.log("deleteee");
+    },
     formatDate(d) {
       return MomentService.formatDate(d);
     },

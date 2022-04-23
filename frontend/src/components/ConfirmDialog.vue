@@ -2,6 +2,7 @@
   <v-dialog
     v-model="confirmDialog.isOpen"
     :max-width="confirmDialog.commentForm ? 600 : 290"
+    :retain-focus="false"
   >
     <v-card>
       <v-card-title> {{ confirmDialog.title }} </v-card-title>
@@ -16,6 +17,7 @@
           :items="confirmDialog.commentForm.dropdownItems"
           :label="confirmDialog.commentForm.dropdownLabel"
           solo
+          item-text="name"
           color="cgreen"
         ></v-combobox>
         <v-textarea
@@ -53,32 +55,32 @@ export default {
   }),
   computed: {
     isButtonDisabled() {
-
-      console.log(!!this.confirmDialog.commentForm);
-      console.log(!!this.confirmDialog.dropdownLabel);
-      console.log(!this.form.newStatus);
       return (
-        !!this.confirmDialog.commentForm &&
-        this.confirmDialog.commentForm.textfieldRequired &&
-        !this.form.comment
-      ) || (!!this.confirmDialog.commentForm && this.confirmDialog.commentForm.dropdownItems.length >0 && !this.form.newStatus );
+        (!!this.confirmDialog.commentForm &&
+          this.confirmDialog.commentForm.textfieldRequired &&
+          !this.form.comment) ||
+        (!!this.confirmDialog.commentForm &&
+          this.confirmDialog.commentForm.dropdownItems.length > 0 &&
+          !this.form.newStatus)
+      );
     },
   },
   mounted() {},
   methods: {
     confirm() {
       this.confirmDialog.isOpen = false;
-      if (this.confirmDialog.commentForm) {
+      if (!!this.confirmDialog.commentForm) {
+        this.form.newStatus = this.form.newStatus.status;
         console.log(this.form);
         this.$emit("confirm", this.form);
-        this.form.comment = "";
       } else {
         this.$emit("confirm");
       }
+      
     },
     cancel() {
       this.form.comment = "";
-      this.form.newStatus="";
+      this.form.newStatus = "";
       this.confirmDialog.isOpen = false;
       this.$emit("cancel");
     },
