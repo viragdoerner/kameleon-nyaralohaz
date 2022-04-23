@@ -24,6 +24,7 @@
               :bookings="active_bookings"
               :active="true"
               v-on:activeStateChanged="addToInactive"
+              key="adminbookingactive"
             ></admin-booking-table>
           </div>
         </v-tab-item>
@@ -35,6 +36,8 @@
             <admin-booking-table
               :bookings="inactive_bookings"
               :active="false"
+              v-on:activeStateChanged="addToActive"
+              key="adminbookinginactive"
             ></admin-booking-table>
           </div>
         </v-tab-item>

@@ -16,7 +16,7 @@
           <v-spacer></v-spacer>
           <confirm-dialog
             :confirmDialog="confirmDialog"
-            v-on:confirm="cancelBooking"
+            v-on:confirm="dialogOkEvent"
           ></confirm-dialog>
         </v-toolbar>
       </template>
@@ -35,7 +35,11 @@
       </template>
       <template v-slot:[`item.lastmodified`]="{ item }">
         {{
-          item.transitions[item.transitions.length - 1] ? formatDateTime(item.transitions[item.transitions.length - 1].created) : ""
+          item.transitions[item.transitions.length - 1]
+            ? formatDateTime(
+                item.transitions[item.transitions.length - 1].created
+              )
+            : ""
         }}
       </template>
       <template v-slot:[`item.arrival`]="{ item }">
@@ -49,7 +53,7 @@
               fab
               v-bind="attrs"
               v-on="on"
-              @click="openOKDialog(item)"
+              @click="mouseClickAccept(item)"
               x-small
               color="transparent"
               class="mt-auto align-self-end mr-2"
@@ -69,7 +73,7 @@
               fab
               v-bind="attrs"
               v-on="on"
-              @click="openCancelDialog(item)"
+              @click="mouseClickCancel(item)"
               x-small
               color="transparent"
               class="mt-auto align-self-end mr-2"
@@ -88,17 +92,63 @@
       </template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
-          <booking-tabs
-            :booking="item"
-            :admin="true"
-            class="py-4"
-          ></booking-tabs>
+          <row class="d-flex">
+            <booking-tabs
+              :booking="item"
+              :admin="true"
+              class="py-4 col-10"
+            ></booking-tabs>
+            <div class="col-2">
+              <v-btn
+                v-if="item.status == 'TENTATIVE' || item.status == 'BOOKED'"
+                large
+                text
+                class="d-flex justify-start caption"
+                @click="mouseClickAccept(item)"
+              >
+                <v-icon small left color="success">
+                  {{ statusAttrs(item.status, item).action_admin_icon_ok }}
+                </v-icon>
+                {{ statusAttrs(item.status, item).action_admin_ok }}
+              </v-btn>
+              <v-btn
+                v-if="item.status == 'TENTATIVE' || item.status == 'BOOKED'"
+                large
+                text
+                class="d-flex justify-start caption"
+                @click="mouseClickCancel(item)"
+              >
+                <v-icon small left color="corange">
+                  {{ statusAttrs(item.status, item).action_admin_icon_cancel }}
+                </v-icon>
+                {{ statusAttrs(item.status, item).action_admin_cancel }}
+              </v-btn>
+              <v-btn
+                large
+                text
+                class="d-flex justify-start caption"
+                @click="mouseClickUpdate(item)"
+              >
+                <v-icon small left color="primary"> fa-pencil </v-icon>
+                Állapot módosítás
+              </v-btn>
+              <v-btn
+                large
+                text
+                class="d-flex justify-start caption"
+                @click="mouseClickDelete(item)"
+              >
+                <v-icon small left color="error"> fa-trash </v-icon>
+                Végleges törlés
+              </v-btn>
+            </div>
+          </row>
         </td>
       </template>
     </v-data-table>
     <confirm-dialog
       :confirmDialog="confirmDialog"
-      v-on:confirm="cancelBooking"
+      v-on:confirm="dialogOkEvent"
     ></confirm-dialog>
   </div>
 </template>
@@ -111,12 +161,12 @@ import ConfirmDialog from "../ConfirmDialog.vue";
 import MomentService from "../../services/moment.service";
 
 export default {
-  name: "CUserBookingExpPanels",
+  name: "CAdminBookingTable",
   components: { BookingTabs, ConfirmDialog },
   props: ["bookings", "active"],
   data: () => ({
     expanded: [],
-    singleExpand: false,
+    singleExpand: true,
     headers: [
       { text: "", value: "data-table-expand" },
       {
@@ -137,19 +187,135 @@ export default {
     ],
     confirmDialog: {
       isOpen: false,
-      title: "Foglalás lemondása",
-      text: "Biztosan le szeretnéd mondani a foglalást? Amennyiben már kifizetted a foglalót az nem jár vissza.",
+      title: "",
+      text: "",
       confirmButton: "OK",
+      confirmButtonColor: "success",
       commentForm: {
-        textfieldLabel:
-          "Kérjük indokold meg, hogy mi miatt mondod le a foglalást!",
+        textfieldLabel: "",
+        textfieldRequired: true,
+        dropdownLabel: "",
+        dropdownItems: [],
       },
     },
-    bookingToBeRemoved: {},
+    selectedBooking: {},
+    payload: {
+      comment: "",
+      newStatus: "",
+    },
+    actionType: "",
   }),
   mounted() {},
   computed: {},
   methods: {
+    mouseClickAccept(item) {
+      console.log("accept");
+      this.selectedBooking = item;
+      this.actionType = "accept";
+      if (item.status == "TENTATIVE") {
+        this.payload.newStatus = "BOOKED";
+      }
+      if (item.status == "BOOKED") {
+        this.payload.newStatus = "PAID";
+      }
+      this.confirmDialog.title = this.statusAttrs(
+        item.status,
+        item
+      ).action_admin_ok;
+      this.confirmDialog.commentForm.textfieldLabel =
+        "Írj rövid üzenetet a vendégnek!";
+      this.confirmDialog.commentForm.textfieldRequired = false;
+      this.confirmDialog.isOpen = true;
+      return;
+    },
+    mouseClickCancel(item) {
+      console.log("cancel");
+      this.selectedBooking = item;
+      this.actionType = "cancel";
+      if (item.status == "TENTATIVE" || item.status == "BOOKED") {
+        this.payload.newStatus = "DELETED";
+      }
+      this.confirmDialog.title = this.statusAttrs(
+        item.status,
+        item
+      ).action_admin_cancel;
+      this.confirmDialog.confirmButton = "ELUTASÍTÁS";
+      this.confirmDialog.confirmButtonColor = "error";
+      this.confirmDialog.commentForm.textfieldLabel =
+        "Írj indoklást a vendégnek!";
+      this.confirmDialog.isOpen = true;
+      return;
+    },
+    mouseClickUpdate(item) {
+      console.log("update");
+      this.selectedBooking = item;
+      this.actionType = "update";
+      this.confirmDialog.title = "Foglalás státuszának módosítása";
+      this.confirmDialog.text =
+        "Ez a funkció csak különleges esetek kezelésére szolgál. Csak akkor használd, ha megfelelő indokod van rá!";
+      this.confirmDialog.confirmButton = "MÓDOSÍTÁS";
+      this.confirmDialog.confirmButtonColor = "success";
+      this.confirmDialog.commentForm.textfieldLabel =
+        "Írj magyarázatot a vendéhnek! Mi miatt módosul a foglalás státusza?";
+      this.confirmDialog.commentForm.dropdownLabel =
+        "Válaszd ki a foglalás új állapotát";
+      this.confirmDialog.commentForm.dropdownItems = [
+        this.statusAttrs("TENTATIVE", item).status,
+        this.statusAttrs("BOOKED", item).status,
+        this.statusAttrs("PAID", item).status,
+        this.statusAttrs("DELETED", item).status,
+        this.statusAttrs("OUTDATED", item).status,
+      ];
+      this.confirmDialog.isOpen = true;
+      return;
+    },
+    mouseClickDelete(item) {
+      console.log("delete");
+      this.actionType = "delete";
+      this.selectedBooking = item;
+      this.confirmDialog.title = "Foglalás végleges törlése";
+      this.confirmDialog.text =
+        "Biztosan ki szeretnéd véglegesen törölni a foglalást? Ezt a műveletet nem lehet visszavonni.";
+      this.confirmDialog.confirmButton = "TÖRLÉS";
+      this.confirmDialog.confirmButtonColor = "red";
+      this.confirmDialog.isOpen = true;
+      return;
+    },
+    dialogOkEvent(result) {
+      console.log("dialog ok");
+      if (this.actionType === "delete") {
+        deleteBooking();
+      } else {
+        if (this.actionType === "update") {
+          this.newStatus = result.newStatus;
+        }
+        this.payload.comment = result.comment;
+        console.log(this.payload);
+        ApiService.PUT("booking/" + this.selectedBooking.id, payload)
+          .then((response) => {
+            console.log(response.data);
+            if (response.data.active && this.active != response.data.active) {
+              console.log("at kell tenni a masik csoportba");
+              this.$emit("activeStateChanged", response.data);
+            }
+            this.$store.commit("showMessage", {
+              active: true,
+              color: "success", // You can create another actions for diferent color.
+              message: "Foglalás státusza sikeresen módosítva",
+            });
+          })
+          .catch((error) => {
+            this.$store.commit("showMessage", {
+              active: true,
+              color: "error",
+              message:
+                "Nem sikerült lemondani a foglalást. Próbáld újra, vagy mondd le telefonon vagy emailben!",
+            });
+          });
+      }
+      return;
+    },
+    deleteBooking() {},
     formatDate(d) {
       return MomentService.formatDate(d);
     },
@@ -158,38 +324,6 @@ export default {
     },
     statusAttrs(status, booking) {
       return BookingDataService.bookingStatusAttrsForUser(status, booking);
-    },
-    openDialog(item) {
-      this.confirmDialog.isOpen = true;
-      this.bookingToBeRemoved = item;
-    },
-    cancelBooking(comment) {
-      console.log(comment);
-      var payload = {
-        comment: comment,
-      };
-      console.log(payload);
-      ApiService.PUT("booking/cancel/" + this.bookingToBeRemoved.id, payload)
-        .then((response) => {
-          console.log(response.data);
-          if (this.active != response.data.active) {
-            console.log("at kell tenni a masik csoportba");
-            this.$emit("activeStateChanged", response.data);
-          }
-          this.$store.commit("showMessage", {
-            active: true,
-            color: "success", // You can create another actions for diferent color.
-            message: "Foglalás sikeresen lemondva",
-          });
-        })
-        .catch((error) => {
-          this.$store.commit("showMessage", {
-            active: true,
-            color: "error",
-            message:
-              "Nem sikerült lemondani a foglalást. Próbáld újra, vagy mondd le telefonon vagy emailben!",
-          });
-        });
     },
   },
 };

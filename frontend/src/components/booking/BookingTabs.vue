@@ -13,30 +13,7 @@
         <v-icon small left> mdi-history </v-icon>
         Történet
       </v-tab>
-      <v-btn v-if="booking.status == 'TENTATIVE' || booking.status == 'BOOKED'" large text class="d-flex justify-start caption" @click="hello">
-       <v-icon small left color="success">
-                    {{ statusAttrs(booking.status, booking).action_admin_icon_ok }}
-                  </v-icon>
-                  {{statusAttrs(booking.status, booking).action_admin_ok }}
-      </v-btn>
-      <v-btn v-if="booking.status == 'TENTATIVE' || booking.status == 'BOOKED'" large text class="d-flex justify-start caption" @click="hello">
-        <v-icon small left color="corange">
-                    {{ statusAttrs(booking.status, booking).action_admin_icon_cancel }}
-                  </v-icon>
-                  {{statusAttrs(booking.status, booking).action_admin_cancel }}
-      </v-btn>
-      <v-btn large text class="d-flex justify-start caption" @click="hello">
-        <v-icon small left color="primary">
-                    fa-pencil
-                  </v-icon>
-                  Állapot módosítás
-      </v-btn>
-      <v-btn large text class="d-flex justify-start caption" @click="hello">
-        <v-icon small left color="error">
-                    fa-trash
-                  </v-icon>
-                  Végleges törlés
-      </v-btn>
+      
 
       <v-tab-item v-if="!admin">
         <v-card flat>
