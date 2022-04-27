@@ -7,6 +7,7 @@
       :expanded.sync="expanded"
       item-key="id"
       show-expand
+      :custom-sort="customSort"
       class="elevation-1 col-12"
     >
       <template v-slot:top>
@@ -209,6 +210,50 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    customSort(items, index, isDesc) {
+      index = index[0];
+      isDesc = isDesc[0];
+      items.sort((a, b) => {
+        if (index === "lastmodified") {
+          return this.sortByLastModified(a, b, isDesc);
+        } else {
+          if (!isDesc) {
+            return a[index] < b[index] ? -1 : 1;
+          } else {
+            return b[index] < a[index] ? -1 : 1;
+          }
+        }
+      });
+      return items;
+    },
+    sortByLastModified(a, b, isDesc) {
+      var lastmodified_A = a.transitions.slice(-1)[0].created;
+      var lastmodified_B = b.transitions.slice(-1)[0].created;
+      console.log(lastmodified_A);
+      console.log(lastmodified_B);
+      var result = MomentService.sort(lastmodified_A, lastmodified_B, isDesc);
+      console.log(result);
+      return result;
+    },
+    sortByAvgRates(a, b, isDesc) {
+      var [minA, maxA] = a.avg_rates.split("-");
+      var [minB, maxB] = b.avg_rates.split("-");
+
+      minA = parseFloat(minA);
+      maxA = parseFloat(maxA);
+      minB = parseFloat(minB);
+      maxB = parseFloat(maxB);
+
+      if (isDesc) {
+        if (maxA < maxB) return 1;
+        if (maxA > maxB) return -1;
+        return 0;
+      } else {
+        if (minA < minB) return -1;
+        if (minA > minB) return 1;
+        return 0;
+      }
+    },
     mouseClickAccept(item) {
       this.confirmDialog = JSON.parse(
         JSON.stringify(this.confirmDialogOriginal)
@@ -339,7 +384,27 @@ export default {
       return;
     },
     deleteBooking() {
-      console.log("deleteee");
+      ApiService.DELETE("booking/" + this.selectedBooking.id)
+        .then((response) => {
+          var that = this;
+          this.bookings = this.bookings.filter(function (booking) {
+            return booking.id !== that.selectedBooking.id;
+          });
+          this.$store.commit("showMessage", {
+            active: true,
+            color: "success", // You can create another actions for diferent color.
+            message: "Foglalás sikeresen törölve",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          this.$store.commit("showMessage", {
+            active: true,
+            color: "error",
+            message:
+              "Nem sikerült törölni a foglalást",
+          });
+        });
     },
     formatDate(d) {
       return MomentService.formatDate(d);

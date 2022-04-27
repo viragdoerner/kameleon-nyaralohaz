@@ -85,11 +85,9 @@ export default {
       this.bookingToBeRemoved = item;
     },
     cancelBooking(comment) {
-      console.log(comment);
       var payload = {
         comment: comment,
       };
-      console.log(payload);
       ApiService.PUT("booking/cancel/" + this.bookingToBeRemoved.id, payload)
         .then((response) => {
           this.$emit("statusChanged", response.data);
