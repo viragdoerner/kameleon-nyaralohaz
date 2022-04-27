@@ -31,7 +31,7 @@
           {{ statusAttrs(item.status, item).status_admin }}
         </div>
       </template>
-      <template v-slot:[`item.user.lastname`]="{ item }">
+      <template v-slot:[`item.guestname`]="{ item }">
         {{ item.user.lastname + " " + item.user.firstname }}
       </template>
       <template v-slot:[`item.lastmodified`]="{ item }">
@@ -182,7 +182,7 @@ export default {
         value: "status",
       },
       { text: "Legutoljára módosítva", value: "lastmodified" },
-      { text: "Vendég", value: "user.lastname" },
+      { text: "Vendég", value: "guestname" },
       { text: "Érkezés", value: "arrival" },
       { text: "", value: "actions", sortable: false },
     ],
@@ -216,6 +216,8 @@ export default {
       items.sort((a, b) => {
         if (index === "lastmodified") {
           return this.sortByLastModified(a, b, isDesc);
+        } else if (index === "guestname") {
+          return this.sortByGuestName(a, b, isDesc);
         } else {
           if (!isDesc) {
             return a[index] < b[index] ? -1 : 1;
@@ -234,6 +236,19 @@ export default {
       var result = MomentService.sort(lastmodified_A, lastmodified_B, isDesc);
       console.log(result);
       return result;
+    },
+    sortByGuestName(a, b, isDesc) {
+      var a_lastname = a.user.lastname;
+      var b_lastname = b.user.lastname;
+      if (isDesc) {
+        if (a_lastname < b_lastname) return 1;
+        if (a_lastname > b_lastname) return -1;
+        return 0;
+      } else {
+        if (a_lastname < b_lastname) return -1;
+        if (a_lastname > b_lastname) return 1;
+        return 0;
+      }
     },
     sortByAvgRates(a, b, isDesc) {
       var [minA, maxA] = a.avg_rates.split("-");
@@ -401,8 +416,7 @@ export default {
           this.$store.commit("showMessage", {
             active: true,
             color: "error",
-            message:
-              "Nem sikerült törölni a foglalást",
+            message: "Nem sikerült törölni a foglalást",
           });
         });
     },
