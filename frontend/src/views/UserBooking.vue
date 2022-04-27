@@ -17,7 +17,7 @@
         <user-booking-exp-panels
           :bookings="active_bookings"
           :active="true"
-          v-on:activeStateChanged="addToInactive"
+          v-on:statusChanged="statusChanged"
         ></user-booking-exp-panels>
       </v-card-text>
       <v-card-title
@@ -30,7 +30,7 @@
         <user-booking-exp-panels
           :bookings="inactive_bookings"
           :active="false"
-          v-on:activeStateChanged="addToActive"
+          v-on:statusChanged="statusChanged"
         ></user-booking-exp-panels>
       </v-card-text>
     </v-card>
@@ -54,18 +54,20 @@ export default {
     this.initialize();
   },
   methods: {
-    addToInactive(b) {
-      console.log(b);
+    statusChanged(b) {
       this.active_bookings = this.active_bookings.filter(function (booking) {
         return booking.id !== b.id;
       });
-      this.inactive_bookings.push(b);
-    },
-    addToActive(b) {
-      this.inactive_bookings = this.inactive_bookings.filter(function (booking) {
+      this.inactive_bookings = this.inactive_bookings.filter(function (
+        booking
+      ) {
         return booking.id !== b.id;
       });
-      this.active_bookings.push(b);
+      if (b.active) {
+        this.active_bookings.push(b);
+      } else {
+        this.inactive_bookings.push(b);
+      }
     },
     initialize() {
       ApiService.GET("booking/user")

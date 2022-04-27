@@ -92,11 +92,7 @@ export default {
       console.log(payload);
       ApiService.PUT("booking/cancel/" + this.bookingToBeRemoved.id, payload)
         .then((response) => {
-          console.log(response.data);
-          if (this.active != response.data.active) {
-            console.log("at kell tenni a masik csoportba");
-            this.$emit("activeStateChanged", response.data);
-          }
+          this.$emit("statusChanged", response.data);
           this.$store.commit("showMessage", {
             active: true,
             color: "success", // You can create another actions for diferent color.

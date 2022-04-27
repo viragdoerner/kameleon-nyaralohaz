@@ -213,7 +213,6 @@ export default {
       this.confirmDialog = JSON.parse(
         JSON.stringify(this.confirmDialogOriginal)
       );
-      console.log("accept");
       this.selectedBooking = item;
       this.actionType = "accept";
       if (item.status == "TENTATIVE") {
@@ -236,7 +235,6 @@ export default {
       this.confirmDialog = JSON.parse(
         JSON.stringify(this.confirmDialogOriginal)
       );
-      console.log("cancel");
       this.selectedBooking = item;
       this.actionType = "cancel";
       if (item.status == "TENTATIVE" || item.status == "BOOKED") {
@@ -257,7 +255,6 @@ export default {
       this.confirmDialog = JSON.parse(
         JSON.stringify(this.confirmDialogOriginal)
       );
-      console.log("update");
       this.selectedBooking = item;
       this.actionType = "update";
       this.confirmDialog.title = "Foglalás státuszának módosítása";
@@ -289,13 +286,12 @@ export default {
         {
           name: this.statusAttrs("OUTDATED", item).status_admin,
           status: "OUTDATED",
-        }
+        },
       ];
-      this.confirmDialog.commentForm.dropdownItems = this.confirmDialog.commentForm.dropdownItems.filter(function (
-        s
-      ) {
-        return s.status !== item.status;
-      });
+      this.confirmDialog.commentForm.dropdownItems =
+        this.confirmDialog.commentForm.dropdownItems.filter(function (s) {
+          return s.status !== item.status;
+        });
       this.confirmDialog.isOpen = true;
       return;
     },
@@ -303,7 +299,6 @@ export default {
       this.confirmDialog = JSON.parse(
         JSON.stringify(this.confirmDialogOriginal)
       );
-      console.log("delete");
       this.actionType = "delete";
       this.selectedBooking = item;
       this.confirmDialog.title = "Foglalás végleges törlése";
@@ -316,24 +311,16 @@ export default {
       return;
     },
     dialogOkEvent(result) {
-      console.log("dialog ok");
-      console.log(result);
       if (this.actionType === "delete") {
         this.deleteBooking();
       } else {
         if (this.actionType === "update") {
-          console.log("update");
           this.payload.newStatus = result.newStatus;
         }
         this.payload.comment = result.comment;
-        console.log(this.payload);
         ApiService.PUT("booking/" + this.selectedBooking.id, this.payload)
           .then((response) => {
-            console.log(response.data);
-            if (response.data.active && this.active != response.data.active) {
-              console.log("at kell tenni a masik csoportba");
-              this.$emit("activeStateChanged", response.data);
-            }
+            this.$emit("statusChanged", response.data);
             this.$store.commit("showMessage", {
               active: true,
               color: "success", // You can create another actions for diferent color.

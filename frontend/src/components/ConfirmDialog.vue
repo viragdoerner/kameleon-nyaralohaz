@@ -71,12 +71,12 @@ export default {
       this.confirmDialog.isOpen = false;
       if (!!this.confirmDialog.commentForm) {
         this.form.newStatus = this.form.newStatus.status;
-        console.log(this.form);
         this.$emit("confirm", this.form);
       } else {
         this.$emit("confirm");
       }
-      
+      this.form.comment = "";
+      this.form.newStatus = "";
     },
     cancel() {
       this.form.comment = "";

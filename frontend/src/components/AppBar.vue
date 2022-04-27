@@ -6,7 +6,7 @@
       <v-toolbar-title>Kaméleon nyaralóház</v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <v-btn text> Foglalás </v-btn>
+      <v-btn text to="/booking"> Foglalás </v-btn>
 
       <v-menu bottom left>
         <template v-slot:activator="{ on, attrs }">
