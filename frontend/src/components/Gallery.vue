@@ -72,7 +72,7 @@ export default {
     },
     openDialog(e, pic) {
       e.stopImmediatePropagation();
-      this.$store.commit("openSimpleDialog", {
+      this.$store.commit("dialog/openSimpleDialog", {
         title: "Biztosan törölni szeretnéd?",
         confirmButton: "Törlés",
       });

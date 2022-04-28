@@ -1,15 +1,23 @@
-const confirmDialogOriginal = {
+const formDialog = {
     isOpen: false,
     title: "",
     text: "",
     confirmButton: "OK",
     confirmButtonColor: "success",
-    commentForm: {
+    form: {
         textfieldLabel: "",
         textfieldRequired: true,
         dropdownLabel: "",
         dropdownItems: [],
     },
+}
+const simpleDialog = {
+    isOpen: false,
+    title: "",
+    text: "",
+    confirmButton: "OK",
+    confirmButtonColor: "success",
+    form: null
 }
 
 export const dialog = {
@@ -21,29 +29,28 @@ export const dialog = {
             text: "",
             confirmButton: "OK",
             confirmButtonColor: "success",
-            commentForm: null,
-        },
-        commentForm: {
-            textfieldLabel: "",
-            textfieldRequired: true,
-            dropdownLabel: "",
-            dropdownItems: [],
+            form: {
+                textfieldLabel: "",
+                textfieldRequired: true,
+                dropdownLabel: "",
+                dropdownItems: [],
+            },
         },
     },
     mutations: {
         closeDialog(state) {
+            console.log('hey');
             state.dialogData.isOpen = false;
         },
         openSimpleDialog(state, payload) {
-            state.dialogData.title = payload.title;
-            state.dialogData.confirmButton = payload.confirmButton;
+            state.dialogData = simpleDialog;
+            state.dialogData = Object.assign({}, payload);
             state.dialogData.isOpen = true;
         },
-        openDialogWithComment(state, payload) {
-
-        },
-        openDialogWithCommentAndDropdown(state, payload) {
-
+        openDialogWithForm(state, payload) {
+            state.dialogData = formDialog;
+            state.dialogData = Object.assign({}, payload);
+            state.dialogData.isOpen = true;
         }
     }
 };

@@ -150,10 +150,7 @@
         </td>
       </template>
     </v-data-table>
-    <confirm-dialog
-      :confirmDialog="confirmDialog"
-      v-on:confirm="dialogOkEvent"
-    ></confirm-dialog>
+    <confirm-dialog v-on:confirm="dialogOkEvent"></confirm-dialog>
   </div>
 </template>
 
@@ -191,7 +188,6 @@ export default {
       { text: "Érkezés", value: "arrival" },
       { text: "", value: "actions", sortable: false },
     ],
-    confirmDialog: {},
     selectedBooking: {},
     payload: {
       comment: "",
@@ -203,12 +199,9 @@ export default {
   computed: {},
   methods: {
     customSort(items, index, isDesc) {
-      return SortService.sortBookings(items,index,isDesc);
+      return SortService.sortBookings(items, index, isDesc);
     },
     mouseClickAccept(item) {
-      this.confirmDialog = JSON.parse(
-        JSON.stringify(this.confirmDialogOriginal)
-      );
       this.selectedBooking = item;
       this.actionType = "accept";
       if (item.status == "TENTATIVE") {
@@ -217,93 +210,86 @@ export default {
       if (item.status == "BOOKED") {
         this.payload.newStatus = "PAID";
       }
-      this.confirmDialog.title = this.statusAttrs(
-        item.status,
-        item
-      ).action_admin_ok;
-      this.confirmDialog.commentForm.textfieldLabel =
-        "Írj rövid üzenetet a vendégnek!";
-      this.confirmDialog.commentForm.textfieldRequired = false;
-      this.confirmDialog.isOpen = true;
+
+      this.$store.commit("dialog/openDialogWithForm", {
+        title: this.statusAttrs(item.status, item).action_admin_ok,
+        confirmButton: "OK",
+        form: {
+          textfieldLabel:
+            "Írj rövid üzenetet, egyéb megjegyzést a vendégnek, ha szeretnél.",
+          textfieldRequired: false,
+        },
+      });
       return;
     },
     mouseClickCancel(item) {
-      this.confirmDialog = JSON.parse(
-        JSON.stringify(this.confirmDialogOriginal)
-      );
       this.selectedBooking = item;
       this.actionType = "cancel";
       if (item.status == "TENTATIVE" || item.status == "BOOKED") {
         this.payload.newStatus = "DELETED";
       }
-      this.confirmDialog.title = this.statusAttrs(
-        item.status,
-        item
-      ).action_admin_cancel;
-      this.confirmDialog.confirmButton = "ELUTASÍTÁS";
-      this.confirmDialog.confirmButtonColor = "error";
-      this.confirmDialog.commentForm.textfieldLabel =
-        "Írj indoklást a vendégnek!";
-      this.confirmDialog.isOpen = true;
+      this.$store.commit("dialog/openDialogWithForm", {
+        title: this.statusAttrs(item.status, item).action_admin_cancel,
+        text: "Biztosan le szeretnéd mondani a foglalást? Amennyiben már kifizetted a foglalót az nem jár vissza.",
+        confirmButton: "ELUTASÍTÁS",
+        confirmButtonColor: "error",
+        form: {
+          textfieldLabel: "Írj indoklást a vendégnek!",
+          textfieldRequired: false,
+        },
+      });
       return;
     },
     mouseClickUpdate(item) {
-      this.confirmDialog = JSON.parse(
-        JSON.stringify(this.confirmDialogOriginal)
-      );
       this.selectedBooking = item;
       this.actionType = "update";
-      this.confirmDialog.title = "Foglalás státuszának módosítása";
-      this.confirmDialog.text =
-        "Ez a funkció csak különleges esetek kezelésére szolgál. Csak akkor használd, ha megfelelő indokod van rá!";
-      this.confirmDialog.confirmButton = "MÓDOSÍTÁS";
-      this.confirmDialog.confirmButtonColor = "success";
-      this.confirmDialog.commentForm.textfieldLabel =
-        "Írj magyarázatot a vendéhnek! Mi miatt módosul a foglalás státusza?";
-      this.confirmDialog.commentForm.dropdownLabel =
-        "Válaszd ki a foglalás új állapotát";
-      this.confirmDialog.commentForm.dropdownItems = [
-        {
-          name: this.statusAttrs("TENTATIVE", item).status_admin,
-          status: "TENTATIVE",
+      this.$store.commit("dialog/openDialogWithForm", {
+        title: "Foglalás státuszának módosítása",
+        text: "Ez a funkció csak különleges esetek kezelésére szolgál. Csak akkor használd, ha megfelelő indokod van rá!",
+        confirmButton: "MÓDOSÍTÁS",
+        confirmButtonColor: "success",
+        form: {
+          textfieldLabel:
+            "Írj magyarázatot a vendéhnek! Mi miatt módosul a foglalás státusza?",
+          textfieldRequired: false,
+          dropdownLabel: "Válaszd ki a foglalás új állapotát",
+          dropdownItems: [
+            {
+              name: this.statusAttrs("TENTATIVE", item).status_admin,
+              status: "TENTATIVE",
+            },
+            {
+              name: this.statusAttrs("BOOKED", item).status_admin,
+              status: "BOOKED",
+            },
+            {
+              name: this.statusAttrs("PAID", item).status_admin,
+              status: "PAID",
+            },
+            {
+              name: this.statusAttrs("DELETED", item).status_admin,
+              status: "DELETED",
+            },
+            {
+              name: this.statusAttrs("OUTDATED", item).status_admin,
+              status: "OUTDATED",
+            },
+          ].filter(function (s) {
+            return s.status !== item.status;
+          }),
         },
-        {
-          name: this.statusAttrs("BOOKED", item).status_admin,
-          status: "BOOKED",
-        },
-        {
-          name: this.statusAttrs("PAID", item).status_admin,
-          status: "PAID",
-        },
-        {
-          name: this.statusAttrs("DELETED", item).status_admin,
-          status: "DELETED",
-        },
-        {
-          name: this.statusAttrs("OUTDATED", item).status_admin,
-          status: "OUTDATED",
-        },
-      ];
-      this.confirmDialog.commentForm.dropdownItems =
-        this.confirmDialog.commentForm.dropdownItems.filter(function (s) {
-          return s.status !== item.status;
-        });
-      this.confirmDialog.isOpen = true;
+      });
       return;
     },
     mouseClickDelete(item) {
-      this.confirmDialog = JSON.parse(
-        JSON.stringify(this.confirmDialogOriginal)
-      );
       this.actionType = "delete";
       this.selectedBooking = item;
-      this.confirmDialog.title = "Foglalás végleges törlése";
-      this.confirmDialog.text =
-        "Biztosan ki szeretnéd véglegesen törölni a foglalást? Ezt a műveletet nem lehet visszavonni.";
-      this.confirmDialog.confirmButton = "TÖRLÉS";
-      this.confirmDialog.confirmButtonColor = "red";
-      this.confirmDialog.commentForm = null;
-      this.confirmDialog.isOpen = true;
+      this.$store.commit("dialog/openDialog", {
+        title: "Foglalás végleges törlése",
+        text: "Biztosan ki szeretnéd véglegesen törölni a foglalást? Ezt a műveletet nem lehet visszavonni.",
+        confirmButton: "TÖRLÉS",
+        confirmButtonColor: "red",
+      });
       return;
     },
     dialogOkEvent(result) {

@@ -69,12 +69,11 @@ export default {
     },
     openDialog(item) {
       this.confirmDialog.isOpen = true;
-      this.$store.commit("openDialog", {
-        isOpen: false,
+      this.$store.commit("dialog/openDialogWithForm", {
         title: "Foglalás lemondása",
         text: "Biztosan le szeretnéd mondani a foglalást? Amennyiben már kifizetted a foglalót az nem jár vissza.",
         confirmButton: "OK",
-        commentForm: {
+        form: {
           textfieldLabel:
             "Kérjük indokold meg, hogy mi miatt mondod le a foglalást!",
         },

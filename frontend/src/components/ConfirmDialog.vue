@@ -1,27 +1,27 @@
 <template>
   <v-dialog
     v-model="dialogData.isOpen"
-    :max-width="dialogData.commentForm ? 600 : 290"
+    :max-width="dialogData.form ? 600 : 290"
     :retain-focus="false"
   >
     <v-card>
       <v-card-title> {{ dialogData.title }} </v-card-title>
-      <v-card-text v-if="dialogData.commentForm || dialogData.text">
+      <v-card-text v-if="dialogData.form || dialogData.text">
         <p>{{ dialogData.text }}</p>
         <v-combobox
-          v-if="dialogData.commentForm && dialogData.commentForm.dropdownLabel"
+          v-if="dialogData.form && dialogData.form.dropdownLabel"
           class="my-0"
           v-model="form.newStatus"
-          :items="dialogData.commentForm.dropdownItems"
-          :label="dialogData.commentForm.dropdownLabel"
+          :items="dialogData.form.dropdownItems"
+          :label="dialogData.form.dropdownLabel"
           solo
           item-text="name"
           color="cgreen"
         ></v-combobox>
         <v-textarea
-          v-if="dialogData.commentForm != ''"
+          v-if="dialogData.form != ''"
           v-model="form.comment"
-          :label="dialogData.commentForm.textfieldLabel"
+          :label="dialogData.form.textfieldLabel"
           solo
         ></v-textarea>
       </v-card-text>
@@ -57,11 +57,11 @@ export default {
     ...mapState('dialog',["dialogData"]),
     isButtonDisabled() {
       return (
-        (!!this.dialogData.commentForm &&
-          this.dialogData.commentForm.textfieldRequired &&
+        (!!this.dialogData.form &&
+          this.dialogData.form.textfieldRequired &&
           !this.form.comment) ||
-        (!!this.dialogData.commentForm &&
-          this.dialogData.commentForm.dropdownItems.length > 0 &&
+        (!!this.dialogData.form &&
+          this.dialogData.form.dropdownItems.length > 0 &&
           !this.form.newStatus)
       );
     },
@@ -71,7 +71,7 @@ export default {
   methods: {
     confirm() {
       this.$store.commit("dialog/closeDialog");
-      if (!!this.dialogData.commentForm) {
+      if (!!this.dialogData.form) {
         this.form.newStatus = this.form.newStatus.status;
         this.$emit("confirm", this.form);
       } else {
