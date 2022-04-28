@@ -60,6 +60,7 @@
           show-adjacent-months
           full-width
           @click:date="dateClick"
+          :first-day-of-week="1"
         >
           <v-progress-linear
             :active="loading"
