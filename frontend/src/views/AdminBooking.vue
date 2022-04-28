@@ -11,6 +11,14 @@
 
       <v-tab> Aktív</v-tab>
       <v-tab> Inaktív </v-tab>
+      <v-spacer></v-spacer>
+      <v-switch class="align-self-center"
+        v-model="switchCalendar"
+        inset
+        color="corange"
+        value="corange"
+        label="Naptár"
+      ></v-switch>
     </v-tabs>
 
     <v-card class="col-12">
@@ -58,6 +66,7 @@ export default {
     active_bookings: [],
     inactive_bookings: [],
     tab: null,
+    switchCalendar: false,
   }),
 
   created() {

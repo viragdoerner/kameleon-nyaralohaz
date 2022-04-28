@@ -14,14 +14,7 @@
         <v-toolbar flat>
           <v-toolbar-title v-if="active">Aktív foglalások</v-toolbar-title>
           <v-toolbar-title v-else>Inaktív foglalások</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-switch
-            v-model="switchCalendar"
-            inset
-            color="cyellow"
-            value="cyellow"
-            label="Naptár"
-          ></v-switch>
+
         </v-toolbar>
       </template>
       <template v-slot:[`item.icon`]="{ item }">
@@ -167,7 +160,6 @@ export default {
   components: { BookingTabs, ConfirmDialog },
   props: ["bookings", "active"],
   data: () => ({
-    switchCalendar: false,
     expanded: [],
     singleExpand: true,
     headers: [
