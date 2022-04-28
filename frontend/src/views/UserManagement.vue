@@ -71,7 +71,7 @@ export default {
 
     confirmDeleteDialog(item) {
       this.userToDelete =Object.assign({}, item);
-       this.$store.commit("openSimpleDialog", {
+       this.$store.commit("dialog/openSimpleDialog", {
         title: "Biztosan törölni szeretnéd?",
         confirmButton: "Törlés",
       });

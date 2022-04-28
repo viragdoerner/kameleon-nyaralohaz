@@ -14,29 +14,35 @@ export const dialog = {
                 dropdownLabel: "",
                 dropdownItems: [],
             },
-        },
-        mutations: {
-            closeDialog(state) {
-                state.dialogData.isOpen = false;
-            },
-            openSimpleDialog(state, payload) {
-                state.dialogData.title = payload.title || "";
-                state.dialogData.text = payload.text || "";
-                state.dialogData.confirmButtonColor = payload.confirmButtonColor || "success";
-                state.dialogData.confirmButton = payload.confirmButton || "OK";
-                state.dialogData.hasForm = false;
-                state.dialogData.confirmButton = payload.confirmButton;
-                state.dialogData.isOpen = true;
-            },
-            openDialogWithComment(state, payload) {
-                this.openSimpleDialog(state, payload);
-                state.dialogData.hasForm = true;
-                state.dialogData.form.textfieldLabel = payload.textfieldLabel || "";
-                state.dialogData.form.textfieldRequired = payload.textfieldRequired || "";
-                state.dialogData.form.dropdownLabel = payload.dropdownLabel || "";
-                state.dialogData.form.dropdownItems = payload.dropdownItems || "";
-                state.dialogData.isOpen = true;
-            },
         }
+    },
+    mutations: {
+        closeDialog(state) {
+            state.dialogData.isOpen = false;
+        },
+        openSimpleDialog(state, payload) {
+            state.dialogData.title = payload.title || "";
+            state.dialogData.text = payload.text || "";
+            state.dialogData.confirmButtonColor = payload.confirmButtonColor || "success";
+            state.dialogData.confirmButton = payload.confirmButton || "OK";
+            state.dialogData.hasForm = false;
+            state.dialogData.confirmButton = payload.confirmButton;
+            state.dialogData.isOpen = true;
+        },
+        openDialogWithForm(state, payload) {
+            state.dialogData.title = payload.title || "";
+            state.dialogData.text = payload.text || "";
+            state.dialogData.confirmButtonColor = payload.confirmButtonColor || "success";
+            state.dialogData.confirmButton = payload.confirmButton || "OK";
+            state.dialogData.confirmButton = payload.confirmButton;
+
+            state.dialogData.hasForm = true;
+            state.dialogData.form.textfieldLabel = payload.form.textfieldLabel || "";
+            state.dialogData.form.textfieldRequired = payload.form.textfieldRequired || "";
+            state.dialogData.form.dropdownLabel = payload.form.dropdownLabel || "";
+            state.dialogData.form.dropdownItems = payload.form.dropdownItems || "";
+            state.dialogData.isOpen = true;
+        },
     }
+
 };

@@ -68,7 +68,6 @@ export default {
       return BookingDataService.bookingStatusAttrsForUser(status, booking);
     },
     openDialog(item) {
-      this.confirmDialog.isOpen = true;
       this.$store.commit("dialog/openDialogWithForm", {
         title: "Foglalás lemondása",
         text: "Biztosan le szeretnéd mondani a foglalást? Amennyiben már kifizetted a foglalót az nem jár vissza.",

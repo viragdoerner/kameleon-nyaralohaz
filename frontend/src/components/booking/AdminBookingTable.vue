@@ -235,7 +235,7 @@ export default {
         confirmButtonColor: "error",
         form: {
           textfieldLabel: "Írj indoklást a vendégnek!",
-          textfieldRequired: false,
+          textfieldRequired: true,
         },
       });
       return;
