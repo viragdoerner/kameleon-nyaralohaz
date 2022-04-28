@@ -44,7 +44,7 @@
         </v-col>
       </v-row>
     </div>
-    <confirm-dialog :confirmDialog="confirmDialog"
+    <confirm-dialog
         v-on:confirm="deletePicture"></confirm-dialog>
   </div>
 </template>
@@ -62,11 +62,6 @@ export default {
   data() {
     return {
       index: null,
-      confirmDialog: {
-        isOpen: false,
-        title: "Biztosan törölni szeretnéd?",
-        confirmButton: "Törlés"
-      },
       pictureToBeRemoved: null,
     };
   },
@@ -77,7 +72,10 @@ export default {
     },
     openDialog(e, pic) {
       e.stopImmediatePropagation();
-      this.confirmDialog.isOpen = true;
+      this.$store.commit("openSimpleDialog", {
+        title: "Biztosan törölni szeretnéd?",
+        confirmButton: "Törlés",
+      });
       this.pictureToBeRemoved = pic;
     },
   },

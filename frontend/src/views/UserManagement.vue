@@ -7,14 +7,12 @@
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <confirm-dialog
-            :confirmDialog="confirmDialog"
-            v-on:confirm="deleteItemConfirm"
-            v-on:cancel="closeDelete"
+            v-on:confirm="deleteUser"
           ></confirm-dialog>
         </v-toolbar>
       </template>
-      <template v-slot:[`actions`]="{ item }">
-        <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+      <template v-slot:[`item.actions`]="{ item }">
+        <v-icon small @click="confirmDeleteDialog(item)"> mdi-delete </v-icon>
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="initialize"> Reset </v-btn>
@@ -31,11 +29,6 @@ export default {
   name: "CUserManagement",
   components: { ConfirmDialog },
   data: () => ({
-    confirmDialog: {
-      isOpen: false,
-      title: "Biztosan törölni szeretnéd?",
-      confirmButton: "Törlés",
-    },
     headers: [
       { text: "Email", value: "email" },
       {
@@ -48,20 +41,13 @@ export default {
       { text: "", value: "actions", sortable: false },
     ],
     users: [],
-    editedIndex: -1,
-    editedItem: {
+    userToDelete: {
       email: "",
       lastname: 0,
       firstname: 0,
       phonenumber: 0,
     },
   }),
-
-  watch: {
-    confirmDialog(val) {
-      val || this.closeDelete();
-    },
-  },
 
   created() {
     this.initialize();
@@ -83,17 +69,20 @@ export default {
         });
     },
 
-    deleteItem(item) {
-      this.editedIndex = this.users.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.confirmDialog.isOpen = true;
+    confirmDeleteDialog(item) {
+      this.userToDelete =Object.assign({}, item);
+       this.$store.commit("openSimpleDialog", {
+        title: "Biztosan törölni szeretnéd?",
+        confirmButton: "Törlés",
+      });
     },
 
-    deleteItemConfirm() {
-      this.closeDelete();
-      ApiService.DELETE("user/" + this.editedItem.id)
+    deleteUser() {
+      ApiService.DELETE("user/" + this.userToDelete.id)
         .then((response) => {
-          this.users.splice(this.editedIndex, 1);
+          this.users =this.users.filter(function (u) {
+            return u.id !== this.userToDelete.id;
+          });
           this.$store.commit("showMessage", {
             active: true,
             color: "success", // You can create another actions for diferent color.
@@ -107,13 +96,6 @@ export default {
             message: "Nem sikerült törölni a felhasználót",
           });
         });
-    },
-
-    closeDelete() {
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
     },
   },
 };

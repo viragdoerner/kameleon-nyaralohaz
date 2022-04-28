@@ -44,10 +44,7 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
-    <confirm-dialog
-      :confirmDialog="confirmDialog"
-      v-on:confirm="cancelBooking"
-    ></confirm-dialog>
+    <confirm-dialog v-on:confirm="cancelBooking"></confirm-dialog>
   </div>
 </template>
 
@@ -62,16 +59,6 @@ export default {
   components: { BookingTabs, ConfirmDialog },
   props: ["bookings", "active"],
   data: () => ({
-    confirmDialog: {
-      isOpen: false,
-      title: "Foglalás lemondása",
-      text: "Biztosan le szeretnéd mondani a foglalást? Amennyiben már kifizetted a foglalót az nem jár vissza.",
-      confirmButton: "OK",
-      commentForm: {
-        textfieldLabel:
-          "Kérjük indokold meg, hogy mi miatt mondod le a foglalást!",
-      },
-    },
     bookingToBeRemoved: {},
   }),
   mounted() {},
@@ -82,6 +69,16 @@ export default {
     },
     openDialog(item) {
       this.confirmDialog.isOpen = true;
+      this.$store.commit("openDialog", {
+        isOpen: false,
+        title: "Foglalás lemondása",
+        text: "Biztosan le szeretnéd mondani a foglalást? Amennyiben már kifizetted a foglalót az nem jár vissza.",
+        confirmButton: "OK",
+        commentForm: {
+          textfieldLabel:
+            "Kérjük indokold meg, hogy mi miatt mondod le a foglalást!",
+        },
+      });
       this.bookingToBeRemoved = item;
     },
     cancelBooking(comment) {

@@ -11,24 +11,8 @@ export default new Vuex.Store({
     imgPath: "./images/apartments/",
     bookingData: {},
     selectedApartmentId: null,
-    dialog: {
-      isOpen: false,
-      title: "",
-      text: "",
-      confirmButton: "OK",
-      confirmButtonColor: "success",
-      commentForm: {
-        textfieldLabel: "",
-        textfieldRequired: true,
-        dropdownLabel: "",
-        dropdownItems: [],
-      },
-    }
   },
   mutations: {
-    openSimpleDialog(state, payload) {
-      state.dialog = payload;
-    },
     showMessage(state, payload) {
       state.snackbar = payload;
     },

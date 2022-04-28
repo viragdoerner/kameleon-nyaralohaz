@@ -15,23 +15,29 @@ const confirmDialogOriginal = {
 export const dialog = {
     namespaced: true,
     state: {
-        dialog: {
+        dialogData: {
             isOpen: false,
             title: "",
             text: "",
             confirmButton: "OK",
             confirmButtonColor: "success",
-            commentForm: {
-                textfieldLabel: "",
-                textfieldRequired: true,
-                dropdownLabel: "",
-                dropdownItems: [],
-            },
-        }
+            commentForm: null,
+        },
+        commentForm: {
+            textfieldLabel: "",
+            textfieldRequired: true,
+            dropdownLabel: "",
+            dropdownItems: [],
+        },
     },
     mutations: {
+        closeDialog(state) {
+            state.dialogData.isOpen = false;
+        },
         openSimpleDialog(state, payload) {
-            state.dialog = payload;
+            state.dialogData.title = payload.title;
+            state.dialogData.confirmButton = payload.confirmButton;
+            state.dialogData.isOpen = true;
         },
         openDialogWithComment(state, payload) {
 

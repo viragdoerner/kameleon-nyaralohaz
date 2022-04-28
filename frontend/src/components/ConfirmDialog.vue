@@ -1,29 +1,27 @@
 <template>
   <v-dialog
-    v-model="dialog.isOpen"
-    :max-width="dialog.commentForm ? 600 : 290"
+    v-model="dialogData.isOpen"
+    :max-width="dialogData.commentForm ? 600 : 290"
     :retain-focus="false"
   >
     <v-card>
-      <v-card-title> {{ dialog.title }} </v-card-title>
-      <v-card-text v-if="dialog.commentForm || dialog.text">
-        <p>{{ dialog.text }}</p>
+      <v-card-title> {{ dialogData.title }} </v-card-title>
+      <v-card-text v-if="dialogData.commentForm || dialogData.text">
+        <p>{{ dialogData.text }}</p>
         <v-combobox
-          v-if="
-            dialog.commentForm && dialog.commentForm.dropdownLabel
-          "
+          v-if="dialogData.commentForm && dialogData.commentForm.dropdownLabel"
           class="my-0"
           v-model="form.newStatus"
-          :items="dialog.commentForm.dropdownItems"
-          :label="dialog.commentForm.dropdownLabel"
+          :items="dialogData.commentForm.dropdownItems"
+          :label="dialogData.commentForm.dropdownLabel"
           solo
           item-text="name"
           color="cgreen"
         ></v-combobox>
         <v-textarea
-          v-if="dialog.commentForm"
+          v-if="dialogData.commentForm != ''"
           v-model="form.comment"
-          :label="dialog.commentForm.textfieldLabel"
+          :label="dialogData.commentForm.textfieldLabel"
           solo
         ></v-textarea>
       </v-card-text>
@@ -31,12 +29,12 @@
         <v-spacer></v-spacer>
         <v-btn color="cgreen darken-1" text @click="cancel()"> Mégse </v-btn>
         <v-btn
-          :color="dialog.confirmButtonColor"
+          :color="dialogData.confirmButtonColor"
           text
           @click="confirm()"
           :disabled="isButtonDisabled"
         >
-          {{ dialog.confirmButton }}
+          {{ dialogData.confirmButton }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -53,28 +51,27 @@ export default {
     form: {
       comment: "",
       newStatus: "",
-    },
+    }
   }),
   computed: {
-    computed: {
-      ...mapState(["dialog"]),
-    },
+    ...mapState('dialog',["dialogData"]),
     isButtonDisabled() {
       return (
-        (!!this.dialog.commentForm &&
-          this.dialog.commentForm.textfieldRequired &&
+        (!!this.dialogData.commentForm &&
+          this.dialogData.commentForm.textfieldRequired &&
           !this.form.comment) ||
-        (!!this.dialog.commentForm &&
-          this.dialog.commentForm.dropdownItems.length > 0 &&
+        (!!this.dialogData.commentForm &&
+          this.dialogData.commentForm.dropdownItems.length > 0 &&
           !this.form.newStatus)
       );
     },
   },
-  mounted() { console.log(this.dialog)},
+  mounted() {
+  },
   methods: {
     confirm() {
-      this.dialog.isOpen = false;
-      if (!!this.dialog.commentForm) {
+      this.$store.commit("dialog/closeDialog");
+      if (!!this.dialogData.commentForm) {
         this.form.newStatus = this.form.newStatus.status;
         this.$emit("confirm", this.form);
       } else {
@@ -86,7 +83,7 @@ export default {
     cancel() {
       this.form.comment = "";
       this.form.newStatus = "";
-      this.dialog.isOpen = false;
+      this.$store.commit("dialog/closeDialog");
       this.$emit("cancel");
     },
   },

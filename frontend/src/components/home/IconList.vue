@@ -152,8 +152,7 @@ export default {
       }
     },
     openDialog(p) {
-      //this.confirmDialog.isOpen = true;
-      this.$store.commit("dialog.openSimpleDialog", {
+      this.$store.commit("dialog/openSimpleDialog", {
         title: "Biztosan törölni szeretnéd?",
         confirmButton: "Törlés",
       });
