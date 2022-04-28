@@ -9,20 +9,18 @@
     >
       <v-tabs-slider color="yellow"></v-tabs-slider>
 
-      <v-tab> Aktív</v-tab>
-      <v-tab> Inaktív </v-tab>
-      <v-spacer></v-spacer>
-      <v-switch class="align-self-center"
-        v-model="switchCalendar"
-        inset
-        color="corange"
-        value="corange"
-        label="Naptár"
-      ></v-switch>
+      <v-tab> Naptár nézet</v-tab>
+      <v-tab> Lista nézet</v-tab>
+      <v-tab> Inaktív foglalások</v-tab>
     </v-tabs>
 
     <v-card class="col-12">
       <v-tabs-items v-model="tab">
+        <v-tab-item>
+          <admin-booking-calendar
+            :bookings="active_bookings"
+          ></admin-booking-calendar>
+        </v-tab-item>
         <v-tab-item>
           <div v-if="active_bookings.length < 1">
             Jelenleg nincs egy foglalás sem.
@@ -58,15 +56,15 @@
 import ApiService from "../services/api.service";
 import BookingDataService from "../services/bookingData.service";
 import AdminBookingTable from "../components/booking/AdminBookingTable.vue";
+import AdminBookingCalendar from "../components/booking/AdminBookingCalendar.vue";
 
 export default {
   name: "CAdminBooking",
-  components: { AdminBookingTable },
+  components: { AdminBookingTable,AdminBookingCalendar },
   data: () => ({
     active_bookings: [],
     inactive_bookings: [],
     tab: null,
-    switchCalendar: false,
   }),
 
   created() {

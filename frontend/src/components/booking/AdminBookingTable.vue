@@ -11,11 +11,6 @@
       class="elevation-1 col-12"
     >
       <template v-slot:top>
-        <v-toolbar flat>
-          <v-toolbar-title v-if="active">Aktív foglalások</v-toolbar-title>
-          <v-toolbar-title v-else>Inaktív foglalások</v-toolbar-title>
-
-        </v-toolbar>
       </template>
       <template v-slot:[`item.icon`]="{ item }">
         <v-icon :color="statusAttrs(item.status, item).color">
