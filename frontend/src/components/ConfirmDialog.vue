@@ -1,12 +1,12 @@
 <template>
   <v-dialog
     v-model="dialogData.isOpen"
-    :max-width="dialogData.form ? 600 : 290"
+    :max-width="dialogData.hasForm ? 600 : 290"
     :retain-focus="false"
   >
     <v-card>
       <v-card-title> {{ dialogData.title }} </v-card-title>
-      <v-card-text v-if="dialogData.form || dialogData.text">
+      <v-card-text v-if="dialogData.hasForm || dialogData.text">
         <p>{{ dialogData.text }}</p>
         <v-combobox
           v-if="dialogData.form && dialogData.form.dropdownLabel"
@@ -19,7 +19,7 @@
           color="cgreen"
         ></v-combobox>
         <v-textarea
-          v-if="dialogData.form != ''"
+          v-if="dialogData.hasForm"
           v-model="form.comment"
           :label="dialogData.form.textfieldLabel"
           solo
@@ -57,10 +57,10 @@ export default {
     ...mapState('dialog',["dialogData"]),
     isButtonDisabled() {
       return (
-        (!!this.dialogData.form &&
+        (!!this.dialogData.hasForm &&
           this.dialogData.form.textfieldRequired &&
           !this.form.comment) ||
-        (!!this.dialogData.form &&
+        (!!this.dialogData.hasForm &&
           this.dialogData.form.dropdownItems.length > 0 &&
           !this.form.newStatus)
       );
