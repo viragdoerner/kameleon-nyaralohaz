@@ -1,29 +1,29 @@
 <template>
   <v-dialog
-    v-model="confirmDialog.isOpen"
-    :max-width="confirmDialog.commentForm ? 600 : 290"
+    v-model="dialog.isOpen"
+    :max-width="dialog.commentForm ? 600 : 290"
     :retain-focus="false"
   >
     <v-card>
-      <v-card-title> {{ confirmDialog.title }} </v-card-title>
-      <v-card-text v-if="confirmDialog.commentForm || confirmDialog.text">
-        <p>{{ confirmDialog.text }}</p>
+      <v-card-title> {{ dialog.title }} </v-card-title>
+      <v-card-text v-if="dialog.commentForm || dialog.text">
+        <p>{{ dialog.text }}</p>
         <v-combobox
           v-if="
-            confirmDialog.commentForm && confirmDialog.commentForm.dropdownLabel
+            dialog.commentForm && dialog.commentForm.dropdownLabel
           "
           class="my-0"
           v-model="form.newStatus"
-          :items="confirmDialog.commentForm.dropdownItems"
-          :label="confirmDialog.commentForm.dropdownLabel"
+          :items="dialog.commentForm.dropdownItems"
+          :label="dialog.commentForm.dropdownLabel"
           solo
           item-text="name"
           color="cgreen"
         ></v-combobox>
         <v-textarea
-          v-if="confirmDialog.commentForm"
+          v-if="dialog.commentForm"
           v-model="form.comment"
-          :label="confirmDialog.commentForm.textfieldLabel"
+          :label="dialog.commentForm.textfieldLabel"
           solo
         ></v-textarea>
       </v-card-text>
@@ -31,12 +31,12 @@
         <v-spacer></v-spacer>
         <v-btn color="cgreen darken-1" text @click="cancel()"> Mégse </v-btn>
         <v-btn
-          :color="confirmDialog.confirmButtonColor"
+          :color="dialog.confirmButtonColor"
           text
           @click="confirm()"
           :disabled="isButtonDisabled"
         >
-          {{ confirmDialog.confirmButton }}
+          {{ dialog.confirmButton }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -44,9 +44,11 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "CConfirmDialog",
-  props: ["confirmDialog"],
+  props: [],
   data: () => ({
     form: {
       comment: "",
@@ -54,22 +56,25 @@ export default {
     },
   }),
   computed: {
+    computed: {
+      ...mapState(["dialog"]),
+    },
     isButtonDisabled() {
       return (
-        (!!this.confirmDialog.commentForm &&
-          this.confirmDialog.commentForm.textfieldRequired &&
+        (!!this.dialog.commentForm &&
+          this.dialog.commentForm.textfieldRequired &&
           !this.form.comment) ||
-        (!!this.confirmDialog.commentForm &&
-          this.confirmDialog.commentForm.dropdownItems.length > 0 &&
+        (!!this.dialog.commentForm &&
+          this.dialog.commentForm.dropdownItems.length > 0 &&
           !this.form.newStatus)
       );
     },
   },
-  mounted() {},
+  mounted() { console.log(this.dialog)},
   methods: {
     confirm() {
-      this.confirmDialog.isOpen = false;
-      if (!!this.confirmDialog.commentForm) {
+      this.dialog.isOpen = false;
+      if (!!this.dialog.commentForm) {
         this.form.newStatus = this.form.newStatus.status;
         this.$emit("confirm", this.form);
       } else {
@@ -81,7 +86,7 @@ export default {
     cancel() {
       this.form.comment = "";
       this.form.newStatus = "";
-      this.confirmDialog.isOpen = false;
+      this.dialog.isOpen = false;
       this.$emit("cancel");
     },
   },

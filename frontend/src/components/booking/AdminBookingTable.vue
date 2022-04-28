@@ -12,13 +12,16 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Felhasználók</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider>
+          <v-toolbar-title v-if="active">Aktív foglalások</v-toolbar-title>
+          <v-toolbar-title v-else>Inaktív foglalások</v-toolbar-title>
           <v-spacer></v-spacer>
-          <confirm-dialog
-            :confirmDialog="confirmDialog"
-            v-on:confirm="dialogOkEvent"
-          ></confirm-dialog>
+          <v-switch
+            v-model="switchCalendar"
+            inset
+            color="cyellow"
+            value="cyellow"
+            label="Naptár"
+          ></v-switch>
         </v-toolbar>
       </template>
       <template v-slot:[`item.icon`]="{ item }">
@@ -160,12 +163,14 @@ import BookingDataService from "../../services/bookingData.service";
 import BookingTabs from "./BookingTabs.vue";
 import ConfirmDialog from "../ConfirmDialog.vue";
 import MomentService from "../../services/moment.service";
+import SortService from "../../services/sort.service";
 
 export default {
   name: "CAdminBookingTable",
   components: { BookingTabs, ConfirmDialog },
   props: ["bookings", "active"],
   data: () => ({
+    switchCalendar: false,
     expanded: [],
     singleExpand: true,
     headers: [
@@ -186,19 +191,6 @@ export default {
       { text: "Érkezés", value: "arrival" },
       { text: "", value: "actions", sortable: false },
     ],
-    confirmDialogOriginal: {
-      isOpen: false,
-      title: "",
-      text: "",
-      confirmButton: "OK",
-      confirmButtonColor: "success",
-      commentForm: {
-        textfieldLabel: "",
-        textfieldRequired: true,
-        dropdownLabel: "",
-        dropdownItems: [],
-      },
-    },
     confirmDialog: {},
     selectedBooking: {},
     payload: {
@@ -211,63 +203,7 @@ export default {
   computed: {},
   methods: {
     customSort(items, index, isDesc) {
-      index = index[0];
-      isDesc = isDesc[0];
-      items.sort((a, b) => {
-        if (index === "lastmodified") {
-          return this.sortByLastModified(a, b, isDesc);
-        } else if (index === "guestname") {
-          return this.sortByGuestName(a, b, isDesc);
-        } else {
-          if (!isDesc) {
-            return a[index] < b[index] ? -1 : 1;
-          } else {
-            return b[index] < a[index] ? -1 : 1;
-          }
-        }
-      });
-      return items;
-    },
-    sortByLastModified(a, b, isDesc) {
-      var lastmodified_A = a.transitions.slice(-1)[0].created;
-      var lastmodified_B = b.transitions.slice(-1)[0].created;
-      console.log(lastmodified_A);
-      console.log(lastmodified_B);
-      var result = MomentService.sort(lastmodified_A, lastmodified_B, isDesc);
-      console.log(result);
-      return result;
-    },
-    sortByGuestName(a, b, isDesc) {
-      var a_lastname = a.user.lastname;
-      var b_lastname = b.user.lastname;
-      if (isDesc) {
-        if (a_lastname < b_lastname) return 1;
-        if (a_lastname > b_lastname) return -1;
-        return 0;
-      } else {
-        if (a_lastname < b_lastname) return -1;
-        if (a_lastname > b_lastname) return 1;
-        return 0;
-      }
-    },
-    sortByAvgRates(a, b, isDesc) {
-      var [minA, maxA] = a.avg_rates.split("-");
-      var [minB, maxB] = b.avg_rates.split("-");
-
-      minA = parseFloat(minA);
-      maxA = parseFloat(maxA);
-      minB = parseFloat(minB);
-      maxB = parseFloat(maxB);
-
-      if (isDesc) {
-        if (maxA < maxB) return 1;
-        if (maxA > maxB) return -1;
-        return 0;
-      } else {
-        if (minA < minB) return -1;
-        if (minA > minB) return 1;
-        return 0;
-      }
+      return SortService.sortBookings(items,index,isDesc);
     },
     mouseClickAccept(item) {
       this.confirmDialog = JSON.parse(

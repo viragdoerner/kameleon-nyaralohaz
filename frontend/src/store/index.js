@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { auth } from './auth.module';
+import { dialog } from './dialog.module';
 
 Vue.use(Vuex)
 
@@ -9,9 +10,25 @@ export default new Vuex.Store({
     snackbar: {},
     imgPath: "./images/apartments/",
     bookingData: {},
-    selectedApartmentId: null
+    selectedApartmentId: null,
+    dialog: {
+      isOpen: false,
+      title: "",
+      text: "",
+      confirmButton: "OK",
+      confirmButtonColor: "success",
+      commentForm: {
+        textfieldLabel: "",
+        textfieldRequired: true,
+        dropdownLabel: "",
+        dropdownItems: [],
+      },
+    }
   },
   mutations: {
+    openSimpleDialog(state, payload) {
+      state.dialog = payload;
+    },
     showMessage(state, payload) {
       state.snackbar = payload;
     },
@@ -32,7 +49,7 @@ export default new Vuex.Store({
       return false;
     },
     getCurrentEmail: state => {
-      return state.user ?  state.user.username : "";
+      return state.user ? state.user.username : "";
     },
     loggedIn: state => {
       if (auth.state.status && auth.state.status.loggedIn) {
@@ -54,6 +71,6 @@ export default new Vuex.Store({
     },
   },
   modules: {
-    auth
+    auth, dialog
   }
 })

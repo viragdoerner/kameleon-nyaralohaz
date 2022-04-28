@@ -42,7 +42,6 @@
         </v-btn>
       </div>
       <confirm-dialog
-        :confirmDialog="confirmDialog"
         v-on:confirm="deleteProperty"
       ></confirm-dialog>
     </v-row>
@@ -130,11 +129,7 @@ export default {
       name: "",
       icon_name: "",
     },
-    confirmDialog: {
-      isOpen: false,
-      title: "Biztosan törölni szeretnéd?",
-      confirmButton: "Törlés",
-    },
+
     propertyToBeRemoved: null,
     rules: {
       required: (value) => !!value || "Kötelező.",
@@ -157,7 +152,11 @@ export default {
       }
     },
     openDialog(p) {
-      this.confirmDialog.isOpen = true;
+      //this.confirmDialog.isOpen = true;
+      this.$store.commit("dialog.openSimpleDialog", {
+        title: "Biztosan törölni szeretnéd?",
+        confirmButton: "Törlés",
+      });
       this.propertyToBeRemoved = p;
     },
   },
