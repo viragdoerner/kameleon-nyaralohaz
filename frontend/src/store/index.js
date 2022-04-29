@@ -33,7 +33,7 @@ export default new Vuex.Store({
       return false;
     },
     getCurrentEmail: state => {
-      return state.user ? state.user.username : "";
+      return state.auth.user ? state.auth.user.username : "";
     },
     loggedIn: state => {
       if (auth.state.status && auth.state.status.loggedIn) {

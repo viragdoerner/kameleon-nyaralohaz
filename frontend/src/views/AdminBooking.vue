@@ -11,7 +11,7 @@
 
       <v-tab> Naptár nézet</v-tab>
       <v-tab> Lista nézet</v-tab>
-      <v-tab> Inaktív foglalások</v-tab>
+      <v-tab> Törölt foglalások</v-tab>
     </v-tabs>
 
     <v-card class="col-12">

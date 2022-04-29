@@ -4,6 +4,40 @@ import store from "../store/index"
 
 class BookingService {
 
+    convertBookingsToEvents(bookings) {
+
+        var currentUserEmail = store.getters.currentUserEmail;
+        const coloredApartments = this.getApartmentsWithColor(bookings);
+
+        var events = [];
+        bookings.forEach(booking => {
+            events.push({
+                name: booking.user.lastname + " " + booking.user.firstname,
+                start: moment(booking.arrival).format("YYYY-MM-DD"),
+                end: moment(booking.departure).format("YYYY-MM-DD"),
+                color: coloredApartments[booking.apartment.name],
+                timed: false,
+                admin: booking.user.email === currentUserEmail
+            });
+        })
+        return events;
+    }
+    getApartmentsWithColor(bookings) {
+        var colors = [
+            "cyan",
+            "indigo",
+            "green",
+            "blue",
+            "orange",
+        ];
+        var apartments = bookings.map(a => a.apartment.name);
+        apartments = [...new Set(apartments)];
+        var coloredApartments = {};
+        apartments.forEach((a, index) => {
+            coloredApartments[a] =  colors[index];
+        })
+        return coloredApartments;
+    }
     allowedDates(val, disabled_dates) {
         if (moment(val) < moment().add(5, "days")) {
             return false;
