@@ -17,7 +17,8 @@ class BookingService {
                 end: moment(booking.departure).format("YYYY-MM-DD"),
                 color: coloredApartments[booking.apartment.name],
                 timed: false,
-                admin: booking.user.email === currentUserEmail
+                admin: booking.user.email === currentUserEmail,
+                booking: booking
             });
         })
         return events;
