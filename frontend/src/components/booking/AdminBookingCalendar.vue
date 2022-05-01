@@ -27,7 +27,17 @@
           :event-color="getEventColor"
           type="month"
           @click:event="showEvent"
-        ></v-calendar>
+          ><template v-slot:event="{ event }">
+            <v-icon
+              v-if="event.booking.dogIncluded"
+              color="white"
+              class="pl-1"
+              small
+              >mdi-paw</v-icon
+            >
+            <span class="pl-1">{{ event.name }}</span>
+          </template>
+        </v-calendar>
         <v-menu
           v-model="selectedOpen"
           :close-on-content-click="false"
@@ -35,14 +45,7 @@
           offset-x
         >
           <v-card color="grey lighten-4" min-width="350px" flat>
-            <v-toolbar :color="selectedEvent.color" dark>
-              <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
-            </v-toolbar>
-            <v-card-text>
-              <booking-details
-                :booking="selectedEvent.booking"
-              ></booking-details>
-            </v-card-text>
+            <booking-details :event="selectedEvent"></booking-details>
             <v-card-actions>
               <v-btn text color="secondary" @click="selectedOpen = false">
                 Cancel
