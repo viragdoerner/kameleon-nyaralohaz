@@ -49,11 +49,6 @@
         >
           <v-card color="grey lighten-4" min-width="350px" flat>
             <booking-details :event="selectedEvent"></booking-details>
-            <v-card-actions>
-              <v-btn text color="secondary" @click="selectedOpen = false">
-                Cancel
-              </v-btn>
-            </v-card-actions>
           </v-card>
         </v-menu>
       </v-sheet>

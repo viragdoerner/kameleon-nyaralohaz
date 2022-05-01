@@ -1,57 +1,51 @@
 <template>
   <div>
-    <v-toolbar :color="event.color" dark>
-      <v-toolbar-title v-html="event.name"></v-toolbar-title>
-    </v-toolbar>
+    <v-card :color="event.color" dark>
+      <v-card-title> {{ event.name }}</v-card-title>
+      <v-card-subtitle
+        ><span>{{ booking.user.email }}</span
+        >,
+        <span class="pl-2">{{
+          booking.user.phonenumber
+        }}</span></v-card-subtitle
+      >
+    </v-card>
     <v-card-text>
-      <v-simple-table>
-        <template v-slot:default>
-          <tbody>
-            <tr>
-              <td>Állapot</td>
-              <td>{{ statusAttrs(booking.status, booking).status_admin }}</td>
-            </tr>
-            <tr v-if="booking.transitions">
-              <td>Megjegyzés</td>
-              <td>{{ booking.transitions[0].comment }}</td>
-            </tr>
-            <tr v-if="booking.transitions">
-              <td>Foglalás létrehozása</td>
-              <td>{{ formatDate(booking.transitions[0].created) }}</td>
-            </tr>
-            <tr v-if="booking.transitions">
-              <td>Utoljára módosítva</td>
-              <td>
-                {{
-                  formatDate(
-                    booking.transitions[booking.transitions.length - 1].created
-                  )
-                }}
-              </td>
-            </tr>
-            <tr>
-              <td>Kutyussal jövünk</td>
-              <td>{{ booking.dogIncluded ? "Igen" : "Nem" }}</td>
-            </tr>
-            <tr>
-              <td>Lefoglalt apartman</td>
-              <td>{{ booking.apartment.name }}</td>
-            </tr>
-            <tr>
-              <td>Foglalás teljes ára</td>
-              <td>{{ getTotalPrice(booking) }} Ft</td>
-            </tr>
-            <tr>
-              <td>Email</td>
-              <td>{{ booking.user.email }} Ft</td>
-            </tr>
-            <tr>
-              <td>Telefonszám</td>
-              <td>booking.user.phonenumber</td>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
+      <div class="d-flex justify-space-between mb-3">
+        <v-chip v-if="booking.dogIncluded" color="pink" text-color="white">
+          <v-icon> mdi-paw </v-icon>
+        </v-chip>
+        <v-chip
+          :color="statusAttrs(booking.status, booking).color"
+          text-color="white"
+        >
+          <v-icon left>
+            {{ statusAttrs(booking.status, booking)["icon"] }}
+          </v-icon>
+
+          {{ statusAttrs(booking.status, booking).status_admin }}
+        </v-chip>
+        <v-chip :color="event.color" text-color="white">
+          {{ booking.apartment.name }}
+        </v-chip>
+      </div>
+      <div class="d-flex flex-column mb-3" v-if="booking.transitions[0].comment">
+        <v-alert text color="darkgrey">
+          <div class="d-flex flex-column">
+            <p>"{{ booking.transitions[0].comment }}"</p>
+            <div class="align-self-end overline">
+              - {{ booking.user.firstname }},
+              {{ formatDate(booking.transitions[0].created) }}
+            </div>
+          </div>
+        </v-alert>
+      </div>
+      <v-row class="d-flex justify-center my-3"
+        ><v-chip color="cgreen" text-color="white">
+          {{ formatDate(booking.arrival) }} -
+          {{ formatDate(booking.departure) }}</v-chip
+        ></v-row
+      >
     </v-card-text>
   </div>
 </template>
@@ -65,8 +59,7 @@ export default {
   name: "CBookingDetails",
   props: ["event"],
   components: {},
-  data: () => ({
-  }),
+  data: () => ({}),
   methods: {
     getTotalPrice(booking) {
       return BookingService.getTotalPriceForBooking(
@@ -86,11 +79,10 @@ export default {
     },
   },
   computed: {
-    booking(){
+    booking() {
       return this.event.booking;
-    }
+    },
   },
-  mounted() {
-  },
+  mounted() {},
 };
 </script>

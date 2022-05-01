@@ -110,7 +110,7 @@
       </v-row>
     </v-card-text>
     <v-card-actions>
-      <v-btn color="corange" @click="finishStepThree" class="white--text">
+      <v-btn color="corange" @click="finishStepThree" class="white--text" :disabled="comment.length<10">
         Foglalás elküldése
       </v-btn>
       <v-btn text @click="moveBack"> Vissza </v-btn>

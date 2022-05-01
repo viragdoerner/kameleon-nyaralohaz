@@ -25,7 +25,7 @@ class BookingService {
     }
     getApartmentsWithColor(bookings) {
         var colors = [
-            "cyan",
+            "cyan darken-2",
             "indigo",
             "green",
             "blue",
