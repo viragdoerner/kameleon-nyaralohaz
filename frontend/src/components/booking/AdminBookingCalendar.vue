@@ -28,6 +28,10 @@
           type="month"
           @click:event="showEvent"
           ><template v-slot:event="{ event }">
+            <v-icon  class="pl-1" small color="white">
+              {{ statusAttrs(event.booking.status, event.booking)["icon"] }}
+            </v-icon>
+            <span class="pl-2">{{ event.name }}</span>
             <v-icon
               v-if="event.booking.dogIncluded"
               color="white"
@@ -35,7 +39,6 @@
               small
               >mdi-paw</v-icon
             >
-            <span class="pl-1">{{ event.name }}</span>
           </template>
         </v-calendar>
         <v-menu
@@ -61,6 +64,7 @@
 <script>
 import BookingService from "../../services/booking.service";
 import BookingDetails from "./BookingDetails.vue";
+import BookingDataService from "../../services/bookingData.service"
 export default {
   name: "CAdminBookingCalendar",
   components: { BookingService, BookingDetails },
@@ -116,6 +120,9 @@ export default {
     },
     rnd(a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
+    },
+    statusAttrs(status, booking) {
+      return BookingDataService.bookingStatusAttrsForUser(status, booking);
     },
   },
 };
