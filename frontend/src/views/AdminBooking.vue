@@ -6,12 +6,13 @@
       background-color="cbggreen"
       color="cgreen"
       center-active
+      icons-and-text
     >
       <v-tabs-slider color="yellow"></v-tabs-slider>
 
-      <v-tab> Naptár nézet</v-tab>
-      <v-tab> Lista nézet</v-tab>
-      <v-tab> Törölt foglalások</v-tab>
+      <v-tab> Naptár nézet <v-icon>mdi-eye</v-icon></v-tab>
+      <v-tab> Lista nézet <v-icon>mdi-pencil</v-icon></v-tab>
+      <v-tab> Törölt foglalások <v-icon>mdi-delete</v-icon></v-tab>
     </v-tabs>
 
     <v-card class="col-12">
