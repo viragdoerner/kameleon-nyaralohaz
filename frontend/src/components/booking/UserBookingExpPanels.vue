@@ -6,13 +6,13 @@
           <template>
             <v-row no-gutters>
               <v-col cols="1">
-                <v-icon :color="statusAttrs(item.status, item).color">
-                  {{ statusAttrs(item.status, item)["icon"] }}
+                <v-icon :color="statusAttrs(booking.status, booking).color">
+                  {{ statusAttrs(booking.status, booking)["icon"] }}
                 </v-icon>
               </v-col>
               <v-col cols="4" class="d-flex align-center">
                 <div class="overline">
-                  {{ statusAttrs(item.status, item).status }}
+                  {{ statusAttrs(booking.status, booking).status }}
                 </div>
               </v-col>
             </v-row>
@@ -20,14 +20,14 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <div class="d-flex flex-column">
-            <booking-tabs :booking="item"></booking-tabs>
+            <booking-tabs :booking="booking"></booking-tabs>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   v-if="active"
                   v-bind="attrs"
                   v-on="on"
-                  @click="openDialog(item)"
+                  @click="openDialog(booking)"
                   elevation="2"
                   small
                   color="white"
