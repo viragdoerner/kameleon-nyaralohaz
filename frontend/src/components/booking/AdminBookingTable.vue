@@ -321,7 +321,6 @@ export default {
           });
         })
         .catch((error) => {
-          console.log(error);
           this.$store.commit("showMessage", {
             active: true,
             color: "error",

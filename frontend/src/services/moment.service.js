@@ -44,9 +44,6 @@ class MomentService {
     sort(A, B, isDesc) {
         var dateA = moment(A);
         var dateB = moment(B);
-        console.log( "a két dátum: ");
-        console.log(dateA);
-        console.log(dateB);
         if (isDesc) {
             if (dateA.isBefore(dateB)) return 1;
             if (dateA.isAfter(dateB) ) return -1;

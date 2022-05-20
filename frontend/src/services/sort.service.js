@@ -24,10 +24,7 @@ class SortService {
     sortByLastModified(a, b, isDesc) {
         var lastmodified_A = a.transitions.slice(-1)[0].created;
         var lastmodified_B = b.transitions.slice(-1)[0].created;
-        console.log(lastmodified_A);
-        console.log(lastmodified_B);
         var result = MomentService.sort(lastmodified_A, lastmodified_B, isDesc);
-        console.log(result);
         return result;
     }
     sortByGuestName(a, b, isDesc) {

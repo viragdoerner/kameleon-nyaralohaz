@@ -1,6 +1,9 @@
 <template>
   <v-app>
-    <c-app-bar v-if="$route.name !== 'Login'" :apartment_routes="apartment_routes"></c-app-bar>
+    <c-app-bar
+      v-if="$route.name !== 'Login'"
+      :apartment_routes="apartment_routes"
+    ></c-app-bar>
     <v-main class="app">
       <router-view :key="$route.path" />
     </v-main>
@@ -15,7 +18,7 @@ import CAppBar from "./components/AppBar.vue";
 import CSnackBar from "./components/SnackBar.vue";
 import CApartment from "./views/Apartment.vue";
 import router from "./router";
-import ApiService from "./services/api.service"
+import ApiService from "./services/api.service";
 
 export default {
   components: {
@@ -34,7 +37,13 @@ export default {
         .then((response) => {
           this.processData(response, this);
         })
-        .catch((err) => console.log(err));
+        .catch((err) =>
+          this.$store.commit("showMessage", {
+            active: true,
+            color: "error",
+            message: err,
+          })
+        );
     },
 
     processData: ({ data }, that) => {
@@ -73,11 +82,9 @@ export default {
     },
   },
   created() {
-    
-    this.getDynamicRoutes( "apartment", this);
+    this.getDynamicRoutes("apartment", this);
   },
-  mounted() {
-  },
+  mounted() {},
 };
 </script>
 
