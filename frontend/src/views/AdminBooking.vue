@@ -84,14 +84,12 @@ export default {
   },
   methods: {
     statusChanged(changedBooking) {
-      console.log(this.active_bookings);
       for (var i = 0; i < this.bookings.length; i++) {
         if (this.bookings[i].id == changedBooking.id) {
           //this.bookings[i] = changedBooking;
           this.$set(this.bookings, i, changedBooking);
         }
       }
-      console.log(this.active_bookings);
     },
     initialize() {
       ApiService.GET("booking")

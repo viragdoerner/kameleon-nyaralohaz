@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-expansion-panels multiple>
-      <v-expansion-panel v-for="booking in bookings" :key="booking.id">
+      <v-expansion-panel v-for="booking in bookings" :key="booking.id" transition="scale-transition">
         <v-expansion-panel-header>
           <template>
             <v-row no-gutters>
@@ -41,10 +41,10 @@
               >
             </v-tooltip>
           </div>
+          <confirm-dialog v-on:confirm="cancelBooking(booking, arguments[0])"></confirm-dialog>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
-    <confirm-dialog v-on:confirm="cancelBooking"></confirm-dialog>
   </div>
 </template>
 
@@ -59,7 +59,18 @@ export default {
   components: { BookingTabs, ConfirmDialog },
   props: ["bookings", "active"],
   data: () => ({
-    bookingToBeRemoved: {},
+    paypal: {
+      sandbox:
+        "ASBLcghITtKTthF1b2qpIMTP4Z7YgD2YsFbxZAFGgOer5zwORR-LsvXyveaFLANB_g19PmI1iGlbqGB_",
+    },
+    experienceOptions: {
+      input_fields: {
+        no_shipping: 1,
+      },
+    },
+    myStyle: {
+      color: "silver",
+    },
   }),
   mounted() {},
   computed: {},
@@ -67,7 +78,8 @@ export default {
     statusAttrs(status, booking) {
       return BookingDataService.bookingStatusAttrsForUser(status, booking);
     },
-    openDialog(item) {
+    openDialog(booking) {
+      
       this.$store.commit("dialog/openDialogWithForm", {
         title: "Foglalás lemondása",
         text: "Biztosan le szeretnéd mondani a foglalást? Amennyiben már kifizetted a foglalót az nem jár vissza.",
@@ -77,18 +89,15 @@ export default {
             "Kérjük indokold meg, hogy mi miatt mondod le a foglalást!",
         },
       });
-      this.bookingToBeRemoved = item;
     },
-    cancelBooking(comment) {
-      var payload = {
-        comment: comment,
-      };
-      ApiService.PUT("booking/cancel/" + this.bookingToBeRemoved.id, payload)
+    cancelBooking(booking, payload) {
+     
+      ApiService.PUT("booking/cancel/" + booking.id, payload)
         .then((response) => {
           this.$emit("statusChanged", response.data);
           this.$store.commit("showMessage", {
             active: true,
-            color: "success", // You can create another actions for diferent color.
+            color: "success", 
             message: "Foglalás sikeresen lemondva",
           });
         })
