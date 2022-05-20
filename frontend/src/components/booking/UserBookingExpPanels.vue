@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-expansion-panels multiple>
-      <v-expansion-panel v-for="(item, i) in bookings" :key="i">
+      <v-expansion-panel v-for="booking in bookings" :key="booking.id">
         <v-expansion-panel-header>
           <template>
             <v-row no-gutters>

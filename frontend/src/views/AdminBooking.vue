@@ -61,37 +61,42 @@ import AdminBookingCalendar from "../components/booking/AdminBookingCalendar.vue
 
 export default {
   name: "CAdminBooking",
-  components: { AdminBookingTable,AdminBookingCalendar },
+  components: { AdminBookingTable, AdminBookingCalendar },
   data: () => ({
-    active_bookings: [],
-    inactive_bookings: [],
+    bookings: [],
     tab: null,
   }),
 
   created() {
     this.initialize();
   },
+  computed: {
+    active_bookings() {
+      return this.bookings.filter(function (booking) {
+        return booking.active;
+      });
+    },
+    inactive_bookings() {
+      return this.bookings.filter(function (booking) {
+        return !booking.active;
+      });
+    },
+  },
   methods: {
-    statusChanged(b) {
-      this.active_bookings = this.active_bookings.filter(function (booking) {
-        return booking.id !== b.id;
-      });
-      this.inactive_bookings = this.inactive_bookings.filter(function (
-        booking
-      ) {
-        return booking.id !== b.id;
-      });
-      if (b.active) {
-        this.active_bookings.push(b);
-      } else {
-        this.inactive_bookings.push(b);
+    statusChanged(changedBooking) {
+      console.log(this.active_bookings);
+      for (var i = 0; i < this.bookings.length; i++) {
+        if (this.bookings[i].id == changedBooking.id) {
+          //this.bookings[i] = changedBooking;
+          this.$set(this.bookings, i, changedBooking);
+        }
       }
+      console.log(this.active_bookings);
     },
     initialize() {
       ApiService.GET("booking")
         .then((response) => {
-          this.active_bookings = response.data.active;
-          this.inactive_bookings = response.data.inactive;
+          this.bookings = response.data.active.concat(response.data.inactive);
         })
         .catch((error) => {
           this.$store.commit("showMessage", {
