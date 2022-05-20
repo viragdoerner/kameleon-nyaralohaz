@@ -59,18 +59,6 @@ export default {
   components: { BookingTabs, ConfirmDialog },
   props: ["bookings", "active"],
   data: () => ({
-    paypal: {
-      sandbox:
-        "ASBLcghITtKTthF1b2qpIMTP4Z7YgD2YsFbxZAFGgOer5zwORR-LsvXyveaFLANB_g19PmI1iGlbqGB_",
-    },
-    experienceOptions: {
-      input_fields: {
-        no_shipping: 1,
-      },
-    },
-    myStyle: {
-      color: "silver",
-    },
   }),
   mounted() {},
   computed: {},
