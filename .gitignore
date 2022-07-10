@@ -64,3 +64,5 @@ frontend/src/assets/img/
 frontend/src/assets/images/
 
 backend/src/main/resources/static/
+
+frontend/dist/
