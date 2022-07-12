@@ -18,7 +18,7 @@ import CAppBar from "./components/AppBar.vue";
 import CSnackBar from "./components/SnackBar.vue";
 import CApartment from "./views/Apartment.vue";
 import router from "./router";
-import apartment_routes from "./assets/static_data/routes.json"
+import apartments from "./assets/static_data/apartments.json"
 
 export default {
   components: {
@@ -29,7 +29,8 @@ export default {
   name: "App",
 
   data: () => ({
-    apartment_routes: apartment_routes
+    apartment_routes: [],
+    apartments: apartments
   }),
   methods: {
     getDynamicRoutes(url) {
@@ -44,6 +45,7 @@ export default {
       //       message: err,
       //     })
       //   );
+      this.processData(this.apartments, this);
 
     },
 
