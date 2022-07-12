@@ -115,12 +115,13 @@
 
 <script>
 import ApiService from "../services/api.service"
+import weekendhouse from "../assets/static_data/weekendhouse.json"
 export default {
   name: "CFooter",
   data: () => ({
     expand_address: false,
     expand_phone: false,
-    weekendhouse: {},
+    weekendhouse: weekendhouse,
   }),
   computed: {
     currentRouteName() {
@@ -128,19 +129,19 @@ export default {
     },
   },
   mounted() {
-    this.getWeekendhouse();
+    //this.getWeekendhouse();
   },
   methods: {
-    getWeekendhouse() {
-      ApiService.GET( "weekendhouse")
-        .then((response) => {
-          if (!response.data) throw "empty list";
-          this.weekendhouse = response.data;
-        })
-        .catch((error) => {
-          alert(error);
-        });
-    },
+    // getWeekendhouse() {
+    //   ApiService.GET( "weekendhouse")
+    //     .then((response) => {
+    //       if (!response.data) throw "empty list";
+    //       this.weekendhouse = response.data;
+    //     })
+    //     .catch((error) => {
+    //       alert(error);
+    //     });
+    // },
     saveWeekendhouse() {
       ApiService.PUT( "weekendhouse", this.weekendhouse)
         .then((response) => {

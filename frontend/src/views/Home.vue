@@ -25,6 +25,8 @@ import CReserveSection from "../components/home/ReserveSection.vue";
 import CReserveApartmentSection from "../components/home/ReserveApartmentSection.vue";
 import CIconList from "../components/home/IconList.vue";
 import ApiService from "../services/api.service"
+import weekendhouse from "../assets/static_data/weekendhouse.json"
+import apartments from "../assets/static_data/apartments.json"
 
 export default {
   name: "CHome",
@@ -36,8 +38,8 @@ export default {
     CReserveApartmentSection,
   },
   data: () => ({
-    weekendhouse: {},
-    apartments: [],
+    weekendhouse: weekendhouse,
+    apartments: apartments,
   }),
   mounted() {
     this.getWeekendhouse();
@@ -45,32 +47,32 @@ export default {
   },
   methods: {
     getWeekendhouse() {
-     ApiService.GET( "weekendhouse")
-        .then((response) => {
-          if (!response.data) throw "empty list";
-          this.weekendhouse = response.data;
-        })
-        .catch((error) => {
-          this.$store.commit("showMessage", {
-            active: true,
-            color: "error", // You can create another actions for diferent color.
-            message: "Hiba történt a nyaraló adatainak lekérésénél",
-          });
-        });
+    //  ApiService.GET( "weekendhouse")
+    //     .then((response) => {
+    //       if (!response.data) throw "empty list";
+    //       this.weekendhouse = response.data;
+    //     })
+    //     .catch((error) => {
+    //       this.$store.commit("showMessage", {
+    //         active: true,
+    //         color: "error", // You can create another actions for diferent color.
+    //         message: "Hiba történt a nyaraló adatainak lekérésénél",
+    //       });
+    //     });
     },
     getApartments() {
-       ApiService.GET( "apartment")
-        .then((response) => {
-          if (!response.data) throw "empty list";
-          this.apartments = response.data;
-        })
-        .catch((error) => {
-          this.$store.commit("showMessage", {
-            active: true,
-            color: "error", // You can create another actions for diferent color.
-            message: "Hiba történt az apartmanok adatainak lekérésénél",
-          });
-        });
+      //  ApiService.GET( "apartment")
+      //   .then((response) => {
+      //     if (!response.data) throw "empty list";
+      //     this.apartments = response.data;
+      //   })
+      //   .catch((error) => {
+      //     this.$store.commit("showMessage", {
+      //       active: true,
+      //       color: "error", // You can create another actions for diferent color.
+      //       message: "Hiba történt az apartmanok adatainak lekérésénél",
+      //     });
+      //   });
     },
     onAddProperty(p) {
       var payload = JSON.parse(JSON.stringify(this.weekendhouse));
