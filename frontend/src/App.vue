@@ -49,7 +49,7 @@ export default {
 
     },
 
-    processData: ({ data }, that) => {
+    processData: ( data , that) => {
       var slugifyString = function (str) {
         str = str.replace(/^\s+|\s+$/g, ""); // trim
         str = str.toLowerCase();
