@@ -48,6 +48,7 @@
                   x-large
                   color="corange"
                   class="ma-2"
+                  disabled
                   >FOGLALÁS
                 </v-btn>
                 <v-btn

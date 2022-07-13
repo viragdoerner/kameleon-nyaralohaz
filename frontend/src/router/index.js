@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import CHome from '../views/Home.vue'
-import CBooking from '../views/Booking.vue'
-import CLogin from '../views/Login.vue'
-import CUserManagement from '../views/UserManagement.vue'
-import CUserBooking from '../views/UserBooking.vue'
-import CAdminBooking from '../views/AdminBooking.vue'
+// import CBooking from '../views/Booking.vue'
+// import CLogin from '../views/Login.vue'
+// import CUserManagement from '../views/UserManagement.vue'
+// import CUserBooking from '../views/UserBooking.vue'
+// import CAdminBooking from '../views/AdminBooking.vue'
 
 Vue.use(VueRouter)
 
@@ -15,32 +15,32 @@ const routes = [
     name: 'Home',
     component: CHome
   },
-  {
-    path: '/booking',
-    name: 'Booking',
-    component: CBooking,
-    props: { bookingData: {} }
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: CLogin
-  },
-  {
-    path: '/user-management',
-    name: 'User Management',
-    component: CUserManagement
-  },
-  {
-    path: '/user-booking',
-    name: 'User Booking',
-    component: CUserBooking
-  },
-  {
-    path: '/admin-booking',
-    name: 'Admin Booking',
-    component: CAdminBooking
-  }
+  // {
+  //   path: '/booking',
+  //   name: 'Booking',
+  //   component: CBooking,
+  //   props: { bookingData: {} }
+  // },
+  // {
+  //   path: '/login',
+  //   name: 'Login',
+  //   component: CLogin
+  // },
+  // {
+  //   path: '/user-management',
+  //   name: 'User Management',
+  //   component: CUserManagement
+  // },
+  // {
+  //   path: '/user-booking',
+  //   name: 'User Booking',
+  //   component: CUserBooking
+  // },
+  // {
+  //   path: '/admin-booking',
+  //   name: 'Admin Booking',
+  //   component: CAdminBooking
+  // }
 ]
 
 const router = new VueRouter({

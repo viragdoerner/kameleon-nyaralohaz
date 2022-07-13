@@ -1,6 +1,6 @@
 {
   "address": "Semmelweis utca, Balatonszemes",
-  "phone_number": "+36302460637",
+  "phone_number": "+36302460637, +36304032377",
   "email": "mail.dorner.eva@gmail.com",
   "facebook": "https://www.facebook.com/kameleonnyaralohaz",
   "description": "<div style=\"\">Reggeli madárfütty-koncert, hűs falak, árnyékos teraszok, hosszú pancsolások és esti sütögetések. Mi ezek miatt szeretünk annyira a balatonszemesi nyaralónkban lenni.</div><div style=\"text-align: left;\"><font face=\"Roboto Light\"><br></font></div><div>Idén nyáron pedig várunk Titeket is sok szeretettel a Kaméleon Nyaralóházban, csak 2 perc sétára a strandtól!</div>",
@@ -12,8 +12,9 @@
     },
     { "name": "Állatbarát", "icon_name": "fa-paw", "id": 2 },
     { "name": "Csendes környék", "icon_name": "fa-volume-down", "id": 3 },
-    { "name": "árnyékos terasz", "icon_name": "fa-tree", "id": 48 },
-    { "name": "jó csajok", "icon_name": "fa-female", "id": 63 }
+    
+    { "name": "Természetközeli", "icon_name": "fa-leaf", "id": 63 },
+    { "name": "Árnyékos terasz", "icon_name": "fa-tree", "id": 48 }
   ],
   "id": 1
 }

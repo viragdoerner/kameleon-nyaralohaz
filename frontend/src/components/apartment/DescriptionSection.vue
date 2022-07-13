@@ -1,11 +1,25 @@
 <template>
-  <v-container class="d-flex flex-column flex-md-row px-md-16 px-2 col-12 col-sm-9 col-md-10" fluid>
-    <v-card class="pa-0 pa-md-10 ma-md-10 ms-1 transparentCard col-md-6 col-12" elevation="0">
+  <v-container
+    class="
+      d-flex
+      flex-column flex-md-row
+      px-md-16 px-2
+      col-12 col-sm-9 col-md-10
+    "
+    fluid
+  >
+    <v-card
+      class="pa-0 pa-md-10 ma-md-10 ms-1 transparentCard col-md-6 col-12"
+      elevation="0"
+    >
       <v-card-title class="text-h3 zabatana cgreen--text">{{
         apartment.name
       }}</v-card-title>
       <v-card-text>
-        <v-row class="pb-2" v-if="$store.getters.loggedIn && $store.getters.isAdmin">
+        <v-row
+          class="pb-2"
+          v-if="$store.getters.loggedIn && $store.getters.isAdmin"
+        >
           <v-text-field
             color="cgreen"
             label="Apartman neve"
@@ -15,7 +29,10 @@
             required
           ></v-text-field>
         </v-row>
-        <v-row class="pb-2" v-if="$store.getters.loggedIn && $store.getters.isAdmin">
+        <v-row
+          class="pb-2"
+          v-if="$store.getters.loggedIn && $store.getters.isAdmin"
+        >
           <v-text-field
             color="cgreen"
             label="Ár Ft/éj"
@@ -33,24 +50,44 @@
         ></c-rich-text-editor>
       </v-card-text>
     </v-card>
-    <v-card class="pa-md-10 pa-4 ma-md-10  ma-0 mt-5 mt-md-10 col-12 col-sm-8 col-md-6 align-self-center ">
+    <v-card
+      class="
+        pa-md-10 pa-4
+        ma-md-10 ma-0
+        mt-5 mt-md-10
+        col-12 col-sm-8 col-md-6
+        align-self-center
+      "
+    >
+      <v-overlay
+        absolute
+        opacity="0.75"
+        color="cgreen"
+        max-height="100%"
+        max-width="100%"
+      >
+        <v-card-text class="text-h4 roboto white--text">Foglalás</v-card-text>
+        <v-card-text
+          >Nemsokára a weboldalon is lehet majd online foglalni! Addig ez az
+          alábbi telefonszámok egyikén vagy emailben lehetséges.
+        </v-card-text>
+        <v-card-text class="d-flex justify-content-center align-items-center py-1" max-width="100%">
+          <v-chip class="mr-1" color="corange">+36302460637</v-chip>
+          <v-chip class="mr-1" color="corange">+36304032377</v-chip>
+        </v-card-text>
+        <v-card-text class="d-flex justify-content-center pt-1" max-width="100%">
+          <v-chip color="clightgreen">mail.dorner.eva@gmail.com</v-chip>
+        </v-card-text>
+      </v-overlay>
       <v-card-text>
         <v-row>
-          <v-text-field
-            v-model="dateRangeText"
-            label="Date range"
-            prepend-icon="mdi-calendar"
-            readonly
-          ></v-text-field>
-        </v-row>
-        <v-row>
           <v-combobox filled solo></v-combobox>
         </v-row>
         <v-row>
           <v-combobox filled solo></v-combobox>
         </v-row>
         <v-row>
-          <v-btn elevation="2" x-large color="corange" class="white--text"
+          <v-btn elevation="2" x-large color="white" class="grey--text"
             >FOGLALÁS
           </v-btn>
         </v-row>
@@ -86,4 +123,7 @@ export default {
 };
 </script>
 <style  scoped>
+.roboto {
+  font-family: "Roboto";
+}
 </style>

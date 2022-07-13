@@ -31,7 +31,7 @@
           v-bind:style="{ color: colors[index % 5] }"
           ><v-icon x-large> {{ p.icon_name }} </v-icon>
         </v-btn>
-        <div class="cgreen--text">{{ p.name }}</div>
+        <div class="cgreen--text property-text">{{ p.name }}</div>
         <v-btn
           v-if="$store.getters.loggedIn && $store.getters.isAdmin"
           icon
@@ -167,5 +167,8 @@ export default {
 }
 #property-icon {
   cursor: default;
+}
+.property-text{
+  text-align: center;
 }
 </style>

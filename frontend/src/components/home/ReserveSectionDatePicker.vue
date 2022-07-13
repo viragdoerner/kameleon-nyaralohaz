@@ -89,13 +89,37 @@
         <v-btn
           elevation="2"
           x-large
-          color="corange"
-          class="white--text mt-3"
+          color="white"
+          class="grey--text mt-3"
           @click="submit()"
           >FOGLALÁS
         </v-btn>
       </v-row>
     </v-card-text>
+    <v-overlay absolute opacity="0.75" color="cgreen">
+      <v-container class="pa-2">
+        <v-row class="text-h4 roboto white--text pb-5">Foglalás</v-row>
+        <v-row> Nemsokára a weboldalon is lehet majd online foglalni! </v-row>
+        <v-row>
+          Addig ez az alábbi telefonszámok egyikén vagy emailben
+          lehetséges.</v-row
+        >
+        <v-row class="pt-4"
+          ><v-col class="col-3">Telefonszám:</v-col
+          ><v-col class="col-9"
+            ><v-chip class="mr-1" color="corange">+36302460637</v-chip
+            ><v-chip color="corange">+36304032377</v-chip></v-col
+          > </v-row
+        ><v-row
+          ><v-col class="col-3">Email:</v-col
+          ><v-col class="col-9"
+            ><v-chip color="clightgreen"
+              >mail.dorner.eva@gmail.com</v-chip
+            ></v-col
+          >
+        </v-row>
+      </v-container>
+    </v-overlay>
   </v-card>
 </template>
 

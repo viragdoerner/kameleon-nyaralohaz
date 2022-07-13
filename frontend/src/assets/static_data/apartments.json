@@ -45,11 +45,11 @@
   },
   {
     "name": "Földszinti Apartman",
-    "description": "<span style=\"letter-spacing: 0.1px; white-space: pre-wrap;\"><span style=\"font-weight: bolder;\">Cím: Balatonszemes, Semmelweis utca </span></span><div style=\"letter-spacing: 0.1px;\"><span style=\"white-space: pre-wrap;\"><span style=\"font-weight: bolder;\"><br></span></span></div><div style=\"letter-spacing: 0.1px;\"><span style=\"white-space: pre-wrap;\">Elsősorban kisgyerekes családoknak ajánljuk. Az egy nagy szobában 3fő kényelmesen elfér,&nbsp; de bővíthető szükség esetén. 2 kisgyereknek pont megfelelő. </span></div><div style=\"letter-spacing: 0.1px;\"><span style=\"white-space: pre-wrap;\"><span style=\"font-weight: bolder;\"><br></span></span></div><div style=\"letter-spacing: 0.1px;\"><span style=\"white-space: pre-wrap;\">Kis konyhával, mikróval, fürdőszobával ellátott apartman. A kertben a tűzrakóhely tökéletes esti süögetéshez, bográcsozáshoz. A konyhában mikró, elktromos tűzhely, vízforraló és kávéfőző is található.</span></div>",
+    "description": "<span style=\"letter-spacing: 0.1px; white-space: pre-wrap;\"><span style=\"font-weight: bolder;\">Cím: Balatonszemes, Semmelweis utca </span></span><div style=\"letter-spacing: 0.1px;\"><span style=\"white-space: pre-wrap;\"><span style=\"font-weight: bolder;\"><br></span></span></div><div style=\"letter-spacing: 0.1px;\"><span style=\"white-space: pre-wrap;\">Elsősorban kisgyerekes családoknak ajánljuk. Az egy nagy szobában 3fő kényelmesen elfér,&nbsp; de bővíthető szükség esetén. 2 kisgyereknek pont megfelelő. </span></div><div style=\"letter-spacing: 0.1px;\"><span style=\"white-space: pre-wrap;\"><span style=\"font-weight: bolder;\"><br></span></span></div><div style=\"letter-spacing: 0.1px;\"><span style=\"white-space: pre-wrap;\">Kis konyhával, mikróval, fürdőszobával ellátott apartman. A kertben a tűzrakóhely tökéletes esti sütögetéshez, bográcsozáshoz. A konyhában mikró, elektromos tűzhely, vízforraló és kávéfőző is található.</span></div>",
     "price": 18004,
     "properties": [
       {
-        "name": "1 szoba (3 személy részére +1 fővel bővíthető)",
+        "name": "1 szoba (3 fő +1)",
         "icon_name": "fa-user-friends",
         "id": 17
       },
@@ -64,7 +64,8 @@
         "icon_name": "fa-umbrella-beach",
         "id": 21
       },
-      { "name": "sütögető hellyel", "icon_name": "fa-fire", "id": 22 }
+      { "name": "sütögető hellyel", "icon_name": "fa-fire", "id": 22 },
+      { "name": "laposképernyős tévé", "icon_name": "fa-tv", "id": 15 }
     ],
     "pictures": [
       "foldszinti.jpg",
