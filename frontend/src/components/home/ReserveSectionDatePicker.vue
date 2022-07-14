@@ -8,118 +8,21 @@
       align-self-center
     "
   >
-    <v-card-text>
-      <v-row>
-        <v-combobox
-          class="my-0"
-          v-model="selectedApartment"
-          :items="apartments"
-          item-text="name"
-          prepend-inner-icon="mdi-home"
-          label="Apartman"
-          solo
-          color="cgreen"
-          @change="dataChanged()"
-        ></v-combobox>
-      </v-row>
-      <v-row>
-        <v-menu
-          ref="menu"
-          v-model="menu"
-          :close-on-content-click="false"
-          :return-value.sync="dates"
-          transition="scale-transition"
-          offset-y
-          min-width="auto"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-text-field
-              v-model="dates"
-              :disabled="!!!selectedApartment"
-              label="Date range"
-              prepend-inner-icon="mdi-calendar"
-              readonly
-              solo
-              v-bind="attrs"
-              v-on="on"
-              @click="dateClick"
-            ></v-text-field>
-          </template>
-          <v-date-picker
-            v-model="dates"
-            range
-            no-title
-            scrollable
-            color="cgreen"
-            :disabled="!!!selectedApartment || disabled_dates === -1"
-            :allowed-dates="allowedDates"
-            show-adjacent-months
-            full-width
-            @input="dateClick"
-          >
-            <v-progress-linear
-              :active="loading"
-              :indeterminate="loading"
-              absolute
-              bottom
-              color="cgreen"
-            >
-            </v-progress-linear>
-            <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="menu = false"> Cancel </v-btn>
-            <v-btn text color="primary" @click="$refs.menu.save(dates)">
-              OK
-            </v-btn>
-          </v-date-picker>
-        </v-menu>
-      </v-row>
-
-      <v-row>
-        <v-checkbox
-          class="my-0"
-          v-model="dogIncluded"
-          label="Kutyussal jövünk"
-          hint="Plusz költséggel nem jár, de korlátozhatja az elérhető dátumok számát."
-          :persistent-hint="dogIncluded"
-          color="cgreen"
-          @change="dataChanged()"
-        ></v-checkbox>
-      </v-row>
-      <v-row>
-        <v-btn
-          elevation="2"
-          x-large
-          color="white"
-          class="grey--text mt-3"
-          @click="submit()"
-          >FOGLALÁS
-        </v-btn>
-      </v-row>
+    <v-card-title class="text-h3 cgreen--text">Foglalás</v-card-title>
+    <v-card-text
+      >Nemsokára a weboldalon is lehet majd online foglalni! Addig ez az alábbi
+      telefonszámok egyikén vagy emailben lehetséges.
     </v-card-text>
-    <v-overlay absolute opacity="0.75" color="cgreen">
-      <v-container class="pa-2">
-        <v-row class="text-h4 roboto white--text pb-5">Foglalás</v-row>
-        <v-row> Nemsokára a weboldalon is lehet majd online foglalni! </v-row>
-        <v-row>
-          Addig ez az alábbi telefonszámok egyikén vagy emailben
-          lehetséges.</v-row
-        >
-        <v-row class="pt-4"
-          ><v-col class="col-3">Telefonszám:</v-col
-          ><v-col class="col-9"
-            ><v-chip class="mr-1" color="corange">+36302460637</v-chip
-            ><v-chip color="corange">+36304032377</v-chip></v-col
-          > </v-row
-        ><v-row
-          ><v-col class="col-3">Email:</v-col
-          ><v-col class="col-9"
-            ><v-chip color="clightgreen"
-              >mail.dorner.eva@gmail.com</v-chip
-            ></v-col
-          >
-        </v-row>
-      </v-container>
-    </v-overlay>
+    <v-card-text
+      class="d-flex justify-content-center align-items-center py-1"
+      max-width="100%"
+    >
+      <v-chip class="mr-1 white--text" color="corange">+36302460637</v-chip>
+      <v-chip class="mr-1 white--text" color="corange">+36304032377</v-chip>
+    </v-card-text>
+    <v-card-text class="d-flex justify-content-center pt-1" max-width="100%">
+      <v-chip color="clightgreen white--text">mail.dorner.eva@gmail.com</v-chip>
+    </v-card-text>
   </v-card>
 </template>
 
