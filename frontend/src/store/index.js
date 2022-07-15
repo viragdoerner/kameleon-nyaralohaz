@@ -27,18 +27,14 @@ export default new Vuex.Store({
   },
   getters: {
     isAdmin: state => {
-      if (auth.state.user && auth.state.user.authorities) {
-        return auth.state.user.authorities.length > 1;
-      }
+      
       return false;
     },
     getCurrentEmail: state => {
       return state.auth.user ? state.auth.user.username : "";
     },
     loggedIn: state => {
-      if (auth.state.status && auth.state.status.loggedIn) {
-        return auth.state.status.loggedIn;
-      }
+      
       return false;
     },
     getBookingData: state => {
