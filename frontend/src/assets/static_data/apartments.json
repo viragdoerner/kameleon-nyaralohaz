@@ -1,163 +1,172 @@
 [
-    {
-      "name": "Emeleti Apartman",
-      "description": "<span data-metadata=\"<!--(figmeta)eyJmaWxlS2V5Ijoid1ppTkUwZmZPclk0RU5hZllRZHJTYSIsInBhc3RlSUQiOjUxNDkzNzQ4NSwiZGF0YVR5cGUiOiJzY2VuZSJ9Cg==(/figmeta)-->\"></span><span style=\"white-space: pre-wrap;\"><b>Cím: Balatonszemes, Semmelweis utca </b></span><div><span style=\"white-space: pre-wrap;\"><b><br></b></span></div><div><span style=\"white-space: pre-wrap;\">Két szobás klímás apartman: Rendelkezik egy nagy nappalival, melyben franciágy, TV található illetve egy kihúzható fotelágy. Emellet van egy kisebb szobája két egyszemélyes ággyal. A fürdőszobában kád található, a konyhában mikró, tűzhely, vízforraló és kávéfőző is van. \n\n</span></div><div>Szabad 2022 augusztus 13-tól, minimum 9 éjszakára foglalható.<span style=\"white-space: pre-wrap;\"><br></span></div><div><br></div>",
-      "price": 30000,
-      "properties": [
-        {
-          "name": "konyhával és fürdőszobával",
-          "icon_name": "fa-house-user",
-          "id": 12
-        },
-        {
-          "name": "légkondicionált",
-          "icon_name": "fa-fan",
-          "id": 13
-        },
-        {
-          "name": "laposképernyős tévé",
-          "icon_name": "fa-tv",
-          "id": 15
-        },
-        {
-          "name": " 2 perc sétára a strandtól",
-          "icon_name": "fa-umbrella-beach",
-          "id": 16
-        },
-        {
-          "name": "2 szoba (4 fő részére)",
-          "icon_name": "fa-user-friends",
-          "id": 25
-        },
-        {
-          "name": "Árnyékos erkély asztallal",
-          "icon_name": "fa-tree",
-          "id": 26
-        }
-      ],
-      "pictures": [
-        "emeleti-nappali3.jpg",
-        "emeleti-nappali_erkely-konyha.jpg",
-        "emeleti-nappali1.jpg",
-        "emeleti-nappali2.jpg",
-        "emeleti-konyha_etkezo.jpg",
-        "emeleti-konyha_mosogato.jpg",
-        "emeleti-konyha_pult.jpg",
-        "emeleti-konyha_pult1.jpg",
-        "emeleti-kavefozo.jpg",
-        "emeleti-kisszoba2.jpg",
-        "emeleti-kisszoba.jpg",
-        "emeleti-kisszoba1.jpg",
-        "emeleti-erkely.jpg",
-        "emeleti-wc_minden.jpg",
-        "emeleti-eloter.jpg"
-      ],
-      "id": 1
-    },
-    {
-      "name": "Kicsi Földszinti Apartman",
-      "description": "<span style=\"letter-spacing: 0.1px; white-space: pre-wrap;\"><span style=\"font-weight: bolder;\">Cím: Balatonszemes, Semmelweis utca </span></span><div style=\"letter-spacing: 0.1px;\"><span style=\"white-space: pre-wrap;\"><span style=\"font-weight: bolder;\"><br></span></span></div><div style=\"letter-spacing: 0.1px;\"><span style=\"letter-spacing: 0.1px;\">Különálló 1 szobás klímás kőház nagy fedett terasszal.</span></div><div style=\"letter-spacing: 0.1px;\"><span style=\"white-space: pre-wrap;\">Elsősorban kisgyerekes családoknak ajánljuk. Az egy nagy szobában 3fő kényelmesen elfér,&nbsp; de bővíthető szükség esetén. 2 kisgyereknek pont megfelelő. </span></div><div style=\"letter-spacing: 0.1px;\"><span style=\"white-space: pre-wrap;\"><span style=\"font-weight: bolder;\"><br></span></span></div><div style=\"letter-spacing: 0.1px;\"><span style=\"white-space: pre-wrap;\">Kis konyhával, mikróval, fürdőszobával ellátott apartman. A kertben a tűzrakóhely tökéletes esti sütögetéshez, bográcsozáshoz. A konyhában mikró, elektromos tűzhely, vízforraló és kávéfőző is található. Van hozzá plusz egy hűtő, illetve kerékpár is rendelkezésre áll.</span></div><div style=\"letter-spacing: 0.1px;\"><br></div><div style=\"\">&nbsp;Szabad: 2022 augusztus 13-tól, minimum 9 éjszakára foglalható</div>",
-      "price": 25000,
-      "properties": [
-        {
-          "name": "1 szoba (3 személy részére +1 fővel bővíthető)",
-          "icon_name": "fa-user-friends",
-          "id": 17
-        },
-        {
-          "name": "konyhával és fürdőszobával",
-          "icon_name": "fa-house-user",
-          "id": 18
-        },
-        {
-          "name": "árnyékos terasszal",
-          "icon_name": "fa-tree",
-          "id": 19
-        },
-        {
-          "name": "2 perc sétára a strandtól",
-          "icon_name": "fa-umbrella-beach",
-          "id": 21
-        },
-        {
-          "name": "sütögető hellyel",
-          "icon_name": "fa-fire",
-          "id": 22
-        }
-      ],
-      "pictures": [
-        "garazs-kert2.jpg",
-        "garazs-kert3.jpg",
-        "garazs-kert.jpg",
-        "garazs-kert1.jpg",
-        "garazs-konyha.jpg",
-        "garazs-szoba1.jpg",
-        "garazs-szoba2.jpg",
-        "garazs-szoba3.jpg",
-        "garazs-szoba4.jpg",
-        "garazs-furdo.jpg"
-      ],
-      
-      "id": 2
-    },
-    {
-      "name": "Nagy Földszinti Apartman",
-      "description": "<div>Háromszobás klímás apartman. Nappali és a konyha egybe van nyitva, itt étkezőasztal és egy kihúzható kétszemélyes kanapé található. Két kisszobája van, az egyikben franciaágy a másikban szintén egy kihúzható kanapé van.</div><div><br></div><div>Szabad 2022 augusztus 13-tól, minimum 9 éjszakára</div>",
-      "price": 35000,
-      "properties": [
-        {
-          "name": "3 szoba (6 fő)",
-          "icon_name": "fa-users",
-          "id": 27
-        },
-        {
-          "name": "Légkondicionált",
-          "icon_name": "fa-wind",
-          "id": 28
-        },
-        {
-          "name": "2 perc sétára a strandtól",
-          "icon_name": "fa-umbrella-beach",
-          "id": 29
-        },
-        {
-          "name": "Tágas, jól felszerelt konyha",
-          "icon_name": "fa-hamburger",
-          "id": 30
-        },
-        {
-          "name": "Árnyékos, nagy terasz",
-          "icon_name": "fa-tree",
-          "id": 31
-        }
-      ],
-      "pictures": [
-        "kint2.jpg",
-        "kint5.jpg",
-        "kint.jpg",
-        "kint1.jpg",
-        "kint3.jpg",
-        "nappali6.jpg",
-        "nappali7.jpg",
-        "nappali8.jpg",
-        "nappali10.jpg",
-        "nappali11.jpg",
-        "nappali.jpg",
-        "nappali1.jpg",
-        "nappali3.jpg",
-        "nappali4.jpg",
-        "kisszoba1.jpg",
-        "kisszoba11.jpg",
-        "kisszoba22.jpg",
-        "kisszoba2.jpg",
-        "konyha2.jpg",
-        "konyha4.jpg",
-        "konyha.jpg",
-        "wc1.jpg",
-        "wc3.jpg",
-        "wc.jpg"
-      ],
-      "bookings": [],
-      "id": 3
-    }
-  ]
+  {
+    "name": "Emeleti Apartman",
+    "description": "<span data-metadata=\"<!--(figmeta)eyJmaWxlS2V5Ijoid1ppTkUwZmZPclk0RU5hZllRZHJTYSIsInBhc3RlSUQiOjUxNDkzNzQ4NSwiZGF0YVR5cGUiOiJzY2VuZSJ9Cg==(/figmeta)-->\"></span><span style=\"white-space: pre-wrap;\"><b>Cím: Balatonszemes, Semmelweis utca </b></span><div><span style=\"white-space: pre-wrap;\"><b><br></b></span></div><div><span style=\"white-space: pre-wrap;\">Két szobás klímás apartman: Rendelkezik egy nagy nappalival, melyben franciágy, TV található illetve egy kihúzható fotelágy. Emellet van egy kisebb szobája két egyszemélyes ággyal. A fürdőszobában kád található, a konyhában mikró, tűzhely, vízforraló és kávéfőző is van. \n\n</span></div><div>Szabad 2022 augusztus 13-tól, minimum 9 éjszakára foglalható.<span style=\"white-space: pre-wrap;\"><br></span></div><div><br></div>",
+    "price": 30000,
+    "properties": [
+      {
+        "name": "Konyhával és fürdőszobával",
+        "icon_name": "fa-house-user",
+        "id": 12
+      },
+      {
+        "name": "Légkondicionált",
+        "icon_name": "fa-fan",
+        "id": 13
+      },
+      {
+        "name": "Laposképernyős tévé",
+        "icon_name": "fa-tv",
+        "id": 15
+      },
+      {
+        "name": " 2 perc sétára a strandtól",
+        "icon_name": "fa-umbrella-beach",
+        "id": 16
+      },
+      {
+        "name": "2 szoba (4 fő részére)",
+        "icon_name": "fa-user-friends",
+        "id": 25
+      },
+      {
+        "name": "Árnyékos erkély asztallal",
+        "icon_name": "fa-tree",
+        "id": 26
+      }
+    ],
+    "pictures": [
+      "emeleti-nappali3.jpg",
+      "emeleti-nappali_erkely-konyha.jpg",
+      "emeleti-nappali1.jpg",
+      "emeleti-nappali2.jpg",
+      "emeleti-konyha_etkezo.jpg",
+      "emeleti-konyha_mosogato.jpg",
+      "emeleti-konyha_pult.jpg",
+      "emeleti-konyha_pult1.jpg",
+      "emeleti-kavefozo.jpg",
+      "emeleti-kisszoba2.jpg",
+      "emeleti-kisszoba.jpg",
+      "emeleti-kisszoba1.jpg",
+      "emeleti-erkely.jpg",
+      "emeleti-wc_minden.jpg",
+      "emeleti-eloter.jpg"
+    ],
+    "id": 1
+  },
+  {
+    "name": "Kicsi Földszinti Apartman",
+    "description": "<span style=\"letter-spacing: 0.1px; white-space: pre-wrap;\"><span style=\"font-weight: bolder;\">Cím: Balatonszemes, Semmelweis utca </span></span><div style=\"letter-spacing: 0.1px;\"><span style=\"white-space: pre-wrap;\"><span style=\"font-weight: bolder;\"><br></span></span></div><div style=\"letter-spacing: 0.1px;\"><span style=\"letter-spacing: 0.1px;\">Különálló 1 szobás klímás kőház nagy fedett terasszal.</span></div><div style=\"letter-spacing: 0.1px;\"><span style=\"white-space: pre-wrap;\">Elsősorban kisgyerekes családoknak ajánljuk. Az egy nagy szobában 3fő kényelmesen elfér,&nbsp; de bővíthető szükség esetén. 2 kisgyereknek pont megfelelő. </span></div><div style=\"letter-spacing: 0.1px;\"><span style=\"white-space: pre-wrap;\"><span style=\"font-weight: bolder;\"><br></span></span></div><div style=\"letter-spacing: 0.1px;\"><span style=\"white-space: pre-wrap;\">Kis konyhával, mikróval, fürdőszobával ellátott apartman. A kertben a tűzrakóhely tökéletes esti sütögetéshez, bográcsozáshoz. A konyhában mikró, elektromos tűzhely, vízforraló és kávéfőző is található. Van hozzá plusz egy hűtő, illetve kerékpár is rendelkezésre áll.</span></div><div style=\"letter-spacing: 0.1px;\"><br></div><div style=\"\">&nbsp;Szabad: 2022 augusztus 13-tól, minimum 9 éjszakára foglalható</div>",
+    "price": 25000,
+    "properties": [
+      {
+        "name": "1 szoba (3 személy részére +1 fővel bővíthető)",
+        "icon_name": "fa-user-friends",
+        "id": 17
+      },
+      {
+        "name": "Konyhával és fürdőszobával",
+        "icon_name": "fa-house-user",
+        "id": 18
+      },
+      {
+        "name": "Árnyékos terasszal",
+        "icon_name": "fa-tree",
+        "id": 19
+      },
+      {
+        "name": "2 perc sétára a strandtól",
+        "icon_name": "fa-umbrella-beach",
+        "id": 21
+      },
+      {
+        "name": "Sütögető hellyel",
+        "icon_name": "fa-fire",
+        "id": 22
+      },
+      {
+        "name": "Laposképernyős tévé",
+        "icon_name": "fa-tv",
+        "id": 155
+      }
+    ],
+    "pictures": [
+      "garazs-kert2.jpg",
+      "garazs-kert3.jpg",
+      "garazs-kert.jpg",
+      "garazs-kert1.jpg",
+      "garazs-konyha.jpg",
+      "garazs-szoba1.jpg",
+      "garazs-szoba2.jpg",
+      "garazs-szoba3.jpg",
+      "garazs-szoba4.jpg",
+      "garazs-furdo.jpg"
+    ],
+
+    "id": 2
+  },
+  {
+    "name": "Nagy Földszinti Apartman",
+    "description": "<div>Háromszobás klímás apartman. Nappali és a konyha egybe van nyitva, itt étkezőasztal és egy kihúzható kétszemélyes kanapé található. Két kisszobája van, az egyikben franciaágy a másikban szintén egy kihúzható kanapé van.</div><div><br></div><div>Szabad 2022 augusztus 13-tól, minimum 9 éjszakára</div>",
+    "price": 35000,
+    "properties": [
+      {
+        "name": "3 szoba (6 fő)",
+        "icon_name": "fa-users",
+        "id": 27
+      },
+      {
+        "name": "Légkondicionált",
+        "icon_name": "fa-wind",
+        "id": 28
+      },
+      {
+        "name": "2 perc sétára a strandtól",
+        "icon_name": "fa-umbrella-beach",
+        "id": 29
+      },
+      {
+        "name": "Tágas, jól felszerelt konyha",
+        "icon_name": "fa-hamburger",
+        "id": 30
+      },
+      {
+        "name": "Árnyékos, nagy terasz",
+        "icon_name": "fa-tree",
+        "id": 31
+      },
+      {
+        "name": "Laposképernyős tévé",
+        "icon_name": "fa-tv",
+        "id": 155
+      }
+    ],
+    "pictures": [
+      "kint2.jpg",
+      "kint5.jpg",
+      "kint.jpg",
+      "kint1.jpg",
+      "kint3.jpg",
+      "nappali6.jpg",
+      "nappali7.jpg",
+      "nappali8.jpg",
+      "nappali10.jpg",
+      "nappali11.jpg",
+      "nappali.jpg",
+      "nappali1.jpg",
+      "nappali3.jpg",
+      "nappali4.jpg",
+      "kisszoba1.jpg",
+      "kisszoba11.jpg",
+      "kisszoba22.jpg",
+      "kisszoba2.jpg",
+      "konyha2.jpg",
+      "konyha4.jpg",
+      "konyha.jpg",
+      "wc1.jpg",
+      "wc3.jpg",
+      "wc.jpg"
+    ],
+    "id": 3
+  }
+]
