@@ -36,21 +36,21 @@
         }
       ],
       "pictures": [
-        "nappali3.jpg",
-        "nappali_erkely-konyha.jpg",
-        "nappali1.jpg",
-        "nappali2.jpg",
-        "kisszoba1.jpg",
-        "kisszoba2.jpg",
-        "kisszoba.jpg",
-        "konyha_etkezo.jpg",
-        "konyha_mosogato.jpg",
-        "konyha_pult.jpg",
-        "konyha_pult1.jpg",
-        "kavefozo.jpg",
-        "wc_minden.jpg",
-        "eloter.jpg",
-        "erkely.jpg"
+        "emeleti-nappali3.jpg",
+        "emeleti-nappali_erkely-konyha.jpg",
+        "emeleti-nappali1.jpg",
+        "emeleti-nappali2.jpg",
+        "emeleti-konyha_etkezo.jpg",
+        "emeleti-konyha_mosogato.jpg",
+        "emeleti-konyha_pult.jpg",
+        "emeleti-konyha_pult1.jpg",
+        "emeleti-kavefozo.jpg",
+        "emeleti-kisszoba2.jpg",
+        "emeleti-kisszoba.jpg",
+        "emeleti-kisszoba1.jpg",
+        "emeleti-erkely.jpg",
+        "emeleti-wc_minden.jpg",
+        "emeleti-eloter.jpg"
       ],
       "id": 1
     },
@@ -86,17 +86,18 @@
         }
       ],
       "pictures": [
-        "foldszinti.jpg",
-        "64673587_307756783444121_4851731272449392640_n.jpg",
-        "64983537_307756626777470_7664717152322060288_n.jpg",
-        "198262976_787227432163718_6954839822200578780_n.jpg",
-        "192940211_787227312163730_7326297969361136268_n.jpg",
-        "197917447_787227385497056_8544718218301938872_n.jpg",
-        "199208064_787227388830389_6063106368809397692_n.jpg",
-        "196900145_787227342163727_7050037284799568410_n.jpg",
-        "196977162_787227298830398_2454498069801317735_n.jpg",
-        "197274488_787227302163731_8714381940022634014_n.jpg"
+        "garazs-kert2.jpg",
+        "garazs-kert3.jpg",
+        "garazs-kert.jpg",
+        "garazs-kert1.jpg",
+        "garazs-konyha.jpg",
+        "garazs-szoba1.jpg",
+        "garazs-szoba2.jpg",
+        "garazs-szoba3.jpg",
+        "garazs-szoba4.jpg",
+        "garazs-furdo.jpg"
       ],
+      
       "id": 2
     },
     {
@@ -136,6 +137,7 @@
         "kint.jpg",
         "kint1.jpg",
         "kint3.jpg",
+        "nappali6.jpg",
         "nappali7.jpg",
         "nappali8.jpg",
         "nappali10.jpg",
@@ -144,14 +146,16 @@
         "nappali1.jpg",
         "nappali3.jpg",
         "nappali4.jpg",
-        "nappali6.jpg",
-        "konyha.jpg",
-        "konyha2.jpg",
-        "konyha4.jpg",
+        "kisszoba1.jpg",
         "kisszoba11.jpg",
         "kisszoba22.jpg",
-        "kisszoba1.jpg",
-        "kisszoba2.jpg"
+        "kisszoba2.jpg",
+        "konyha2.jpg",
+        "konyha4.jpg",
+        "konyha.jpg",
+        "wc1.jpg",
+        "wc3.jpg",
+        "wc.jpg"
       ],
       "bookings": [],
       "id": 3
