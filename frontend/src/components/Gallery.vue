@@ -28,7 +28,7 @@
               color="rgba(0, 0, 0, 0)"
             >
               <v-spacer></v-spacer>
-              <v-btn color="white" icon @click="openDialog($event, pic)">
+              <v-btn color="white" icon @click.stop="openDialog( pic)">
                 <v-icon>fa-close</v-icon>
               </v-btn>
             </v-app-bar>
@@ -68,10 +68,10 @@ export default {
   mounted() {},
   methods: {
     deletePicture() {
+      console.log(this.pictureToBeRemoved);
       this.$emit("delete-picture", this.pictureToBeRemoved);
     },
-    openDialog(e, pic) {
-      e.stopImmediatePropagation();
+    openDialog(pic) {
       this.$store.commit("dialog/openSimpleDialog", {
         title: "Biztosan törölni szeretnéd?",
         confirmButton: "Törlés",

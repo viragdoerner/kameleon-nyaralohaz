@@ -40,6 +40,8 @@ export default {
     onDeleteProperty(p) {
       var payload = JSON.parse(JSON.stringify(this.apartment));
       payload.properties = payload.properties.filter(function (property) {
+        console.log(property);
+        console.log(p);
         return property.id !== p.id;
       });
       this.saveApartment(payload);

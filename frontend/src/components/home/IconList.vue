@@ -20,7 +20,7 @@
           align-center
           justify-start
           flex-column
-          col-4 col-sm-2 col-md-1
+          col-4 col-sm-2 col-md-2
         "
       >
         <v-btn
@@ -31,7 +31,7 @@
           v-bind:style="{ color: colors[index % 5] }"
           ><v-icon x-large> {{ p.icon_name }} </v-icon>
         </v-btn>
-        <div class="cgreen--text">{{ p.name }}</div>
+        <div class="cgreen--text property-text">{{ p.name }}</div>
         <v-btn
           v-if="$store.getters.loggedIn && $store.getters.isAdmin"
           icon
@@ -41,9 +41,7 @@
           ><v-icon small> fa-close </v-icon>
         </v-btn>
       </div>
-      <confirm-dialog
-        v-on:confirm="deleteProperty"
-      ></confirm-dialog>
+      <confirm-dialog v-on:confirm="deleteProperty"></confirm-dialog>
     </v-row>
     <v-container
       v-if="$store.getters.loggedIn && $store.getters.isAdmin"
@@ -167,5 +165,8 @@ export default {
 }
 #property-icon {
   cursor: default;
+}
+.property-text {
+  text-align: center;
 }
 </style>
