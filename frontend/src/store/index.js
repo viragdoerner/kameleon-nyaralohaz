@@ -8,7 +8,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     snackbar: {},
-    imgPath: "./img/",
+    imgPath: "./images/apartments/",
     bookingData: {},
     selectedApartmentId: null,
   },
