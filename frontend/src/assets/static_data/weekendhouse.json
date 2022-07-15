@@ -14,7 +14,8 @@
     { "name": "Csendes környék", "icon_name": "fa-volume-down", "id": 3 },
     
     { "name": "Természetközeli", "icon_name": "fa-leaf", "id": 63 },
-    { "name": "Árnyékos terasz", "icon_name": "fa-tree", "id": 48 }
+    { "name": "Árnyékos terasz", "icon_name": "fa-tree", "id": 48 },
+    { "name": "Elektromos autó töltőállomás (3x16 A, Type2)", "icon_name": "fa-car", "id": 100 }
   ],
   "id": 1
 }
