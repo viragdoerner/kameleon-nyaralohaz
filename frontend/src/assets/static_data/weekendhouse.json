@@ -3,18 +3,19 @@
   "phone_number": "+36304032377, +36302460637",
   "email": "mail.dorner.eva@gmail.com",
   "facebook": "https://www.facebook.com/kameleonnyaralohaz",
-  "description": "<div style=\"\">Reggeli madárfütty-koncert, hűs falak, árnyékos teraszok, hosszú pancsolások és esti sütögetések. Mi ezek miatt szeretünk annyira a balatonszemesi nyaralónkban lenni.</div><div style=\"\"><br></div><div style=\"\"><div>A mi kis nyaralónk a Balaton déli partjának közepén várja a pihenésre vágyókat. A nyaraló egy csendes környéken fekszik,&nbsp; jobbra-balra tőle szabadstrandok, illetve homokos öböl található játszótérrel, ami&nbsp; kisgyerekeseknek is ideális. Körülbelül 1 km- re található egy fizetős medencés élményfürdő, ahol a nagy balatoni strandrész szintén ingyenes. </div><div>A nyaralóban 3 apartman található és bérelhető. Ezeket többségében a családunk használja, ezért nagyon jól felszereltek. A vendégek rendelezésére áll például egy&nbsp;mosógép, vasaló, hajszárító, kerékpár stb.</div></div><div style=\"\"><font face=\"Roboto Light\"><br></font></div><div><b>Idén nyáron is várunk Titeket sok szeretettel a Kaméleon Nyaralóházban, csak 2 perc sétára a strandtól!</b></div>",
+  "description": "<div style=\"\">Reggeli madárfütty-koncert, hűs falak, árnyékos teraszok, hosszú pancsolások és esti sütögetések. Mi ezek miatt szeretünk annyira a balatonszemesi nyaralónkban lenni.</div><div style=\"\"><br></div><div style=\"\"><div>A mi kis nyaralónk a Balaton déli partjának közepén várja a pihenésre vágyókat. A nyaraló egy csendes környéken fekszik,&nbsp; jobbra-balra tőle szabadstrandok, illetve homokos öböl található játszótérrel és lépcső nélkül, ami&nbsp; kisgyerekeseknek is ideális. Körülbelül 1 km-re található egy fizetős medencés élményfürdő, ahol a nagy balatoni strandrész szintén ingyenes. </div><div>A nyaralóban 3 apartman található és bérelhető. Ezeket többségében a családunk használja, ezért nagyon jól felszereltek. A vendégek rendelezésére áll például egy&nbsp;mosógép, vasaló, hajszárító, kerékpár, bababarát etetőszék stb. A három apartman kellemes hűvösségéről pedig redőnyökkel és klímával gondoskodtunk.</div></div><div style=\"\"><font face=\"Roboto Light\"><br></font></div><div><b>Idén nyáron is várunk Titeket sok szeretettel a Kaméleon Nyaralóházban, csak 2 perc sétára a strandtól, egy utcányira a Balatontól!</b></div>",
   "properties": [
     {
-      "name": "2 perc sétára a strandtól",
+      "name": "Balatontól egy utcányira",
       "icon_name": "fa-umbrella-beach",
       "id": 1
     },
     { "name": "Állatbarát", "icon_name": "fa-paw", "id": 2 },
-    { "name": "Árnyékos terasz", "icon_name": "fa-tree", "id": 70 },
     { "name": "Elektromos autó töltőhely", "icon_name": "fa-car", "id": 72 },
     { "name": "Csendes és természetközeli", "icon_name": "fa-leaf", "id": 73 },
-    { "name": "Mosógép, vasaló", "icon_name": "fa-home", "id": 75 }
+    { "name": "Mosógép, vasaló", "icon_name": "fa-home", "id": 75 },
+    { "name": "Wifi", "icon_name": "fa-wifi", "id": 76 },
+    { "name": "Kerékpár kölcsönözhető", "icon_name": "fa-bicycle", "id": 77 }
   ],
   "id": 1
 }

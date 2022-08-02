@@ -42,29 +42,35 @@
           >
             {{ weekendhouse.phone_number }}
           </p>
+
           <v-btn
             key="5"
+            transition="slide-x-transition"
             class="mx-4 footer-element"
             icon
-            :href="weekendhouse.facebook"
-            target="blank"
+            @click="expand_mail = !expand_mail"
           >
-            <v-icon size="24px" color="blue darken-3"> fa-facebook </v-icon>
+            <v-icon size="24px" color="blue darken-3"> fa-envelope </v-icon>
           </v-btn>
-          <v-btn
+          <p
             key="6"
-            class="mx-4 footer-element"
-            icon
-            :href="'mailto:' + weekendhouse.email"
+            d-flex
+            style="display: inline"
+            v-show="expand_mail"
+            class="white--text footer-element"
           >
-            <v-icon size="24px" color="red darken-3"> fa-envelope </v-icon>
-          </v-btn>
+            {{ weekendhouse.email }}
+          </p>
         </transition-group>
       </v-card-text>
 
       <v-card-text
         class="pt-16"
-        v-if="currentRouteName == 'Home' && $store.getters.loggedIn && $store.getters.isAdmin"
+        v-if="
+          currentRouteName == 'Home' &&
+          $store.getters.loggedIn &&
+          $store.getters.isAdmin
+        "
       >
         <v-row justify="center">
           <v-col cols="12" sm="6" md="3">
@@ -114,13 +120,14 @@
 </template>
 
 <script>
-import ApiService from "../services/api.service"
-import weekendhouse from "../assets/static_data/weekendhouse.json"
+import ApiService from "../services/api.service";
+import weekendhouse from "../assets/static_data/weekendhouse.json";
 export default {
   name: "CFooter",
   data: () => ({
     expand_address: false,
     expand_phone: false,
+     expand_mail: false,
     weekendhouse: weekendhouse,
   }),
   computed: {
@@ -143,18 +150,18 @@ export default {
     //     });
     // },
     saveWeekendhouse() {
-      ApiService.PUT( "weekendhouse", this.weekendhouse)
+      ApiService.PUT("weekendhouse", this.weekendhouse)
         .then((response) => {
           if (!response.data) throw "empty list";
           this.weekendhouse = response.data;
-           this.$store.commit("showMessage", {
+          this.$store.commit("showMessage", {
             active: true,
             color: "cgreen",
             message: "Sikeres mentés",
           });
         })
         .catch((error) => {
-           this.$store.commit("showMessage", {
+          this.$store.commit("showMessage", {
             active: true,
             color: "error",
             message: "Sikertelen módosítás",
