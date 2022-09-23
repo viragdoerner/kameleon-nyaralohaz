@@ -8,14 +8,14 @@
 
       <v-btn text to="/booking"> Foglalás </v-btn>
 
-      <v-menu bottom left>
+      <v-menu bottom left v-if="$store.getters.loggedIn">
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-account</v-icon>
           </v-btn>
         </template>
         <v-list>
-          <v-list-item>
+          <v-list-item   >
             <v-btn text @click="logout"> Kijelentkezés </v-btn>
           </v-list-item>
           <v-list-item>
