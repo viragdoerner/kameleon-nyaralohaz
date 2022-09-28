@@ -20,9 +20,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class BookingService {
@@ -207,11 +209,19 @@ public class BookingService {
         LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-        return startDate.datesUntil(endDate)
-                .collect(Collectors.toList());
+        return getDatesBetweenUsingJava8(startDate, endDate);
+        //return startDate.datesUntil(endDate).collect(Collectors.toList());
     }
 
+    private static List<LocalDate> getDatesBetweenUsingJava8(
+            LocalDate startDate, LocalDate endDate) {
 
+        long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+        return IntStream.iterate(0, i -> i + 1)
+                .limit(numOfDaysBetween)
+                .mapToObj(i -> startDate.plusDays(i))
+                .collect(Collectors.toList());
+    }
     public BookingListsDTO getBookingListsFromUser() {
         BookingListsDTO dto = new BookingListsDTO();
         List<Booking> bookings = getAllBookingFromUser();

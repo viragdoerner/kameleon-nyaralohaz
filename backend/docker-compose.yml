@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+  api_service:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - maria_db
+    links:
+      - maria_db:app_db
+  maria_db:
+    image: "mariadb:10.5.8"
+    restart: always
+    ports:
+      - 3366:3366
+    environment:
+      MYSQL_DATABASE: db_kameleon
+      MYSQL_USER: root
+      MYSQL_PASSWORD: kameleonshavehugeeyeballs
+      MYSQL_ROOT_PASSWORD: kameleonshavehugeeyeballs
