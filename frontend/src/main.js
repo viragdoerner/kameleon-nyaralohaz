@@ -4,6 +4,13 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import moment from 'vue-moment'
+import VueAnalytics from 'vue-analytics';
+
+// Configuration VueAnalytics
+Vue.use(VueAnalytics, {
+  id: 'G-4RPCRWVTWM',
+  router
+});
 
 Vue.config.productionTip = false
 
