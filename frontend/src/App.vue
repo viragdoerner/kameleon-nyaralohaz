@@ -73,7 +73,7 @@ export default {
         let newRoute = {
           path: `/${slugifiedName}`,
           component: CApartment,
-          name: `${slugifiedName}`,
+          name: `${apartment.name}`,
           props: { apartment: apartment },
         };
         router.addRoute(newRoute);
