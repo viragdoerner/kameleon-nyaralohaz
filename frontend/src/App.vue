@@ -69,10 +69,11 @@ export default {
         return str;
       };
       data.forEach((apartment) => {
+        var slugifiedName = slugifyString(apartment.name);
         let newRoute = {
-          path: `/${slugifyString(apartment.name)}`,
+          path: `/${slugifiedName}`,
           component: CApartment,
-          name: `${apartment.id}_index`,
+          name: `${slugifiedName}`,
           props: { apartment: apartment },
         };
         router.addRoute(newRoute);
