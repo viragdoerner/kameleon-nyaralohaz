@@ -7,10 +7,8 @@ import moment from 'vue-moment'
 import VueGtag from "vue-gtag";
 
 Vue.use(VueGtag, {
-  config: { id: "G-4RPCRWVTWM", params: {
-    send_page_view: true
-  } }
-});
+  config: { id: "G-4RPCRWVTWM" }
+}, router);
 
 Vue.config.productionTip = false
 
