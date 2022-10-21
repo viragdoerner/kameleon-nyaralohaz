@@ -4,6 +4,11 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import moment from 'vue-moment'
+import VueGtag from "vue-gtag";
+
+Vue.use(VueGtag, {
+  config: { id: "G-4RPCRWVTWM" }
+}, router);
 
 Vue.config.productionTip = false
 

@@ -69,7 +69,7 @@ export default {
         let newRoute = {
           path: `/${slugifyString(apartment.name)}`,
           component: CApartment,
-          name: `${apartment.id}_index`,
+          name: `${apartment.name}`,
           props: { apartment: apartment },
         };
         router.addRoute(newRoute);
