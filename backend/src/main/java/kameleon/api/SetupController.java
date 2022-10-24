@@ -39,7 +39,7 @@ import static kameleon.model.auth.RoleName.ROLE_USER;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/setup")
 public class SetupController {
 
     @Autowired
