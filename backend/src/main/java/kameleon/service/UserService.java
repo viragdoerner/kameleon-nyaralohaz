@@ -9,14 +9,20 @@ import kameleon.model.auth.Role;
 import kameleon.model.auth.RoleName;
 import kameleon.model.auth.User;
 import kameleon.model.auth.VerificationToken;
+import kameleon.model.booking.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+
+import static kameleon.model.auth.RoleName.ROLE_USER;
 
 @Service
 public class UserService {
@@ -27,6 +33,8 @@ public class UserService {
     private final RoleRepository roleRepository;
     @Autowired
     private VerificationTokenRepository tokenRepository;
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Autowired
     public UserService(UserRepository userRepository, RoleRepository roleRepository) {
@@ -155,6 +163,36 @@ public class UserService {
         u.setPhonenumber(user.getPhonenumber());
 
         userRepository.save(u);
+    }
+
+    public void setupRoles() {
+        roleRepository.save(new Role(RoleName.ROLE_ADMIN));
+        roleRepository.save(new Role(ROLE_USER));
+        return;
+    }
+
+    public void setupAdmin() {
+        //leellenőrzöm hogy létre lett-e már hozva ilyen felhasználó
+        if (userRepository.existsByEmail("admin@kameleon.hu")) {
+            throw new RuntimeException("Fail -> Email is already taken!");
+        }
+
+        //hozzáadom az admint
+        User user = new User("Kameleon","Admin", "admin@kameleon.hu","admin@kameleon.hu", "+36303699697",
+                encoder.encode("kameleonadminpassword"), new ArrayList<Booking>());
+        user.setEnabled(true);
+
+        Set<Role> roles = new HashSet<>();
+        Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find. Run POST request /api/auth/setup/roles first!"));
+        roles.add(adminRole);
+        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find. Run POST request /api/auth/setup/roles first!"));
+        roles.add(userRole);
+        user.setRoles(roles);
+
+        userRepository.save(user);
+        return;
     }
 }
 

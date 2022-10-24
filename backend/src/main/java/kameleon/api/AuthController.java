@@ -81,45 +81,6 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
     }
 
-    @PostMapping("/setup/roles")
-    public ResponseEntity<?> setupRoles() {
-
-        //hozzáadom a használt szerepeket
-        roleRepository.save(new Role(RoleName.ROLE_ADMIN));
-        roleRepository.save(new Role(ROLE_USER));
-
-        return new ResponseEntity<>("Admin and user roles successfully added!",
-                HttpStatus.OK);
-    }
-    @PostMapping("/setup/admin")
-    public ResponseEntity<?> setupAdmin() {
-
-        //leellenőrzöm hogy létre lett-e már hozva ilyen felhasználó
-        if (userRepository.existsByEmail("admin@kameleon.hu")) {
-            return new ResponseEntity<>("Fail -> Email is already taken!",
-                    HttpStatus.BAD_REQUEST);
-        }
-
-        //hozzáadom az admint
-        User user = new User("Kameleon","Admin", "admin@kameleon.hu","admin@kameleon.hu", "+36303699697",
-                encoder.encode("kameleonadminpassword"), new ArrayList<Booking>());
-        user.setEnabled(true);
-
-        Set<Role> roles = new HashSet<>();
-        Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find. Run POST request /api/auth/setup/roles first!"));
-        roles.add(adminRole);
-        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find. Run POST request /api/auth/setup/roles first!"));
-        roles.add(userRole);
-        user.setRoles(roles);
-
-        userRepository.save(user);
-
-        return new ResponseEntity<>("Admin user succesfully added!",
-                HttpStatus.OK);
-    }
-
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterForm registerRequest,
                                           HttpServletRequest request, Errors errors) {
