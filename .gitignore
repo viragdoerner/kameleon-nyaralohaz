@@ -68,3 +68,5 @@ backend/src/main/resources/static/
 frontend/dist/
 
 .m2/
+
+.env
