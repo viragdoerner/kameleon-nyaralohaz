@@ -34,14 +34,14 @@ services:
         "spring.servlet.multipart.max-file-size": "200MB",
         "spring.servlet.multipart.max-request-size": "215MB",
         "app.file.upload-directory": "../frontend/public/images",
-        "kameleon.app.jwtSecret": "jwtKameleonSecretKey",
-        "kameleon.app.jwtExpiration": "86400",
+        "kameleon.app.jwtSecret": "$JWT_SECRET",
+        "kameleon.app.jwtExpiration": "$JWT_EXPIRATION",
         "spring.main.allow-bean-definition-overriding": "true",
         "logging.level.": "DEBUG",
         "spring.mail.host": "smtp.gmail.com",
         "spring.mail.port": "587",
-        "spring.mail.username": "kameleonnyaralohaz@gmail.com",
-        "spring.mail.password": "dgkmonxwfoblkhdv",
+        "spring.mail.username": "$SPRING_MAIL_USERNAME",
+        "spring.mail.password": "$SPRING_MAIL_PASSWORD",
         "spring.mail.properties.mail.smtp.auth": "true",
         "spring.mail.properties.mail.smtp.starttls.enable": "true"
       }'

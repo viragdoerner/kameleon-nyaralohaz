@@ -17,6 +17,7 @@ public class JwtProvider {
 
     @Value("${kameleon.app.jwtSecret}")
     private String jwtSecret;
+    
 
     @Value("${kameleon.app.jwtExpiration}")
     private int jwtExpiration;
