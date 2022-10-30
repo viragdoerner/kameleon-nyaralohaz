@@ -20,7 +20,7 @@
           align-center
           justify-start
           flex-column
-           col-4 col-sm-2 col-md-2
+           col-4 col-sm-2 col-md-1
         "
       >
         <v-btn

@@ -13,7 +13,7 @@
         <v-col class="col-10 col-md-7 mt-0 mt-sm-14 pt-16 mt-md-0  pt-sm-0 ">
           <img class="d-sm-none" src="../../assets/mobil_cim_logo.svg" />
            <img class="d-none d-sm-block" src="../../assets/cim_feher.svg" />
-          <h2 class="corange--text">BALATONSZEMES</h2>
+          <h1 class="corange--text">BALATONSZEMES</h1>
         </v-col>
         <div>
   </div>
