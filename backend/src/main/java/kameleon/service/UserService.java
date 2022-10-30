@@ -171,7 +171,7 @@ public class UserService {
         return;
     }
 
-    public void setupAdmin() {
+    public void setupAdmin(String password) {
         //leellenőrzöm hogy létre lett-e már hozva ilyen felhasználó
         if (userRepository.existsByEmail("admin@kameleon.hu")) {
             throw new RuntimeException("Fail -> Email is already taken!");
@@ -179,7 +179,7 @@ public class UserService {
 
         //hozzáadom az admint
         User user = new User("Kameleon","Admin", "admin@kameleon.hu","admin@kameleon.hu", "+36303699697",
-                encoder.encode("kameleonadminpassword"), new ArrayList<Booking>());
+                encoder.encode(password), new ArrayList<Booking>());
         user.setEnabled(true);
 
         Set<Role> roles = new HashSet<>();

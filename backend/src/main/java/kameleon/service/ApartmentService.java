@@ -50,24 +50,12 @@ public class ApartmentService {
         return repository.save(apartment);
     }
 
-    public void setupApartments() {
-        Apartment a1 = new Apartment();
-        a1.setName("apartman egy");
-        a1.setDescription("todo");
-        a1.setPrice(1);
-        repository.save(a1);
-
-        Apartment a2 = new Apartment();
-        a2.setName("apartman ketto");
-        a2.setDescription("todo");
-        a2.setPrice(1);
-        repository.save(a2);
-
-        Apartment a3 = new Apartment();
-        a3.setName("apartman harom");
-        a3.setDescription("todo");
-        a3.setPrice(1);
-        repository.save(a3);
+    public void setupApartments(List<Apartment> apartments) {
+        repository.deleteAll();
+        apartments.forEach(apartment -> {
+            apartment.getProperties().forEach(p -> p.setApartment(apartment));
+            repository.save(apartment);
+        });
 
         return;
     }

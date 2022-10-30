@@ -6,6 +6,7 @@ import kameleon.dao.UserRepository;
 import kameleon.dto.JwtResponse;
 import kameleon.dto.LoginForm;
 import kameleon.dto.RegisterForm;
+import kameleon.model.apartman.Apartment;
 import kameleon.model.apartman.Property;
 import kameleon.model.apartman.Weekendhouse;
 import kameleon.model.auth.OnRegistrationCompleteEvent;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -60,18 +62,20 @@ public class SetupController {
     ApartmentService apartmentService;
 
 
+    @Secured("ROLE_ADMIN")
     @PostMapping("/weekendhouse")
-    public ResponseEntity<?> setupWeekendhouse() {
+    public ResponseEntity<?> setupWeekendhouse(@RequestBody Weekendhouse wh) {
 
-        weekendhouseService.setupWh();
+        weekendhouseService.setupWh(wh);
 
         return new ResponseEntity<>("Weekendhouse was succesfully added!",
                 HttpStatus.OK);
     }
+    @Secured("ROLE_ADMIN")
     @PostMapping("/apartment")
-    public ResponseEntity<?> setupApartments() {
+    public ResponseEntity<?> setupApartments(@RequestBody List<Apartment> apartments) {
 
-       apartmentService.setupApartments();
+       apartmentService.setupApartments(apartments);
 
         return new ResponseEntity<>("Apartments were succesfully added!",
                 HttpStatus.OK);
@@ -84,9 +88,9 @@ public class SetupController {
                 HttpStatus.OK);
     }
     @PostMapping("/admin")
-    public ResponseEntity<?> setupAdmin() {
+    public ResponseEntity<?> setupAdmin(@PathVariable("password") String password) {
 
-        userService.setupAdmin();
+        userService.setupAdmin(password);
 
 
         return new ResponseEntity<>("Admin user succesfully added!",
