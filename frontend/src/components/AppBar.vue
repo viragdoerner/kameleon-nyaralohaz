@@ -15,7 +15,7 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item   >
+          <v-list-item v-if="$store.getters.loggedIn" >
             <v-btn text @click="logout"> Kijelentkezés </v-btn>
           </v-list-item>
           <v-list-item>
@@ -73,12 +73,7 @@
             </v-list-item-icon>
             <v-list-item-title>Felhasználókezelés</v-list-item-title>
           </v-list-item>
-          <v-list-item v-if="$store.getters.loggedIn" @click="logout">
-            <v-list-item-icon>
-              <v-icon>mdi-account-outline</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Kijelentkezés</v-list-item-title>
-          </v-list-item>
+          
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
