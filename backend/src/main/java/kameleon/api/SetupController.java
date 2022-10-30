@@ -88,7 +88,7 @@ public class SetupController {
                 HttpStatus.OK);
     }
     @PostMapping("/admin")
-    public ResponseEntity<?> setupAdmin(@PathVariable("password") String password) {
+    public ResponseEntity<?> setupAdmin(@RequestParam("password") String password) {
 
         userService.setupAdmin(password);
 

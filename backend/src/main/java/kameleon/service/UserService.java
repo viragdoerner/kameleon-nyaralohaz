@@ -178,7 +178,7 @@ public class UserService {
         }
 
         //hozzáadom az admint
-        User user = new User("Kameleon","Admin", "admin@kameleon.hu","admin@kameleon.hu", "+36303699697",
+        User user = new User("Kameleon","Admin", "admin@kameleonbalaton.hu","admin@kameleonbalaton.hu", "+36303699697",
                 encoder.encode(password), new ArrayList<Booking>());
         user.setEnabled(true);
 
