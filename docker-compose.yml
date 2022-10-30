@@ -16,6 +16,7 @@ services:
     depends_on:
       - mysqldb
     build: ./backend
+    image: viragdoerner/kameleonbalaton-backend
     restart: on-failure
     env_file: ./.env
     ports:
