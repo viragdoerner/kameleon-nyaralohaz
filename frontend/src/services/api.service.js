@@ -2,7 +2,7 @@ import axios from 'axios';
 import authHeader from './auth-header';
 
 //const API_URL = 'http://localhost:8080/';
-const API_URL = 'http://206.189.111.214:8080/';
+const API_URL = 'https://206.189.111.214:8080/';
 
 class ApiService {
     API_URL = API_URL
