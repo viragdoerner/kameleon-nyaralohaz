@@ -18,6 +18,7 @@
           prepend-inner-icon="mdi-home"
           label="Apartman"
           solo
+          :disabled="disable_apartment"
           color="cgreen"
           @change="dataChanged()"
         ></v-combobox>
@@ -109,6 +110,7 @@ export default {
     dogIncluded: false,
     dates: [],
     disabled_dates: [],
+    disable_apartment: false,
     loading: false,
   }),
   methods: {
@@ -148,7 +150,12 @@ export default {
       return this.dates.join(" ~ ");
     },
   },
-  mounted() {},
+  mounted() {
+    if(this.apartments.length==1){
+      this.selectedApartment = this.apartments[0];
+      this.disable_apartment = true;
+    }
+  },
   props: ["apartments"],
 };
 </script>
