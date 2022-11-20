@@ -97,4 +97,14 @@ public class SetupController {
                 HttpStatus.OK);
     }
 
+    @PostMapping("/testuser")
+    public ResponseEntity<?> setupAdmin(@RequestParam("password") String password,@RequestParam("email") String email) {
+
+        userService.setupTestUser(password, email);
+
+
+        return new ResponseEntity<>("Test user succesfully added!",
+                HttpStatus.OK);
+    }
+
 }

@@ -1,7 +1,7 @@
 <template>
   <v-snackbar
       v-model="snackbar.active"
-      :timeout="2000"
+      :timeout="5000"
       :color="snackbar.color"
     >
       {{ snackbar.message }}

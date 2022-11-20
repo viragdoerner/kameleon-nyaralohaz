@@ -6,9 +6,7 @@
           <v-toolbar-title>Felhasználók</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
-          <confirm-dialog
-            v-on:confirm="deleteUser"
-          ></confirm-dialog>
+          <confirm-dialog v-on:confirm="deleteUser"></confirm-dialog>
         </v-toolbar>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
@@ -70,8 +68,8 @@ export default {
     },
 
     confirmDeleteDialog(item) {
-      this.userToDelete =Object.assign({}, item);
-       this.$store.commit("dialog/openSimpleDialog", {
+      this.userToDelete = Object.assign({}, item);
+      this.$store.commit("dialog/openSimpleDialog", {
         title: "Biztosan törölni szeretnéd?",
         confirmButton: "Törlés",
       });
@@ -80,9 +78,12 @@ export default {
     deleteUser() {
       ApiService.DELETE("user/" + this.userToDelete.id)
         .then((response) => {
-          this.users =this.users.filter(function (u) {
-            return u.id !== this.userToDelete.id;
+          var that = this;
+          var filteredUsers = this.users.filter(function (u) {
+            return u.id !== that.userToDelete.id;
           });
+          this.users = filteredUsers;
+
           this.$store.commit("showMessage", {
             active: true,
             color: "success", // You can create another actions for diferent color.
@@ -90,10 +91,14 @@ export default {
           });
         })
         .catch((error) => {
+          var message = "Nem sikerült törölni a felhasználót";
+          if (error.response) {
+            message = message + ": " +error.response.data;
+          }
           this.$store.commit("showMessage", {
             active: true,
             color: "error", // You can create another actions for diferent color.
-            message: "Nem sikerült törölni a felhasználót",
+            message: message,
           });
         });
     },

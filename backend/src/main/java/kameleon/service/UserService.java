@@ -3,20 +3,14 @@ package kameleon.service;
 import exception.CustomMessageException;
 import kameleon.dao.RoleRepository;
 import kameleon.dao.UserRepository;
-import kameleon.dao.VerificationTokenRepository;
 import kameleon.dto.UserDTO;
 import kameleon.model.auth.Role;
 import kameleon.model.auth.RoleName;
 import kameleon.model.auth.User;
-import kameleon.model.auth.VerificationToken;
 import kameleon.model.booking.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,14 +26,16 @@ public class UserService {
     @Autowired
     private final RoleRepository roleRepository;
     @Autowired
-    private VerificationTokenRepository tokenRepository;
+    private final BookingService bookingService;
     @Autowired
-    private PasswordEncoder encoder;
+    private final AuthService authService;
 
     @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, BookingService bookingService, AuthService authService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.bookingService = bookingService;
+        this.authService = authService;
     }
 
     public Iterable<UserDTO> getUsers() {
@@ -55,6 +51,8 @@ public class UserService {
         UserDTO dto = new UserDTO(user.getId(), user.getLastName(), user.getFirstName(), user.getEmail(), user.getPhonenumber());
         return dto;
     }
+
+
     public UserDTO getUserById(long id) {
         User user = this.userRepository.findById(id).orElseThrow(() ->
                 new CustomMessageException("Nincs ilyen felhasználó"));
@@ -94,23 +92,34 @@ public class UserService {
         return this.userRepository.save(oldUser);
     }*/
    @Transactional
-    public void deleteUserById(long id) throws CustomMessageException{
+    public ResponseEntity<String> deleteUserById(long id) throws CustomMessageException{
         User user = userRepository.findById(id).orElseThrow(() -> new CustomMessageException("Nincs felhasználó ilyen id-val!"));
         Role isAdmin = user.getRoles().stream().filter(x -> x.getName().equals(RoleName.ROLE_ADMIN)).findFirst().orElse(null);
 
         if (isAdmin != null) {
             List<User> admins = userRepository.findAllAdmin(RoleName.ROLE_ADMIN);
             if (admins.size() == 1) {
-                throw new CustomMessageException("Nem lehet kitörölni az utolsó admint!");
+                return new ResponseEntity<>("Nem lehet kitörölni az utolsó admint!",
+                        HttpStatus.BAD_REQUEST);
             }
         }
-
-        user.setRoles(null);
-        //VerificationToken token = tokenRepository.findByUser(user);
-        //token.setUser(null);
-        //this.tokenRepository.saveAndFlush(token);
-        this.userRepository.saveAndFlush(user);
-        this.userRepository.deleteById(id);
+       //delete bookings
+       try {
+           bookingService.deleteBookingsOfUser(user);
+       }
+       catch(CustomMessageException e){
+           return new ResponseEntity<>("Nem lehet kitörölni a felhasználót, mert rendelkezik aktív foglalással.",
+                   HttpStatus.BAD_REQUEST);
+       }
+       //delete its verificationtoken
+       authService.deleteVerificationToken(user);
+       //delete user role
+       user.setRoles(new HashSet<>());
+       userRepository.saveAndFlush(user);
+       //delete user
+       userRepository.delete(user);
+       return new ResponseEntity<>("Felhasználó sikeresen törölve",
+               HttpStatus.OK);
     }
 
     public UserDTO getUserByEmail(String email) {
@@ -124,36 +133,14 @@ public class UserService {
         return user;
     }
 
-    public VerificationToken getVerificationToken(String VerificationToken) {
-        return tokenRepository.findByToken(VerificationToken);
-    }
+
 
     public void saveRegisteredUser(User user) {
         userRepository.save(user);
     }
 
-    public void createVerificationToken(User user, String token) {
-        VerificationToken myToken = new VerificationToken(token, user);
-        tokenRepository.save(myToken);
-    }
-
     public UserDTO getCurrentUser() {
-        return convertUser(getCurrentFullUser());
-    }
-
-    public User getCurrentFullUser() {
-        String currentUsername = getCurrentUsername();
-        User user = userRepository.findByEmail(currentUsername).orElseThrow(() -> new RuntimeException("No user has been found with given email"));
-        return user;
-    }
-
-    String getCurrentUsername(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserName = authentication.getName();
-            return currentUserName;
-        }
-        throw new CustomMessageException("Nincs bejelentkezett felhasználó!");
+        return convertUser(authService.getCurrentFullUser());
     }
 
     public void updateUser(UserDTO user) {
@@ -179,13 +166,32 @@ public class UserService {
 
         //hozzáadom az admint
         User user = new User("Kameleon","Admin", "admin@kameleonbalaton.hu","admin@kameleonbalaton.hu", "+36303699697",
-                encoder.encode(password), new ArrayList<Booking>());
+                authService.encodePassword(password), new ArrayList<Booking>());
         user.setEnabled(true);
 
         Set<Role> roles = new HashSet<>();
         Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
                 .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find. Run POST request /api/auth/setup/roles first!"));
         roles.add(adminRole);
+        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find. Run POST request /api/auth/setup/roles first!"));
+        roles.add(userRole);
+        user.setRoles(roles);
+
+        userRepository.save(user);
+        return;
+    }
+
+    public void setupTestUser(String password, String email) {
+        if (userRepository.existsByEmail("admin@kameleon.hu")) {
+            throw new RuntimeException("Fail -> Email is already taken!");
+        }
+
+        User user = new User("","", email,email, "",
+                authService.encodePassword(password), new ArrayList<Booking>());
+        user.setEnabled(true);
+
+        Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find. Run POST request /api/auth/setup/roles first!"));
         roles.add(userRole);

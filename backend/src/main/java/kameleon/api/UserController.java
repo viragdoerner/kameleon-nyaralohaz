@@ -21,7 +21,6 @@ public class UserController {
     @Secured("ROLE_ADMIN")
     @GetMapping
     public Iterable<UserDTO> getAllUsers(){
-        System.out.println("hellooo");
         return this.userService.getUsers();
     }
 
@@ -59,8 +58,9 @@ public class UserController {
     @Secured("ROLE_ADMIN")
     @Transactional
     @DeleteMapping ("{id}")
-    public void deleteUserById(@PathVariable("id") long id){
-        this.userService.deleteUserById(id);
+    public ResponseEntity<?> deleteUserById(@PathVariable("id") long id){
+        return this.userService.deleteUserById(id);
+
     }
 }
 

@@ -1,5 +1,6 @@
 package kameleon.model.auth;
 
+import kameleon.service.AuthService;
 import kameleon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -14,7 +15,7 @@ public class RegistrationListener implements
         ApplicationListener<OnRegistrationCompleteEvent> {
 
     @Autowired
-    private UserService userService;
+    private AuthService authService;
 
     @Autowired
     private JavaMailSender mailSender;
@@ -27,7 +28,7 @@ public class RegistrationListener implements
     private void confirmRegistration(OnRegistrationCompleteEvent event) {
         User user = event.getUser();
         String token = UUID.randomUUID().toString();
-        userService.createVerificationToken(user, token);
+        authService.createVerificationToken(user, token);
 
         String recipientAddress = user.getEmail();
         String subject = "E-mail-cím megerősítése";
