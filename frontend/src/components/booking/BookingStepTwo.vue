@@ -9,7 +9,7 @@
               label="Vezetéknév"
               regular
               color="cgreen"
-              required
+              :rules="[rules.required]"
               autocomplete="family-name"
             ></v-text-field>
           </v-col>
@@ -19,7 +19,7 @@
               label="Keresztnév"
               regular
               color="cgreen"
-              required
+              :rules="[rules.required]"
               autocomplete="given-name"
             ></v-text-field>
           </v-col>
@@ -31,7 +31,7 @@
                 label="Telefonszám"
                 regular
                 color="cgreen"
-                required
+                :rules="[rules.required]"
                 autocomplete="tel"
               ></v-text-field>
           </v-col>
@@ -73,6 +73,9 @@ export default {
   data: () => ({
     valid: false,
     user: {},
+    rules: {
+      required: (value) => !!value || "Kötelező mező."
+    },
   }),
   methods: {
     getCurrentUser() {

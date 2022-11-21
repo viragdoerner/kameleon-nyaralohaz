@@ -42,8 +42,8 @@ public class BookingService {
         this.authService = auths;
     }
 
-    boolean isActive(Booking b){
-        return !(b.getStatus() == BookingStatus.DELETED || b.getStatus() == BookingStatus.OUTDATED);
+    boolean isActive(BookingStatus status){
+        return !(status == BookingStatus.DELETED || status == BookingStatus.OUTDATED);
     }
 
     public BookingListsDTO getAllBooking() {
@@ -143,6 +143,9 @@ public class BookingService {
         Booking b = bookingRepository.findById(booking_id).orElseThrow(() ->new CustomMessageException("Nem létezik foglalás ezzel az ID-val"));
         if(b.getStatus() == request.getNewStatus()){
             return convertBookingToDTO(b);
+        }
+        if(this.isActive(request.getNewStatus()) && !this.isActive(b.getStatus())){
+
         }
         b.setStatus(request.getNewStatus());
         StatusTransition transition = new StatusTransition(request, b, authService.getCurrentFullUser());
@@ -247,7 +250,7 @@ public class BookingService {
         List<Booking> bookings = bookingRepository.findAllOwnedByUsername(user.getUsername());
         boolean hasActiveBookings = false;
         for(Booking b : bookings){
-            if(isActive(b)){
+            if(isActive(b.getStatus())){
                 hasActiveBookings = true;
             } else{
                 this.deleteBooking(b.getId());

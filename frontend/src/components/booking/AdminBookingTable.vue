@@ -271,7 +271,7 @@ export default {
     mouseClickDelete(item) {
       this.actionType = "delete";
       this.selectedBooking = item;
-      this.$store.commit("dialog/openDialog", {
+      this.$store.commit("dialog/openSimpleDialog", {
         title: "Foglalás végleges törlése",
         text: "Biztosan ki szeretnéd véglegesen törölni a foglalást? Ezt a műveletet nem lehet visszavonni.",
         confirmButton: "TÖRLÉS",
