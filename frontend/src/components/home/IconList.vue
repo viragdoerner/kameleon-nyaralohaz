@@ -41,7 +41,6 @@
           ><v-icon small> fa-close </v-icon>
         </v-btn>
       </div>
-      <confirm-dialog v-on:confirm="deleteProperty"></confirm-dialog>
     </v-row>
     <v-container
       v-if="$store.getters.loggedIn && $store.getters.isAdmin"
@@ -116,11 +115,10 @@
 </template>
 
 <script>
-import ConfirmDialog from "../ConfirmDialog.vue";
 export default {
   name: "CIconList",
   props: ["properties"],
-  components: { ConfirmDialog },
+  components: {  },
   data: () => ({
     colors: ["darkblue", "orange", "purple", "green", "darkred"],
     newProperty: {
@@ -151,9 +149,13 @@ export default {
       }
     },
     openDialog(p) {
+      console.log("property");
       this.$store.commit("dialog/openSimpleDialog", {
         title: "Biztosan törölni szeretnéd?",
         confirmButton: "Törlés",
+        onConfirm: () => {
+          return this.deleteProperty();
+        }
       });
       this.propertyToBeRemoved = p;
     },

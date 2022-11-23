@@ -14,6 +14,8 @@ export const dialog = {
                 dropdownLabel: "",
                 dropdownItems: [],
             },
+            onConfirm: {},
+            onCancel: {}
         }
     },
     mutations: {
@@ -28,6 +30,8 @@ export const dialog = {
             state.dialogData.hasForm = false;
             state.dialogData.confirmButton = payload.confirmButton;
             state.dialogData.isOpen = true;
+            state.dialogData.onConfirm = payload.onConfirm || null;
+            state.dialogData.onCancel = payload.onCancel || null;
         },
         openDialogWithForm(state, payload) {
             state.dialogData.title = payload.title || "";

@@ -51,10 +51,10 @@ export default {
     form: {
       comment: "",
       newStatus: "",
-    }
+    },
   }),
   computed: {
-    ...mapState('dialog',["dialogData"]),
+    ...mapState("dialog", ["dialogData"]),
     isButtonDisabled() {
       return (
         (!!this.dialogData.hasForm &&
@@ -66,16 +66,19 @@ export default {
       );
     },
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     confirm() {
       this.$store.commit("dialog/closeDialog");
       if (!!this.dialogData.form) {
         this.form.newStatus = this.form.newStatus.status;
-        this.$emit("confirm", this.form);
+        if (typeof this.dialogData.onConfirm === "function") {
+          this.dialogData.onConfirm(this.form);
+        }
       } else {
-        this.$emit("confirm");
+        if (typeof this.dialogData.onConfirm === "function") {
+          this.dialogData.onConfirm();
+        }
       }
       this.form.comment = "";
       this.form.newStatus = "";
@@ -84,7 +87,9 @@ export default {
       this.form.comment = "";
       this.form.newStatus = "";
       this.$store.commit("dialog/closeDialog");
-      this.$emit("cancel");
+      if (typeof this.dialogData.onCancel === "function") {
+        this.dialogData.onCancel();
+      }
     },
   },
 };

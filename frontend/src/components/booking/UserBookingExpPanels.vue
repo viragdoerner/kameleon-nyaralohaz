@@ -41,7 +41,7 @@
               >
             </v-tooltip>
           </div>
-          <confirm-dialog v-on:confirm="cancelBooking(booking, arguments[0])"></confirm-dialog>
+          <confirm-dialog v-on:confirm-userbookingexppanels="cancelBooking(booking, arguments[0])" identifier="-userbookingexppanels"></confirm-dialog>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>

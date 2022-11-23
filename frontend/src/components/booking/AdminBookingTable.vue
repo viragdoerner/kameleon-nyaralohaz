@@ -138,7 +138,7 @@
         </td>
       </template>
     </v-data-table>
-    <confirm-dialog v-on:confirm="dialogOkEvent"></confirm-dialog>
+    <confirm-dialog v-on:confirm-adminbookingtable="dialogOkEvent" identifier="-adminbookingtable"></confirm-dialog>
   </div>
 </template>
 

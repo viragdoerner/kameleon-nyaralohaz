@@ -8,6 +8,7 @@
       <router-view :key="$route.path" />
     </v-main>
     <c-footer v-if="$route.name !== 'Login'"></c-footer>
+    <confirm-dialog></confirm-dialog>
     <c-snack-bar></c-snack-bar>
   </v-app>
 </template>
@@ -19,12 +20,14 @@ import CSnackBar from "./components/SnackBar.vue";
 import CApartment from "./views/Apartment.vue";
 import router from "./router";
 import ApiService from "./services/api.service";
+import ConfirmDialog from "./components/ConfirmDialog.vue";
 
 export default {
   components: {
     CFooter,
     CAppBar,
     CSnackBar,
+    ConfirmDialog
   },
   name: "App",
 
