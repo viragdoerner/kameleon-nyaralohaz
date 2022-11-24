@@ -3,7 +3,7 @@
     <v-app-bar color="cgreen" dark>
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Kaméleon nyaralóház</v-toolbar-title>
+      <v-toolbar-title>Kaméleon apartmanház</v-toolbar-title>
       <v-spacer></v-spacer>
 
       <v-btn depressed to="/booking" color="corange" class="d-none d-sm-flex"> Foglalás </v-btn>
@@ -26,7 +26,7 @@
       </v-menu>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" app temporary>
+    <v-navigation-drawer v-model="drawer" app temporary bottom>
       <v-list nav dense>
         <v-list-item-group
           v-model="group"
@@ -36,7 +36,7 @@
             <v-list-item-icon>
               <v-icon>mdi-home</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Kezdőlap</v-list-item-title>
+            <v-list-item-title class="text-body-1 text-sm-body-2">Kezdőlap</v-list-item-title>
           </v-list-item>
 
           <v-list-item
@@ -47,14 +47,14 @@
             <v-list-item-icon>
               <v-icon>mdi-home-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>{{ route.name }}</v-list-item-title>
+            <v-list-item-title class="text-body-1 text-sm-body-2">{{ route.name }}</v-list-item-title>
           </v-list-item>
 
            <v-list-item to="/user-booking" v-if="loggedIn">
             <v-list-item-icon>
               <v-icon>mdi-list-box-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Foglalásaim</v-list-item-title>
+            <v-list-item-title class="text-body-1 text-sm-body-2">Foglalásaim</v-list-item-title>
           </v-list-item>
 
           
@@ -67,27 +67,27 @@
             <v-list-item-icon>
               <v-icon>mdi-account-multiple</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Felhasználókezelés</v-list-item-title>
+            <v-list-item-title class="text-body-1 text-sm-body-2">Felhasználókezelés</v-list-item-title>
           </v-list-item>
           <v-list-item v-if="isAdmin" to="/admin-booking">
             <v-list-item-icon>
               <v-icon>mdi-list-box</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Foglalások kezelése</v-list-item-title>
+            <v-list-item-title class="text-body-1 text-sm-body-2">Foglalások kezelése</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
       <template v-slot:append>
-        <div class="pa-2 mb-10">
-           <v-btn block color="corange" dark to="booking" class="mb-3">
+        <div class="pa-2 mb-16">
+           <v-btn block color="corange" dark to="booking" class="mb-3" :x-large="$vuetify.breakpoint.mobile">
             Foglalás
            <v-icon right dark> mdi-calendar </v-icon>
           </v-btn>
-          <v-btn block color="cgreen" dark v-if="loggedIn" @click="logout">
+          <v-btn block color="cgreen" dark v-if="loggedIn" @click="logout" :x-large="$vuetify.breakpoint.mobile">
             Kijelentkezés
             <v-icon right dark> mdi-logout </v-icon>
           </v-btn>
-          <v-btn block color="clightgreen" dark v-if="!loggedIn" to="/login">
+          <v-btn block color="clightgreen" dark v-if="!loggedIn" to="/login" :x-large="$vuetify.breakpoint.mobile">
             Bejelentkezés
             <v-icon right dark> mdi-login </v-icon>
           </v-btn>
