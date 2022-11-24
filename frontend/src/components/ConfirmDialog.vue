@@ -3,6 +3,7 @@
     v-model="dialogData.isOpen"
     :max-width="dialogData.hasForm ? 600 : 290"
     :retain-focus="false"
+    :fullscreen="$vuetify.breakpoint.mobile"
   >
     <v-card>
       <v-card-title> {{ dialogData.title }} </v-card-title>
