@@ -22,6 +22,10 @@ export const dialog = {
         closeDialog(state) {
             state.dialogData.isOpen = false;
         },
+        resetFunctions(state){
+            state.dialogData.onConfirm = null;
+            state.dialogData.onCancel = null;
+        },
         openSimpleDialog(state, payload) {
             state.dialogData.title = payload.title || "";
             state.dialogData.text = payload.text || "";
@@ -39,6 +43,8 @@ export const dialog = {
             state.dialogData.confirmButtonColor = payload.confirmButtonColor || "success";
             state.dialogData.confirmButton = payload.confirmButton || "OK";
             state.dialogData.confirmButton = payload.confirmButton;
+            state.dialogData.onConfirm = payload.onConfirm || null;
+            state.dialogData.onCancel = payload.onCancel || null;
 
             state.dialogData.hasForm = true;
             state.dialogData.form.textfieldLabel = payload.form.textfieldLabel || "";

@@ -14,7 +14,7 @@ class BookingDataService {
                     action_admin_ok: "Megerősítés",
                     action_admin_icon_cancel: "fa-ban",
                     action_admin_cancel: "Elutasítás",
-                    info_admin:"Ez egy nemrég ("+ moment(booking.transitions[booking.transitions.length-1].created).locale("hu").fromNow()+") létrehozott foglalás. Erősítsd meg " + booking.user.lastname + " " + booking.user.firstname + " foglalását, hogy utána befizethesse a foglalót! Ha esetleg nem megfelelő az időpont, utasítsd el.",
+                    info_admin: !!booking ? "Ez egy nemrég ("+ moment(booking.transitions[booking.transitions.length-1].created).locale("hu").fromNow()+") létrehozott foglalás. Erősítsd meg " + booking.user.lastname + " " + booking.user.firstname + " foglalását, hogy utána befizethesse a foglalót! Ha esetleg nem megfelelő az időpont, utasítsd el.": "",
                     info: "Foglalásod sikeresen elmentettük, jelenleg feldoglozás alatt van. A nyaraló tulajdonosa 1-2 napon belül visszajelez, erről emailben is értesíteni fogunk!"
                 };
             case "BOOKED":
@@ -27,7 +27,7 @@ class BookingDataService {
                     action_admin_ok: "Foglaló kifizetve",
                     action_admin_icon_cancel: "fa-ban",
                     action_admin_cancel: "Elutasítás",
-                    info_admin:"A foglalást visszaigazoltad, jelenleg a vendégre várunk, hogy befizesse a foglalót. Ha " + booking.user.lastname + " " + booking.user.firstname + " már elutalta a foglalót, erősítsd ezt meg! Ha több mint egy hete nem fizetett foglalót utasítsd el ezt a foglalást.",
+                    info_admin: !!booking ? "A foglalást visszaigazoltad, jelenleg a vendégre várunk, hogy befizesse a foglalót. Ha " + booking.user.lastname + " " + booking.user.firstname + " már elutalta a foglalót, erősítsd ezt meg! Ha több mint egy hete nem fizetett foglalót utasítsd el ezt a foglalást.": "",
                     info: "A nyaraló tulajdonosa elfogadta a foglalásod. A foglalás véglegesítéséhez egy héten belül foglalót kell fizetned. Ezt így meg így lehet megtenni. Kérdés esetén írj emailt, vagy hívj fel minket telefonon!"
                 };
             case "PAID":
@@ -37,7 +37,7 @@ class BookingDataService {
                     status: "Lefoglalva, foglaló kifizetve",
                     status_admin: "Foglaló kifizetve",
                     info_admin:"Ezzel a foglalással jelenleg nincs teendő. A foglalást már visszaigazoltad és a foglaló is befizetésre került.",
-                    info: "A foglalás véglegesítve lett, várunk szeretettel " + moment(booking.arrival).locale("hu").fromNow() + " (" + moment(booking.arrival).locale("hu").format("LL") + ") ! :)"
+                    info: !!booking ? "A foglalás véglegesítve lett, várunk szeretettel " + moment(booking.arrival).locale("hu").fromNow() + " (" + moment(booking.arrival).locale("hu").format("LL") + ") ! :)": ""
                 };
             case "DELETED":
                 return {

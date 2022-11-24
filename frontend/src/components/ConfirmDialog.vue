@@ -82,6 +82,7 @@ export default {
       }
       this.form.comment = "";
       this.form.newStatus = "";
+      this.$store.commit("dialog/resetFunctions");
     },
     cancel() {
       this.form.comment = "";
@@ -90,6 +91,7 @@ export default {
       if (typeof this.dialogData.onCancel === "function") {
         this.dialogData.onCancel();
       }
+      this.$store.commit("dialog/resetFunctions");
     },
   },
 };
