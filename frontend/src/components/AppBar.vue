@@ -78,7 +78,7 @@
         </v-list-item-group>
       </v-list>
       <template v-slot:append>
-        <div class="pa-2 mb-16">
+        <div class="pa-2 mb-3">
            <v-btn block color="corange" dark to="booking" class="mb-3" :x-large="$vuetify.breakpoint.mobile">
             Foglalás
            <v-icon right dark> mdi-calendar </v-icon>
@@ -91,6 +91,8 @@
             Bejelentkezés
             <v-icon right dark> mdi-login </v-icon>
           </v-btn>
+        </div>
+        <div class="pa-2 mb-8   d-none d-lg-flex d-xl-none">
         </div>
       </template>
     </v-navigation-drawer>
