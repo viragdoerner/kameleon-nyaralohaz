@@ -149,7 +149,6 @@ export default {
       }
     },
     openDialog(p) {
-      console.log("property");
       this.$store.commit("dialog/openSimpleDialog", {
         title: "Biztosan törölni szeretnéd?",
         confirmButton: "Törlés",

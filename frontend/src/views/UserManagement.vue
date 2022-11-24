@@ -6,7 +6,6 @@
           <v-toolbar-title>Felhasználók</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
-          <confirm-dialog v-on:confirm-usermanagement="deleteUser" identifier="-usermanagement"></confirm-dialog>
         </v-toolbar>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
@@ -21,11 +20,10 @@
 
 <script>
 import ApiService from "../services/api.service";
-import ConfirmDialog from "../components/ConfirmDialog.vue";
 
 export default {
   name: "CUserManagement",
-  components: { ConfirmDialog },
+  components: {  },
   data: () => ({
     headers: [
       { text: "Email", value: "email" },
@@ -72,6 +70,9 @@ export default {
       this.$store.commit("dialog/openSimpleDialog", {
         title: "Biztosan törölni szeretnéd?",
         confirmButton: "Törlés",
+        onConfirm: () => {
+          return this.deleteUser();
+        }
       });
     },
 

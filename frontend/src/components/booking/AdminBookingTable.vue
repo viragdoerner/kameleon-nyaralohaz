@@ -199,8 +199,8 @@ export default {
       this.$store.commit("dialog/openDialogWithForm", {
         title: this.statusAttrs(item.status, item).action_admin_ok,
         confirmButton: "OK",
-        onConfirm: (params) => {
-          return this.dialogOkEvent(params);
+        onConfirm: (form) => {
+          return this.dialogOkEvent(form);
         },
         form: {
           textfieldLabel:
@@ -221,8 +221,8 @@ export default {
         text: "Biztosan el szeretnéd utasítani a foglalást?",
         confirmButton: "ELUTASÍTÁS",
         confirmButtonColor: "error",
-        onConfirm: (params) => {
-          return this.dialogOkEvent(params);
+        onConfirm: (form) => {
+          return this.dialogOkEvent(form);
         },
         form: {
           textfieldLabel: "Írj indoklást a vendégnek, hogy miért nem megfelelő a foglalása!",
@@ -239,8 +239,8 @@ export default {
         text: "Ez a funkció csak különleges esetek kezelésére szolgál. Csak akkor használd, ha szükséges!",
         confirmButton: "MÓDOSÍTÁS",
         confirmButtonColor: "success",
-        onConfirm: (params) => {
-          return this.dialogOkEvent(params);
+        onConfirm: (form) => {
+          return this.dialogOkEvent(form);
         },
         form: {
           textfieldLabel:

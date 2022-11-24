@@ -65,7 +65,6 @@ export default {
   mounted() {},
   methods: {
     deletePicture() {
-      console.log(this.pictureToBeRemoved);
       this.$emit("delete-picture", this.pictureToBeRemoved);
     },
     openDialog(pic) {
