@@ -3,6 +3,7 @@ package kameleon.model.auth;
 import kameleon.service.AuthService;
 import kameleon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,6 +21,9 @@ public class RegistrationListener implements
     @Autowired
     private JavaMailSender mailSender;
 
+    @Value("${kameleon.app.backendURL}")
+    private String backendURL;
+
     @Override
     public void onApplicationEvent(OnRegistrationCompleteEvent event) {
         this.confirmRegistration(event);
@@ -35,7 +39,7 @@ public class RegistrationListener implements
         String confirmationUrl
                 = event.getAppUrl() + "/registrationConfirm?token=" + token;
         //String message = messages.getMessage("message.regSucc", null, event.getLocale());
-        String link = "http://localhost:8080/auth" + confirmationUrl;
+        String link = backendURL + "/auth" + confirmationUrl;
 
         SimpleMailMessage email = new SimpleMailMessage();
         email.setFrom("kameleonnyaralohaz@gmail.com");

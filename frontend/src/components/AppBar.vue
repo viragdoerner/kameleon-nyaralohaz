@@ -6,8 +6,8 @@
       <v-toolbar-title>Kaméleon nyaralóház</v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <v-btn depressed to="/booking" color="corange"> Foglalás </v-btn>
-      <v-btn depressed to="/login" color="clightgreen" v-if="!loggedIn" class="ml-3"> Bejelentkezés </v-btn>
+      <v-btn depressed to="/booking" color="corange" class="d-none d-sm-flex"> Foglalás </v-btn>
+      <v-btn depressed to="/login" color="clightgreen" v-if="!loggedIn" class="ml-3 d-none d-sm-flex" > Bejelentkezés </v-btn>
 
       <v-menu bottom left v-if="loggedIn">
         <template v-slot:activator="{ on, attrs }">
