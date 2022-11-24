@@ -50,7 +50,7 @@ public class BookingService {
         BookingListsDTO dto = new BookingListsDTO();
         List<Booking> bookings = bookingRepository.findAll();
         for(Booking b : bookings){
-            if(this.isActive(b)){
+            if(this.isActive(b.getStatus())){
                 dto.addActive(convertBookingToDTO(b));
             }else{
                 dto.addInactive(convertBookingToDTO(b));
