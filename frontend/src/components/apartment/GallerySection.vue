@@ -33,12 +33,14 @@ export default {
   mounted() {},
   methods: {
     onUploadedPictures(updatedApartment) {
-      this.apartment = updatedApartment;
+      this.$emit("updateApartment", updatedApartment);
+      //this.apartment = updatedApartment;
     },
     onDeletePicture(pic) {
       ApiService.DELETE( "apartment/deletepic/" + this.apartment.id + "/" + pic)
         .then((response) => {
-          this.apartment = response.data;
+          this.$emit("updateApartment", response.data);
+          //this.apartment = response.data;
           this.$store.commit("showMessage", {
             active: true,
             color: "cgreen",

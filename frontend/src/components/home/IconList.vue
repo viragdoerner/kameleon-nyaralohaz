@@ -41,19 +41,18 @@
           ><v-icon small> fa-close </v-icon>
         </v-btn>
       </div>
-      <confirm-dialog v-on:confirm="deleteProperty"></confirm-dialog>
     </v-row>
     <v-container
       v-if="$store.getters.loggedIn && $store.getters.isAdmin"
       class="d-flex justify-center pb-10 pa-0 pa-md-2"
     >
-      <v-card elevation="2" class="col-12 col-md-8 pb-10 pa-0 pa-md-2">
+      <v-card elevation="2" class="col-12 col-md-8  pb-10 pa-0 pa-md-2">
         <v-card-title class="text-h3 zabatana corange--text"
           >Tulajdonság hozzáadása</v-card-title
         >
         <v-card-text>
-          <v-form ref="loginForm" v-model="valid" lazy-validation>
-            <div class="d-flex pb-5">
+          <v-form ref="iconForm" v-model="valid" lazy-validation>
+            <div class="d-flex pb-5 col-12">
               <p class="align-self-center ma-0">Ikonokat</p>
               <v-btn
                 class="align-self-center"
@@ -70,7 +69,7 @@
               </p>
             </div>
             <v-row>
-              <v-col cols="12" sm="6" md="6">
+              <v-col cols="12" md="6">
                 <v-text-field
                   v-model="newProperty.name"
                   label="Tulajdonság"
@@ -80,7 +79,7 @@
                   :rules="[rules.required]"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12" sm="6" md="5">
+              <v-col cols="8" md="4">
                 <v-text-field
                   v-model="newProperty.icon_name"
                   label="Ikon"
@@ -90,7 +89,7 @@
                   :rules="[rules.required]"
                 ></v-text-field>
               </v-col>
-              <v-col cols="6" sm="6" md="1">
+              <v-col cols="4" md="2">
                 <v-icon large size="24px" color="cgreen">
                   {{ "fa-" + newProperty.icon_name }}
                 </v-icon>
@@ -116,11 +115,10 @@
 </template>
 
 <script>
-import ConfirmDialog from "../ConfirmDialog.vue";
 export default {
   name: "CIconList",
   props: ["properties"],
-  components: { ConfirmDialog },
+  components: {  },
   data: () => ({
     colors: ["darkblue", "orange", "purple", "green", "darkred"],
     newProperty: {
@@ -140,19 +138,23 @@ export default {
     },
 
     addProperty() {
-      if (this.$refs.loginForm.validate()) {
+      if (this.$refs.iconForm.validate()) {
         this.newProperty.icon_name = "fa-" + this.newProperty.icon_name;
         this.$emit("add-property", this.newProperty);
         this.newProperty = {
           name: "",
           icon_name: "",
         };
+        this.$refs.iconForm.reset();
       }
     },
     openDialog(p) {
       this.$store.commit("dialog/openSimpleDialog", {
         title: "Biztosan törölni szeretnéd?",
         confirmButton: "Törlés",
+        onConfirm: () => {
+          return this.deleteProperty();
+        }
       });
       this.propertyToBeRemoved = p;
     },

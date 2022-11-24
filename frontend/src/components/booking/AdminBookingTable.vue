@@ -138,7 +138,6 @@
         </td>
       </template>
     </v-data-table>
-    <confirm-dialog v-on:confirm="dialogOkEvent"></confirm-dialog>
   </div>
 </template>
 
@@ -146,13 +145,12 @@
 import ApiService from "../../services/api.service";
 import BookingDataService from "../../services/bookingData.service";
 import BookingTabs from "./BookingTabs.vue";
-import ConfirmDialog from "../ConfirmDialog.vue";
 import MomentService from "../../services/moment.service";
 import SortService from "../../services/sort.service";
 
 export default {
   name: "CAdminBookingTable",
-  components: { BookingTabs, ConfirmDialog },
+  components: { BookingTabs },
   props: ["bookings", "active"],
   data: () => ({
     expanded: [],
@@ -201,6 +199,9 @@ export default {
       this.$store.commit("dialog/openDialogWithForm", {
         title: this.statusAttrs(item.status, item).action_admin_ok,
         confirmButton: "OK",
+        onConfirm: (form) => {
+          return this.dialogOkEvent(form);
+        },
         form: {
           textfieldLabel:
             "Írj rövid üzenetet, egyéb megjegyzést a vendégnek, ha szeretnél.",
@@ -217,11 +218,14 @@ export default {
       }
       this.$store.commit("dialog/openDialogWithForm", {
         title: this.statusAttrs(item.status, item).action_admin_cancel,
-        text: "Biztosan le szeretnéd mondani a foglalást? Amennyiben már kifizetted a foglalót az nem jár vissza.",
+        text: "Biztosan el szeretnéd utasítani a foglalást?",
         confirmButton: "ELUTASÍTÁS",
         confirmButtonColor: "error",
+        onConfirm: (form) => {
+          return this.dialogOkEvent(form);
+        },
         form: {
-          textfieldLabel: "Írj indoklást a vendégnek!",
+          textfieldLabel: "Írj indoklást a vendégnek, hogy miért nem megfelelő a foglalása!",
           textfieldRequired: true,
         },
       });
@@ -232,33 +236,36 @@ export default {
       this.actionType = "update";
       this.$store.commit("dialog/openDialogWithForm", {
         title: "Foglalás státuszának módosítása",
-        text: "Ez a funkció csak különleges esetek kezelésére szolgál. Csak akkor használd, ha megfelelő indokod van rá!",
+        text: "Ez a funkció csak különleges esetek kezelésére szolgál. Csak akkor használd, ha szükséges!",
         confirmButton: "MÓDOSÍTÁS",
         confirmButtonColor: "success",
+        onConfirm: (form) => {
+          return this.dialogOkEvent(form);
+        },
         form: {
           textfieldLabel:
-            "Írj magyarázatot a vendéhnek! Mi miatt módosul a foglalás státusza?",
+            "Írj magyarázatot a vendégnek! Mi miatt módosul a foglalás státusza?",
           textfieldRequired: false,
           dropdownLabel: "Válaszd ki a foglalás új állapotát",
           dropdownItems: [
             {
-              name: this.statusAttrs("TENTATIVE", item).status_admin,
+              name: this.statusAttrs("TENTATIVE", null).status_admin,
               status: "TENTATIVE",
             },
             {
-              name: this.statusAttrs("BOOKED", item).status_admin,
+              name: this.statusAttrs("BOOKED", null).status_admin,
               status: "BOOKED",
             },
             {
-              name: this.statusAttrs("PAID", item).status_admin,
+              name: this.statusAttrs("PAID", null).status_admin,
               status: "PAID",
             },
             {
-              name: this.statusAttrs("DELETED", item).status_admin,
+              name: this.statusAttrs("DELETED", null).status_admin,
               status: "DELETED",
             },
             {
-              name: this.statusAttrs("OUTDATED", item).status_admin,
+              name: this.statusAttrs("OUTDATED", null).status_admin,
               status: "OUTDATED",
             },
           ].filter(function (s) {
@@ -271,7 +278,7 @@ export default {
     mouseClickDelete(item) {
       this.actionType = "delete";
       this.selectedBooking = item;
-      this.$store.commit("dialog/openDialog", {
+      this.$store.commit("dialog/openSimpleDialog", {
         title: "Foglalás végleges törlése",
         text: "Biztosan ki szeretnéd véglegesen törölni a foglalást? Ezt a műveletet nem lehet visszavonni.",
         confirmButton: "TÖRLÉS",

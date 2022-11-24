@@ -41,8 +41,7 @@
               >
             </v-tooltip>
           </div>
-          <confirm-dialog v-on:confirm="cancelBooking(booking, arguments[0])"></confirm-dialog>
-        </v-expansion-panel-content>
+         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
   </div>
@@ -52,11 +51,10 @@
 import ApiService from "../../services/api.service";
 import BookingDataService from "../../services/bookingData.service";
 import BookingTabs from "./BookingTabs.vue";
-import ConfirmDialog from "../ConfirmDialog.vue";
 
 export default {
   name: "CUserBookingExpPanels",
-  components: { BookingTabs, ConfirmDialog },
+  components: { BookingTabs },
   props: ["bookings", "active"],
   data: () => ({
   }),
@@ -72,6 +70,9 @@ export default {
         title: "Foglalás lemondása",
         text: "Biztosan le szeretnéd mondani a foglalást? Amennyiben már kifizetted a foglalót az nem jár vissza.",
         confirmButton: "OK",
+        onConfirm: (form) => {
+          return this.cancelBooking(booking, form);
+        },
         form: {
           textfieldLabel:
             "Kérjük indokold meg, hogy mi miatt mondod le a foglalást!",

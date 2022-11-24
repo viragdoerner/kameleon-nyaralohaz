@@ -3,6 +3,7 @@ package kameleon.api;
 import exception.CustomMessageException;
 import kameleon.dao.RoleRepository;
 import kameleon.dao.UserRepository;
+import kameleon.dao.VerificationTokenRepository;
 import kameleon.dto.JwtResponse;
 import kameleon.dto.LoginForm;
 import kameleon.dto.RegisterForm;
@@ -12,6 +13,7 @@ import kameleon.model.auth.RoleName;
 import kameleon.model.auth.User;
 import kameleon.model.auth.VerificationToken;
 import kameleon.model.booking.Booking;
+import kameleon.service.AuthService;
 import kameleon.service.UserService;
 import kameleon.service.security.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +32,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.*;
-
-import static kameleon.model.auth.RoleName.ROLE_USER;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -54,7 +54,13 @@ public class AuthController {
     UserService userService;
 
     @Autowired
+    AuthService authService;
+
+    @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    VerificationTokenRepository verificationTokenRepository;
 
     @Autowired
     ApplicationEventPublisher eventPublisher;
@@ -85,15 +91,15 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterForm registerRequest,
                                           HttpServletRequest request, Errors errors) {
 
-        if (userRepository.existsByEmail(registerRequest.getEmail())) {
+        boolean taken = userRepository.existsByEmail(registerRequest.getEmail());
+        if (taken) {
             return new ResponseEntity<>("Email is already in use!",
                     HttpStatus.BAD_REQUEST);
         }
-
+        User user = new User("", "", registerRequest.getEmail(), registerRequest.getEmail(), "",
+                encoder.encode(registerRequest.getPassword()), new ArrayList<Booking>());
         try{
             // Creating user's account
-            User user = new User("", "", registerRequest.getEmail(), registerRequest.getEmail(), "",
-                    encoder.encode(registerRequest.getPassword()), new ArrayList<Booking>());
 
             Set<Role> roles = new HashSet<>();
 
@@ -102,16 +108,27 @@ public class AuthController {
             roles.add(userRole);
             user.setRoles(roles);
 
-            userRepository.save(user);
+            user = userRepository.save(user);
 
             String appUrl = request.getContextPath();
             OnRegistrationCompleteEvent event = new OnRegistrationCompleteEvent(user, appUrl);
             eventPublisher.publishEvent(event);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>("Emailerror", HttpStatus.BAD_REQUEST);
+           return this.handleEmailSendFailure(user);
         }
-
         return new ResponseEntity<>("User registered successfully!", HttpStatus.OK);
+    }
+    ResponseEntity<String> handleEmailSendFailure(User user) {
+        try {
+            VerificationToken token = verificationTokenRepository.findByUser(user);
+            verificationTokenRepository.deleteById(token.getId());
+            user.setRoles(new HashSet<>());
+            userRepository.save(user);
+            userRepository.delete(user);
+            return new ResponseEntity<>("Emailerror: Wrong email address, user was removed", HttpStatus.BAD_REQUEST);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("Emailerror:  Wrong email address, couldn't delete user", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/registrationConfirm")
@@ -120,7 +137,7 @@ public class AuthController {
 
         //Locale locale = request.getLocale();
 
-        VerificationToken verificationToken = userService.getVerificationToken(token);
+        VerificationToken verificationToken = authService.getVerificationToken(token);
         if (verificationToken == null) {
             //String message = messages.getMessage("auth.message.invalidToken", null, locale);
             //model.addAttribute("message", "Invalid token");

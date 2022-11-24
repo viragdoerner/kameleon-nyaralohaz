@@ -186,7 +186,7 @@ export default {
             this.$store.commit("showMessage", {
               active: true,
               color: "error",
-              message: "Sikertelen bejelentkezés",
+              message: "Sikertelen regisztráció",
             });
           });
       }

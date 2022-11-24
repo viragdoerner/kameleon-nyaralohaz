@@ -30,26 +30,30 @@ import java.util.stream.IntStream;
 public class BookingService {
 
     private BookingRepository bookingRepository;
-    private UserService userService;
     private ApartmentService apartmentService;
+    private AuthService authService;
     private StatusTransitionRepository transitionRepository;
 
     @Autowired
-    BookingService(BookingRepository br, StatusTransitionRepository tr, UserService us, ApartmentService as){
+    BookingService(BookingRepository br, StatusTransitionRepository tr, ApartmentService as, AuthService auths){
         this.bookingRepository = br;
         this.transitionRepository = tr;
-        this.userService = us;
         this.apartmentService = as;
+        this.authService = auths;
+    }
+
+    boolean isActive(BookingStatus status){
+        return !(status == BookingStatus.DELETED || status == BookingStatus.OUTDATED);
     }
 
     public BookingListsDTO getAllBooking() {
         BookingListsDTO dto = new BookingListsDTO();
         List<Booking> bookings = bookingRepository.findAll();
         for(Booking b : bookings){
-            if(b.getStatus() == BookingStatus.DELETED || b.getStatus() == BookingStatus.OUTDATED){
-                dto.addInactive(convertBookingToDTO(b));
-            }else{
+            if(this.isActive(b)){
                 dto.addActive(convertBookingToDTO(b));
+            }else{
+                dto.addInactive(convertBookingToDTO(b));
             }
         }
         return dto;
@@ -90,13 +94,13 @@ public class BookingService {
         transition.setComment(bookingRequest.getComment());
         transition.setCreated(new Date());
         transition.setNewStatus(BookingStatus.TENTATIVE);
-        transition.setEditor(userService.getCurrentFullUser());
+        transition.setEditor(authService.getCurrentFullUser());
         transition.setBooking(booking);
         booking.addTransition(transition);
 
         Apartment a = getApartment(bookingRequest.getApartmentId());
         booking.setApartment(a);
-        User u = userService.getFullUserByEmail(userService.getCurrentUsername());
+        User u = authService.getCurrentFullUser();
         booking.setUser(u);
 
         return booking;
@@ -118,7 +122,7 @@ public class BookingService {
 
 
     public List<Booking> getAllBookingFromUser() {
-        return bookingRepository.findAllOwnedByUsername(userService.getCurrentUsername());
+        return bookingRepository.findAllOwnedByUsername(authService.getCurrentUsername());
     }
 
     public List<Booking> getActiveBookingFromUser() {
@@ -140,8 +144,11 @@ public class BookingService {
         if(b.getStatus() == request.getNewStatus()){
             return convertBookingToDTO(b);
         }
+        if(this.isActive(request.getNewStatus()) && !this.isActive(b.getStatus())){
+
+        }
         b.setStatus(request.getNewStatus());
-        StatusTransition transition = new StatusTransition(request, b, userService.getCurrentFullUser());
+        StatusTransition transition = new StatusTransition(request, b, authService.getCurrentFullUser());
         //b.addTransition(transition);
         bookingRepository.save(b);
         transitionRepository.save(transition);
@@ -165,7 +172,7 @@ public class BookingService {
         }
         request.setNewStatus(BookingStatus.DELETED);
         b.setStatus(BookingStatus.DELETED);
-        StatusTransition transition = new StatusTransition(request, b, userService.getCurrentFullUser());
+        StatusTransition transition = new StatusTransition(request, b, authService.getCurrentFullUser());
         //b.addTransition(transition);
         bookingRepository.save(b);
         transitionRepository.save(transition);
@@ -237,5 +244,21 @@ public class BookingService {
     public BookingDTO convertBookingToDTO(Booking b) {
         BookingDTO dto = new BookingDTO(b);
         return dto;
+    }
+
+    public void deleteBookingsOfUser(User user)  throws CustomMessageException{
+        List<Booking> bookings = bookingRepository.findAllOwnedByUsername(user.getUsername());
+        boolean hasActiveBookings = false;
+        for(Booking b : bookings){
+            if(isActive(b.getStatus())){
+                hasActiveBookings = true;
+            } else{
+                this.deleteBooking(b.getId());
+            }
+        }
+        if(hasActiveBookings){
+            throw new CustomMessageException("A felhasználó nem törölhető, mert van aktív foglalása.");
+        }
+        return;
     }
 }

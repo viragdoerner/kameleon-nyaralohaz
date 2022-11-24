@@ -1,12 +1,15 @@
 <template>
-  <div>
+  <div v-if="mutableApartment.pictures">
     <c-description-section
-      :data="apartment"
-      v-on:update-apartment="onUpdateApartment"
+      :data="mutableApartment"
+      v-on:update-apartment="saveApartment"
     ></c-description-section>
-    <c-gallery-section :apartment="apartment"></c-gallery-section>
+    <c-gallery-section
+      :apartment="mutableApartment"
+      @updateApartment="onUpdateApartment"
+    ></c-gallery-section>
     <c-icon-list
-      :properties="apartment.properties"
+      :properties="mutableApartment.properties"
       v-on:add-property="onAddProperty"
       v-on:delete-property="onDeleteProperty"
     ></c-icon-list>
@@ -18,7 +21,7 @@ import CHeader from "../components/home/Header.vue";
 import CDescriptionSection from "../components/apartment/DescriptionSection.vue";
 import CGallerySection from "../components/apartment/GallerySection.vue";
 import CIconList from "../components/home/IconList.vue";
-import ApiService from "../services/api.service"
+import ApiService from "../services/api.service";
 
 export default {
   name: "CApartment",
@@ -29,27 +32,32 @@ export default {
     CGallerySection,
     CIconList,
   },
-  data: () => ({}),
-  mounted() {},
+  data: () => ({
+    mutableApartment: {},
+  }),
+  mounted() {
+    this.mutableApartment =  JSON.parse(JSON.stringify(this.apartment));
+  },
   methods: {
+    onUpdateApartment(updatedApartment) {
+      this.mutableApartment = updatedApartment;
+    },
     onAddProperty(p) {
-      var payload = JSON.parse(JSON.stringify(this.apartment));
+      var payload = JSON.parse(JSON.stringify(this.mutableApartment));
       payload.properties.push(p);
       this.saveApartment(payload);
     },
     onDeleteProperty(p) {
-      var payload = JSON.parse(JSON.stringify(this.apartment));
+      var payload = JSON.parse(JSON.stringify(this.mutableApartment));
       payload.properties = payload.properties.filter(function (property) {
-        console.log(property);
-        console.log(p);
         return property.id !== p.id;
       });
       this.saveApartment(payload);
     },
     saveApartment(payload) {
-      ApiService.PUT( "apartment", payload)
+      ApiService.PUT("apartment", payload)
         .then((response) => {
-          this.apartment = response.data;
+          this.mutableApartment = response.data;
 
           this.$store.commit("showMessage", {
             active: true,
@@ -65,14 +73,8 @@ export default {
           });
         });
     },
-    onUpdateApartment(payload) {
-      //var  payload = JSON.parse(JSON.stringify(this.apartment));
-      this.saveApartment(payload);
-    },
-    created() {
-    },
-    mounted() {
-    },
+    created() {},
+    mounted() {},
   },
 };
 </script>

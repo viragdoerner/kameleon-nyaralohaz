@@ -44,20 +44,17 @@
         </v-col>
       </v-row>
     </div>
-    <confirm-dialog
-        v-on:confirm="deletePicture"></confirm-dialog>
+    
   </div>
 </template>
 
 <script>
 import { LightGallery } from "vue-light-gallery";
-import ConfirmDialog from "../components/ConfirmDialog.vue";
 export default {
   name: "CGallery",
   props: ["pictures"],
   components: {
-    LightGallery,
-    ConfirmDialog,
+    LightGallery
   },
   data() {
     return {
@@ -68,13 +65,15 @@ export default {
   mounted() {},
   methods: {
     deletePicture() {
-      console.log(this.pictureToBeRemoved);
       this.$emit("delete-picture", this.pictureToBeRemoved);
     },
     openDialog(pic) {
       this.$store.commit("dialog/openSimpleDialog", {
         title: "Biztosan törölni szeretnéd?",
         confirmButton: "Törlés",
+        onConfirm: () => {
+          return this.deletePicture();
+        }
       });
       this.pictureToBeRemoved = pic;
     },
