@@ -8,7 +8,7 @@
       item-key="id"
       show-expand
       :custom-sort="customSort"
-      class="elevation-1 col-12"
+      class="elevation-1 col-12 pa-0 pa-sm-3"
     >
       <template v-slot:top> </template>
       <template v-slot:[`item.icon`]="{ item }">

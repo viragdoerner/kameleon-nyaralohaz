@@ -1,6 +1,6 @@
 <template>
-  <v-container class="d-flex justify-center pb-10 flex-column">
-    <div class="cgreen--text text-h3 py-3 pt-5">Összes foglalás</div>
+  <v-container class="d-flex justify-center flex-column pa-0 pa-sm-3 pb-sm-10">
+    <div class="cgreen--text text-h3 py-3 pt-5 px-3 px-sm-0">Összes foglalás</div>
     <v-tabs
       v-model="tab"
       background-color="cbggreen"
