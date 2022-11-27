@@ -36,7 +36,7 @@
       <template v-slot:[`item.arrival`]="{ item }">
         {{ formatDate(item.arrival) }}
       </template>
-      <template v-slot:[`item.actions`]="{ item }">
+      <template v-slot:[`item.actions`]="{ item }" v-if="$vuetify.breakpoint.smAndUp">
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -83,13 +83,13 @@
       </template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
-          <div class="d-flex">
+          <div class="d-flex flex-wrap">
             <booking-tabs
               :booking="item"
               :admin="true"
-              class="py-4 col-10"
+              class="py-4 col-12 col-sm-10 pa-0 pa-sm-3"
             ></booking-tabs>
-            <div class="col-2">
+            <div class="col-12 col-sm-2">
               <v-btn
                 v-if="item.status == 'TENTATIVE' || item.status == 'BOOKED'"
                 large

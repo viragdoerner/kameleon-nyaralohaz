@@ -17,8 +17,8 @@
 
       <v-tab-item v-if="!admin">
         <v-card flat>
-          <v-card-text class="pa-0 pa-sm-4 pt-1">
-            <p v-if="!admin">
+          <v-card-text class="pa-0 pa-sm-4 pt-1" v-if="!admin">
+            <p>
               {{ statusAttrs(booking.status, booking).info }}
             </p>
           </v-card-text>
@@ -27,7 +27,7 @@
       <v-tab-item>
         <v-card flat>
           <v-card-text class="pa-0 pa-sm-4 pt-1">
-            <div v-if="admin" class="d-flex flex-column">
+            <div v-if="admin && $vuetify.breakpoint.smAndUp" class="d-flex flex-column">
               <v-alert type="info" text color="cgreen">
                 {{ statusAttrs(booking.status, booking).info_admin }}
               </v-alert>
