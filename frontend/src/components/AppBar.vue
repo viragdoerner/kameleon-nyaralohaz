@@ -61,7 +61,7 @@
           
           
           <v-list-item v-if="isAdmin" disabled class="mt-5">
-            <p class="text-caption corange--text">Admin funkciók</p>
+            <p class="text-sm-caption text-subtitle corange--text">Admin funkciók</p>
           </v-list-item>
           <v-list-item v-if="isAdmin" to="/user-management">
             <v-list-item-icon>

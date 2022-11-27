@@ -1,10 +1,12 @@
 <template>
   <v-card v-if="!!booking" elevation="0">
-    <v-card-title h3 class="cyellow--text text-h3 zabatana"
+    <v-card-title
+      h3
+      class="cyellow--text text-h3 zabatana pa-0 pa-sm-4" id="break-word"
       >Szeretettel várjuk nyaralónkban
       {{ booking.user ? booking.user.firstname : "" }}!</v-card-title
     >
-    <v-card-text>
+    <v-card-text class="pa-0 pa-sm-4">
       <div class="mb-0">Sikeresen rögzítettük foglalását!</div>
       <div class="mb-0">
         Elküldtünk minden szükséges tudnivalót erre az emailcímre:
@@ -14,19 +16,30 @@
         Tovább érdeklődni, esetleg a foglalást lemondani, módosítani az alábbi
         telefonszámon és emailcímen, illetve a weblapon is lehetséges.
       </div>
-      <v-row class="pt-4">
-        <v-col>
+      <div class="pt-4 d-flex flex-wrap">
+        <v-col class="col-12 col-sm-4 px-0 px-sm-3">
           <v-text-field
             label="Telefonszám"
             solo
             dense
             readonly
-            value="+36303699697, +36302560637"
+            value="+36303699697"
             prepend-icon="mdi-phone"
             color="clightgreen"
           ></v-text-field>
         </v-col>
-        <v-col>
+        <v-col class="col-12 col-sm-4 px-0 px-sm-3">
+          <v-text-field
+            label="Telefonszám"
+            solo
+            dense
+            readonly
+            value="+36302460637"
+            prepend-icon="mdi-phone"
+            color="clightgreen"
+          ></v-text-field>
+        </v-col>
+        <v-col class="col-12 col-sm-4 px-0 px-sm-3">
           <v-text-field
             label="Emailcím"
             solo
@@ -37,63 +50,65 @@
             color="clightgreen"
           ></v-text-field
         ></v-col>
-      </v-row>
-      <div>
+      </div>
+      <div class="px-0 px-sm-3">
         A foglalás véglegesítéséhez
         <span class="overline corange--text">foglalót</span> kell fizetni. Ezt
         így meg így lehet megtenni, ide meg ide lehet utalni. A foglaló
         befizetésére egy hét áll rendelkezésre, utána a foglalást töröljük.
       </div>
-      <div class="pt-3 overline font-weight-black clightgreen--text">
+      <!-- <div
+        class="pt-3 px-0 px-sm-3 overline font-weight-black clightgreen--text"
+      >
         Várjuk szeretettel nyaralónkban!
+      </div> -->
+      <div>
+      <v-divider class="col-12 my-5 pb-0"></v-divider>
       </div>
-      <v-divider class="my-5"></v-divider>
-      <v-row>
-        <v-col cols="4">
-          <v-subheader>Nyaraló címe:</v-subheader>
-        </v-col>
-        <v-col cols="8">
+      <div class="d-flex flex-wrap">
+        <v-col class="col-12 col-sm-6 px-0 px-sm-3">
           <v-text-field
-            readonly
-            dense
+            label="Nyaraló címe:"
             value="Balatonszemes, Semmelweis utca 72/B"
-            prepend-icon="mdi-location"
             color="cgreen"
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="4">
-          <v-subheader>Érkezés és távozás napja:</v-subheader>
-        </v-col>
-        <v-col cols="8">
-          <v-text-field
             readonly
-            dense
-            :value="getDate"
-            prepend-icon="mdi-location"
-            color="cgreen"
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="4">
-          <v-subheader>Fizetendő összeg:</v-subheader>
-        </v-col>
-        <v-col cols="8">
+          ></v-text-field
+        ></v-col>
+        <v-col class="col-12 col-sm-6 px-0 px-sm-3">
           <v-text-field
-            readonly
-            clear-icon=""
-            dense
+            label="Fizetendő összeg:"
             :value="getTotalPrice + ' Ft'"
-            prepend-icon="mdi-location"
             color="cgreen"
-          ></v-text-field>
-        </v-col>
-      </v-row>
+            readonly
+          ></v-text-field
+        ></v-col>
+        <v-col class="col-12 col-sm-6 px-0 px-sm-3">
+          <v-text-field
+            label="Érkezés napja:"
+            :value="arrival"
+            color="cgreen"
+            readonly
+          ></v-text-field
+        ></v-col>
+        <v-col class="col-12 col-sm-6 px-0 px-sm-3">
+          <v-text-field
+            label="Távozás napja:"
+            :value="departure"
+            color="cgreen"
+            readonly
+          ></v-text-field
+        ></v-col>
+      </div>
     </v-card-text>
-    <v-card-actions>
-      <v-btn color="cyellow" to="/user-booking" class="white--text"> OK! </v-btn>
+    <v-card-actions class="col-12 d-flex justify-end">
+      <v-btn
+        color="cyellow"
+        to="/user-booking"
+        class="white--text"
+        :x-large="$vuetify.breakpoint.mobile"
+      >
+        OK!
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -107,18 +122,26 @@ export default {
   data: () => ({}),
   methods: {},
   computed: {
-    getDate() {
-      return (
-        MomentService.formatDate(this.booking.arrival) +
-        " - " +
-        MomentService.formatDate(this.booking.departure)
-      );
+    arrival() {
+      return MomentService.formatDate(this.booking.arrival);
+    },
+    departure() {
+      return MomentService.formatDate(this.booking.departure);
     },
     getTotalPrice() {
       if (!!!this.booking || !!!this.booking.apartment) return "";
-      return BookingService.getTotalPriceForBooking(this.booking.arrival, this.booking.departure, this.booking.apartment.price);
+      return BookingService.getTotalPriceForBooking(
+        this.booking.arrival,
+        this.booking.departure,
+        this.booking.apartment.price
+      );
     },
   },
   mounted() {},
 };
 </script>
+<style>
+#break-word {
+  word-break: break-word;
+}
+</style>
