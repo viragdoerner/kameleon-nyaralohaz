@@ -1,10 +1,9 @@
 <template>
-  <v-container class="d-flex justify-center pb-10">
+  <v-container class="d-flex justify-center pa-0 pa-sm-3 pb-sm-10">
     <v-data-table
       :headers="headers"
       :items="users"
-      class="elevation-1 col-12"
-      id="deletesort"
+      class="elevation-1 col-12 "
     >
       <template v-slot:top>
         <v-toolbar flat>
