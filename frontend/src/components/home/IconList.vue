@@ -52,7 +52,7 @@
         >
         <v-card-text>
           <v-form ref="iconForm" v-model="valid" lazy-validation>
-            <div class="d-flex pb-5 col-12">
+            <div class="d-flex flex-wrap pb-5 col-12">
               <p class="align-self-center ma-0">Ikonokat</p>
               <v-btn
                 class="align-self-center"
@@ -65,7 +65,10 @@
                 innen
               </v-btn>
               <p class="align-self-center ma-0">
-                lehet keresni. A kiválasztott ikon nevét kell megadni.
+                lehet keresni. 
+              </p>
+              <p class="align-self-center ma-0 col-12 col-sm-6 pa-0 pl-sm-1">
+                A kiválasztott ikon nevét kell megadni.
               </p>
             </div>
             <v-row>

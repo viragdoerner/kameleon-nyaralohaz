@@ -1,7 +1,9 @@
 <template>
   <v-card elevation="0">
-    <v-card-text class="d-flex justify-space-between align-center col-12">
-      <v-col class="col-4 d-flex flex-column">
+    <v-card-text
+      class="d-sm-flex flex-wrap justify-space-between align-center col-12 pa-0 pa-sm-4"
+    >
+      <v-col class="col-12 col-sm-6 col-md-4 d-flex flex-column">
         <v-combobox
           class="my-0"
           v-model="selectedApartment"
@@ -21,36 +23,17 @@
           color="cgreen"
           @change="dataChanged()"
         ></v-checkbox>
-        <v-divider class="my-5"></v-divider>
-        <v-text-field
-          :value="totalCost + ' Ft'"
-          label="Fizetendő összeg"
-          outlined
-          color="cgreen"
-          dense
-          readonly
-          class="mt-7"
-          :hint="
-            'Az ' +
-            selectedApartment.name +
-            ' költsége egy éjszakára ' +
-            selectedApartment.price +
-            ' Ft'
-          "
-          :persistent-hint="!!selectedApartment"
-        ></v-text-field>
-        <v-expand-transition>
-          <div class="pt-7" v-if="dates.length > 0" caption>
-            Érkezés napja: {{ arrival }}
-          </div>
-        </v-expand-transition>
-        <v-expand-transition>
-          <div v-if="dates.length == 2" caption>
-            Távozás napja: {{ departure }}
-          </div>
-        </v-expand-transition>
+        <booking-step-one-info
+          class="non-mobile-view"
+          v-if="!$vuetify.breakpoint.mobile"
+          :dates="dates"
+          :selectedApartment="selectedApartment"
+          :arrival="arrival"
+          :departure="departure"
+          :totalCost="totalCost"
+        ></booking-step-one-info>
       </v-col>
-      <v-col class="d-flex justify-start col-6">
+      <v-col class="d-flex justify-start col-12 col-sm-6">
         <v-date-picker
           v-model="dates"
           range
@@ -72,17 +55,32 @@
           </v-progress-linear
         ></v-date-picker>
       </v-col>
+      <v-col
+        class="d-flex justify-start col-12 pt-0 mt-0"
+        v-if="$vuetify.breakpoint.mobile"
+      >
+        <booking-step-one-info
+          :dates="dates"
+          :selectedApartment="selectedApartment"
+          :arrival="arrival"
+          :departure="departure"
+          :totalCost="totalCost"
+        ></booking-step-one-info>
+      </v-col>
     </v-card-text>
-    <v-card-actions>
+    <v-card-actions class="d-flex justify-end">
       <v-btn
         color="clightgreen"
         @click="finishStepOne"
         :disabled="dates.length != 2"
         class="white--text"
+        :x-large="$vuetify.breakpoint.mobile"
       >
         Tovább
       </v-btn>
-      <v-btn text @click="cancelBooking"> Mégse </v-btn>
+      <v-btn text @click="cancelBooking" :x-large="$vuetify.breakpoint.mobile">
+        Mégse
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -91,11 +89,12 @@
 import ApiService from "../../services/api.service";
 import BookingService from "../../services/booking.service";
 import MomentService from "../../services/moment.service";
+import BookingStepOneInfo from "./BookingStepOneInfo.vue";
 
 export default {
   name: "CBookingStepOne",
   props: [],
-  components: {},
+  components: { BookingStepOneInfo },
   data: () => ({
     selectedApartment: "",
     apartments: [],

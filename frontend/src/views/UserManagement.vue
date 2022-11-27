@@ -1,6 +1,11 @@
 <template>
   <v-container class="d-flex justify-center pb-10">
-    <v-data-table :headers="headers" :items="users" class="elevation-1 col-12">
+    <v-data-table
+      :headers="headers"
+      :items="users"
+      class="elevation-1 col-12"
+      id="deletesort"
+    >
       <template v-slot:top>
         <v-toolbar flat>
           <v-toolbar-title>Felhasználók</v-toolbar-title>
@@ -23,16 +28,22 @@ import ApiService from "../services/api.service";
 
 export default {
   name: "CUserManagement",
-  components: {  },
+  components: {},
   data: () => ({
     headers: [
-      { text: "Email", value: "email" },
+      {
+        text: "Email",
+        value: "email",
+      },
       {
         text: "Vezetéknév",
         align: "start",
         value: "lastname",
       },
-      { text: "Keresztnév", value: "firstname" },
+      {
+        text: "Keresztnév",
+        value: "firstname",
+      },
       { text: "Telefonszám", sortable: false, value: "phonenumber" },
       { text: "", value: "actions", sortable: false },
     ],
@@ -72,7 +83,7 @@ export default {
         confirmButton: "Törlés",
         onConfirm: () => {
           return this.deleteUser();
-        }
+        },
       });
     },
 
@@ -94,7 +105,7 @@ export default {
         .catch((error) => {
           var message = "Nem sikerült törölni a felhasználót";
           if (error.response) {
-            message = message + ": " +error.response.data;
+            message = message + ": " + error.response.data;
           }
           this.$store.commit("showMessage", {
             active: true,
@@ -106,3 +117,5 @@ export default {
   },
 };
 </script>
+
+

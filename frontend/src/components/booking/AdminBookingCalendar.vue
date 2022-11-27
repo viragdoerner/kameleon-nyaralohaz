@@ -28,7 +28,7 @@
           type="month"
           @click:event="showEvent"
           ><template v-slot:event="{ event }">
-            <v-icon  class="pl-1" small color="white">
+            <v-icon class="pl-1" small color="white">
               {{ statusAttrs(event.booking.status, event.booking)["icon"] }}
             </v-icon>
             <span class="pl-2">{{ event.name }}</span>
@@ -41,7 +41,18 @@
             >
           </template>
         </v-calendar>
+        <v-dialog
+          v-if="!$vuetify.breakpoint.smAndUp"
+          v-model="selectedOpen"
+          :close-on-content-click="false"
+          :activator="selectedElement"
+        >
+          <v-card color="grey lighten-4" min-width="350px" flat>
+            <booking-details :event="selectedEvent"></booking-details>
+          </v-card>
+        </v-dialog>
         <v-menu
+          v-if="$vuetify.breakpoint.smAndUp"
           v-model="selectedOpen"
           :close-on-content-click="false"
           :activator="selectedElement"
@@ -59,7 +70,7 @@
 <script>
 import BookingService from "../../services/booking.service";
 import BookingDetails from "./BookingDetails.vue";
-import BookingDataService from "../../services/bookingData.service"
+import BookingDataService from "../../services/bookingData.service";
 export default {
   name: "CAdminBookingCalendar",
   components: { BookingService, BookingDetails },

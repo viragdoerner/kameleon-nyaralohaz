@@ -27,7 +27,7 @@ export default {
     CFooter,
     CAppBar,
     CSnackBar,
-    ConfirmDialog
+    ConfirmDialog,
   },
   name: "App",
 
@@ -104,5 +104,8 @@ export default {
 .transparentCard {
   background-color: rgba(255, 255, 255, 0) !important;
   border-color: white !important;
+}
+.v-data-table-header-mobile {
+  display: none !important;
 }
 </style>

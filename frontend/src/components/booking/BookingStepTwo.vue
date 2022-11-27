@@ -1,9 +1,9 @@
 <template>
   <v-card elevation="0">
-    <v-card-text>
-      <v-form ref="userDataForm" v-model="valid" lazy-validation class="col-12">
-        <v-row>
-          <v-col>
+    <v-card-text class="pa-0 pa-sm-4">
+      <v-form ref="userDataForm" v-model="valid" lazy-validation class="col-12 d-flex flex-wrap px-0">
+
+          <v-col class="col-12 col-sm-6 px-0 px-sm-3">
             <v-text-field
               v-model="user.lastname"
               label="Vezetéknév"
@@ -13,7 +13,7 @@
               autocomplete="family-name"
             ></v-text-field>
           </v-col>
-          <v-col>
+          <v-col class="col-12 col-sm-6 px-0 px-sm-3">
             <v-text-field
               v-model="user.firstname"
               label="Keresztnév"
@@ -23,9 +23,7 @@
               autocomplete="given-name"
             ></v-text-field>
           </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
+          <v-col class="col-12 col-sm-6 px-0 px-sm-3">
               <v-text-field
                 v-model="user.phonenumber"
                 label="Telefonszám"
@@ -35,7 +33,7 @@
                 autocomplete="tel"
               ></v-text-field>
           </v-col>
-          <v-col>
+          <v-col class="col-12 col-sm-6 px-0 px-sm-3">
             <v-text-field
               :value="user.email"
               label="E-mail-cím"
@@ -45,20 +43,20 @@
               disabled
             ></v-text-field>
           </v-col>
-        </v-row>
          
       </v-form>
     </v-card-text>
-    <v-card-actions class="col-12">
+    <v-card-actions class="col-12 d-flex justify-end">
       <v-btn
         color="clightgreen"
         @click="finishStepTwo"
         :disabled="!valid"
         class="white--text"
+        :x-large="$vuetify.breakpoint.mobile"
       >
         Tovább
       </v-btn>
-      <v-btn text @click="moveBack"> Vissza </v-btn>
+      <v-btn text @click="moveBack" :x-large="$vuetify.breakpoint.mobile"> Vissza </v-btn>
     </v-card-actions>
   </v-card>
 </template>

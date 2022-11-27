@@ -10,7 +10,7 @@
   </v-parallax> -->
     <v-parallax src="../../assets/balatonszemes.jpg" :height="innerHeight">
       <v-row align="start" justify="start" class="pa-md-16 pa-0 ma-md-16 mx-0 mt-6 d-flex">
-        <v-col class="col-10 col-md-7 mt-0 mt-sm-14 pt-16 mt-md-0  pt-sm-0 ">
+        <v-col class="col-12 col-md-7 mt-0 mt-sm-14 pt-16 mt-md-0  pt-sm-0 ">
           <img class="d-sm-none" src="../../assets/mobil_cim_logo.svg" />
            <img class="d-none d-sm-block" src="../../assets/cim_feher.svg" />
           <h1 class="corange--text">BALATONSZEMES</h1>
