@@ -1,7 +1,7 @@
 <template>
   <v-card elevation="0">
     <v-card-text
-      class="d-sm-flex flex-wrap justify-space-between align-center col-12"
+      class="d-sm-flex flex-wrap justify-space-between align-center col-12 pa-0 pa-sm-4"
     >
       <v-col class="col-12 col-sm-6 col-md-4 d-flex flex-column">
         <v-combobox

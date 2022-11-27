@@ -10,8 +10,7 @@
       :custom-sort="customSort"
       class="elevation-1 col-12"
     >
-      <template v-slot:top>
-      </template>
+      <template v-slot:top> </template>
       <template v-slot:[`item.icon`]="{ item }">
         <v-icon :color="statusAttrs(item.status, item).color">
           {{ statusAttrs(item.status, item)["icon"] }}
@@ -125,6 +124,7 @@
                 Állapot módosítás
               </v-btn>
               <v-btn
+                v-if="!active"
                 large
                 text
                 class="d-flex justify-start caption"
@@ -225,7 +225,8 @@ export default {
           return this.dialogOkEvent(form);
         },
         form: {
-          textfieldLabel: "Írj indoklást a vendégnek, hogy miért nem megfelelő a foglalása!",
+          textfieldLabel:
+            "Írj indoklást a vendégnek, hogy miért nem megfelelő a foglalása!",
           textfieldRequired: true,
         },
       });
@@ -280,7 +281,7 @@ export default {
       this.selectedBooking = item;
       this.$store.commit("dialog/openSimpleDialog", {
         title: "Foglalás végleges törlése",
-        text: "Biztosan ki szeretnéd véglegesen törölni a foglalást? Ezt a műveletet nem lehet visszavonni.",
+        text: "Biztosan ki szeretnéd véglegesen törölni a foglalást? Ezt a műveletet nem lehet visszavonni, mivel az adatbázisból is törlődik a foglalás.",
         confirmButton: "TÖRLÉS",
         confirmButtonColor: "red",
       });

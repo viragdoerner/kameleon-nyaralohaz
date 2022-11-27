@@ -1,10 +1,10 @@
 <template>
-  <v-container class="d-flex justify-center pb-10">
+  <v-container class="d-flex justify-center col-12 col-sm-10 pa-0 pa-sm-3 pb-sm-10">
     <v-card class="col-12">
       <v-card-title class="cgreen--text text-h4">
         Aktív foglalásaid
       </v-card-title>
-      <v-card-text>
+      <v-card-text class="pa-0 px-sm-4 pb-sm-4">
         <div v-if="active_bookings.length < 1">
           Jelenleg nincs foglalásod. Foglalni
           <span
@@ -26,7 +26,7 @@
       >
         Lejárt foglalások
       </v-card-title>
-      <v-card-text>
+      <v-card-text class="pa-0 px-sm-4 pb-sm-4">
         <user-booking-exp-panels
           :bookings="inactive_bookings"
           :active="false"

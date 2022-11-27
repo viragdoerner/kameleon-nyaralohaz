@@ -1,23 +1,23 @@
 <template>
   <div>
-    <v-tabs vertical color="cgreen">
-      <v-tab class="d-flex justify-start caption" v-if="!admin">
-        <v-icon small left> mdi-android-messages </v-icon>
-        Leírás
-      </v-tab>
-      <v-tab class="d-flex justify-start caption">
-        <v-icon small left> mdi-information </v-icon>
-        Részletek
-      </v-tab>
-      <v-tab class="d-flex justify-start caption">
-        <v-icon small left> mdi-history </v-icon>
-        Történet
-      </v-tab>
-      
+    <v-tabs :vertical="!$vuetify.breakpoint.mobile" color="cgreen">
+
+        <v-tab class="d-flex justify-sm-start caption" v-if="!admin">
+          <v-icon small left> mdi-message-reply-text </v-icon>
+          {{ !$vuetify.breakpoint.smAndUp ? "" : "Leírás" }}
+        </v-tab>
+        <v-tab class="d-flex  justify-sm-start caption">
+          <v-icon small left> mdi-information </v-icon>
+          {{ !$vuetify.breakpoint.smAndUp ? "" : "Részletek" }}
+        </v-tab>
+        <v-tab class="d-flex  justify-sm-start caption">
+          <v-icon small left> mdi-history </v-icon>
+          {{ !$vuetify.breakpoint.smAndUp ? "" : "Történet" }}
+        </v-tab>
 
       <v-tab-item v-if="!admin">
         <v-card flat>
-          <v-card-text>
+          <v-card-text class="pa-0 pa-sm-4 pt-1">
             <p v-if="!admin">
               {{ statusAttrs(booking.status, booking).info }}
             </p>
@@ -26,7 +26,7 @@
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
-          <v-card-text>
+          <v-card-text class="pa-0 pa-sm-4 pt-1">
             <div v-if="admin" class="d-flex flex-column">
               <v-alert type="info" text color="cgreen">
                 {{ statusAttrs(booking.status, booking).info_admin }}
@@ -63,7 +63,7 @@
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
-          <v-card-text>
+          <v-card-text class="pa-0 pa-sm-4">
             <v-timeline align-top dense>
               <v-timeline-item
                 v-for="(transition, i) in booking.transitions"
@@ -73,21 +73,22 @@
                 color="cgreen"
               >
                 <v-row class="pt-1">
-                  <v-col cols="4">
+                  <v-col class="col-12 col-sm-5 pb-1 pb-sm-3">
                     <strong>{{ formatDateTime(transition.created) }}</strong>
-                    <p class="text-caption mb-2">
+                    <p class="text-caption mb-0">
                       {{ transition.editor.email }}
                     </p>
                   </v-col>
-                  <v-col>
+                  <v-col class="col-12 col-sm-7 pt-0 pt-sm-3">
                     <strong>{{
                       statusAttrs(transition.newStatus, booking).status
                     }}</strong>
-                    <p class="text-caption mb-2" readonly>
+                    <p class="text-caption mb-1" readonly>
                       {{ transition.comment }}
                     </p>
                   </v-col>
-                </v-row></v-timeline-item
+                </v-row>
+                </v-timeline-item
               >
             </v-timeline>
           </v-card-text>

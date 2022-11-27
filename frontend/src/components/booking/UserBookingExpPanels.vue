@@ -5,12 +5,12 @@
         <v-expansion-panel-header>
           <template>
             <v-row no-gutters>
-              <v-col cols="1">
+              <v-col class="col-2 col-sm-1 d-flex align-center ">
                 <v-icon :color="statusAttrs(booking.status, booking).color">
                   {{ statusAttrs(booking.status, booking)["icon"] }}
                 </v-icon>
               </v-col>
-              <v-col cols="4" class="d-flex align-center">
+              <v-col class="col-10 col-sm-4 d-flex align-center ">
                 <div class="overline">
                   {{ statusAttrs(booking.status, booking).status }}
                 </div>
@@ -18,7 +18,7 @@
             </v-row>
           </template>
         </v-expansion-panel-header>
-        <v-expansion-panel-content>
+        <v-expansion-panel-content class="pa-0 pa-sm-4">
           <div class="d-flex flex-column">
             <booking-tabs :booking="booking"></booking-tabs>
             <v-tooltip bottom>
