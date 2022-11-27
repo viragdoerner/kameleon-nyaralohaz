@@ -29,7 +29,10 @@
           {{ booking.apartment.name }}
         </v-chip>
       </div>
-      <div class="d-flex flex-column mb-3" v-if="booking.transitions[0].comment">
+      <div
+        class="d-flex flex-column mb-3"
+        v-if="booking.transitions[0].comment"
+      >
         <v-alert text color="darkgrey">
           <div class="d-flex flex-column">
             <p>"{{ booking.transitions[0].comment }}"</p>
@@ -40,9 +43,14 @@
           </div>
         </v-alert>
       </div>
-      <v-row class="d-flex justify-center my-3"
+      <v-row class="d-flex flex-wrap justify-center my-3"
         ><v-chip color="cgreen" text-color="white">
-          {{ formatDate(booking.arrival) }} -
+          {{ formatDate(booking.arrival) }}
+        </v-chip>
+        <v-icon>
+           mdi-minus
+          </v-icon>
+        <v-chip color="cgreen" text-color="white">
           {{ formatDate(booking.departure) }}</v-chip
         ></v-row
       >
