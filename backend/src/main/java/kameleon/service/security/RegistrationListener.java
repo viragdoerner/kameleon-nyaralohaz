@@ -1,6 +1,9 @@
-package kameleon.model.auth;
+package kameleon.service.security;
 
+import kameleon.model.auth.OnRegistrationCompleteEvent;
+import kameleon.model.auth.User;
 import kameleon.service.AuthService;
+import kameleon.service.MailService;
 import kameleon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +22,7 @@ public class RegistrationListener implements
     private AuthService authService;
 
     @Autowired
-    private JavaMailSender mailSender;
+    private MailService mailService;
 
     @Value("${kameleon.app.backendURL}")
     private String backendURL;
@@ -34,18 +37,8 @@ public class RegistrationListener implements
         String token = UUID.randomUUID().toString();
         authService.createVerificationToken(user, token);
 
-        String recipientAddress = user.getEmail();
-        String subject = "E-mail-cím megerősítése";
         String confirmationUrl
                 = event.getAppUrl() + "/registrationConfirm?token=" + token;
-        //String message = messages.getMessage("message.regSucc", null, event.getLocale());
-        String link = backendURL + "/auth" + confirmationUrl;
-
-        SimpleMailMessage email = new SimpleMailMessage();
-        email.setFrom("kameleonnyaralohaz@gmail.com");
-        email.setTo(recipientAddress);
-        email.setSubject(subject);
-        email.setText("Köszönjük, hogy regisztráltál!\n \n A regisztrációt az alábbi linkre kattintva tudod érvényesíteni: \n" + link +"\n \n Üdvözlettel, \n Kaméleon nyaralóház");
-        mailSender.send(email);
+        mailService.sendRegisterVerificationEmail(user.getEmail(), confirmationUrl );
     }
 }

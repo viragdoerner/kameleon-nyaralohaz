@@ -5,25 +5,15 @@ import kameleon.dto.BookingDTO;
 import kameleon.dto.BookingListsDTO;
 import kameleon.dto.BookingRequest;
 import kameleon.dto.BookingStatusChangeRequest;
-import kameleon.model.apartman.Apartment;
-import kameleon.model.booking.Booking;
-import kameleon.model.booking.BookingStatus;
-import kameleon.service.ApartmentService;
 import kameleon.service.BookingService;
-import kameleon.service.FileStorageService;
+import kameleon.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
 @RequestMapping("/booking")
@@ -31,11 +21,13 @@ import org.springframework.web.bind.annotation.*;
 public class BookingController {
 
 
-        private final BookingService bookingService;
+    private final BookingService bookingService;
+    private final MailService mailService;
 
         @Autowired
-        public BookingController(BookingService bookingService) {
+        public BookingController(BookingService bookingService, MailService mailService) {
             this.bookingService = bookingService;
+            this.mailService = mailService;
         }
 
         @Secured("ROLE_ADMIN")
@@ -55,6 +47,8 @@ public class BookingController {
         @PostMapping
         public BookingDTO bookApartment(@RequestBody BookingRequest booking) {
             BookingDTO b =bookingService.bookApartment(booking);
+            mailService.sendEmailForUserBookingCreated(b.getUser().getEmail());
+            mailService.sendEmailForAdminBookingCreated(b.getUser());
             return b;
         }
 

@@ -97,7 +97,7 @@ public class UserService {
         Role isAdmin = user.getRoles().stream().filter(x -> x.getName().equals(RoleName.ROLE_ADMIN)).findFirst().orElse(null);
 
         if (isAdmin != null) {
-            List<User> admins = userRepository.findAllAdmin(RoleName.ROLE_ADMIN);
+            List<User> admins = this.findAllAdmin();
             if (admins.size() == 1) {
                 return new ResponseEntity<>("Nem lehet kitörölni az utolsó admint!",
                         HttpStatus.BAD_REQUEST);
@@ -165,7 +165,7 @@ public class UserService {
         }
 
         //hozzáadom az admint
-        User user = new User("Kameleon","Admin", "admin@kameleonbalaton.hu","admin@kameleonbalaton.hu", "+36303699697",
+        User user = new User("Kameleon","Admin", "kameleonbalaton@gmail.com","kameleonbalaton@gmail.com", "+36303699697",
                 authService.encodePassword(password), new ArrayList<Booking>());
         user.setEnabled(true);
 
@@ -199,6 +199,10 @@ public class UserService {
 
         userRepository.save(user);
         return;
+    }
+
+    public List<User> findAllAdmin() {
+        return  userRepository.findAllAdmin(RoleName.ROLE_ADMIN);
     }
 }
 
