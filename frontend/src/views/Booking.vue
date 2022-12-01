@@ -1,6 +1,8 @@
 <template>
-  <v-container class="d-flex justify-center col-12 col-sm-10 col-md-8 pa-0 py-sm-10 ">
-    <v-stepper class="col-12 " v-model="currentStep">
+  <v-container
+    class="d-flex justify-center col-12 col-sm-10 col-md-8 pa-0 py-sm-10"
+  >
+    <v-stepper class="col-12" v-model="currentStep">
       <v-stepper-header>
         <v-stepper-step :complete="currentStep > 1" step="1" color="cgreen">
           Dátum kiválasztása
@@ -27,7 +29,12 @@
         </v-stepper-step>
       </v-stepper-header>
 
-      <v-stepper-items >
+      <v-stepper-items>
+        <v-progress-linear
+          indeterminate
+          color="cgreen"
+          v-if="loading"
+        ></v-progress-linear>
         <v-stepper-content step="1" class="pa-0 pt-1 pa-sm-4">
           <booking-step-one v-on:next-step="finishStepOne"></booking-step-one>
         </v-stepper-content>
@@ -42,6 +49,7 @@
           <booking-step-three
             v-on:next-step="finishStepThree"
             v-on:back-step="currentStep--"
+            v-on:loadingChanged="changeLoading"
             :user="user"
             :booking="booking"
           ></booking-step-three>
@@ -64,13 +72,19 @@ import BookingStepSuccess from "../components/booking/BookingStepSuccess.vue";
 export default {
   name: "CBooking",
   props: [],
-  components: { BookingStepOne, BookingStepTwo, BookingStepThree, BookingStepSuccess },
+  components: {
+    BookingStepOne,
+    BookingStepTwo,
+    BookingStepThree,
+    BookingStepSuccess,
+  },
   data: () => ({
     currentStep: 1,
     booking: {},
     user: {},
     successfulBooking: false,
-    bookingResponse: {}
+    bookingResponse: {},
+    loading: false
   }),
   methods: {
     finishStepOne(b) {
@@ -82,10 +96,13 @@ export default {
       this.user = u;
     },
     finishStepThree(resp) {
-      this.bookingResponse=resp;
+      this.bookingResponse = resp;
       this.successfulBooking = true;
       this.currentStep = 4;
     },
+    changeLoading(value){
+      this.loading=value;
+    }
   },
 };
 </script>

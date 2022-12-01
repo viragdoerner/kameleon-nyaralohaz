@@ -129,12 +129,15 @@ export default {
   }),
   methods: {
     finishStepThree() {
+      this.$emit("loadingChanged", true);
       this.booking["comment"] = this.comment;
       ApiService.POST("booking", this.booking)
         .then((response) => {
           this.$emit("next-step", response.data);
+          this.$emit("loadingChanged", false);
         })
         .catch((error) => {
+          this.$emit("loadingChanged", false);
           this.$store.commit("showMessage", {
             active: true,
             color: "error",
