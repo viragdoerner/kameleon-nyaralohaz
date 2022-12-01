@@ -56,6 +56,8 @@ public class BookingController {
         @PutMapping(path = "/{booking_id}")
         public BookingDTO changeBookingStatus(@PathVariable("booking_id") Long booking_id, @RequestBody BookingStatusChangeRequest request) {
             BookingDTO b =bookingService.changeBookingStatus(booking_id, request);
+            mailService.sendEmailForUserBookingChanged(b.getUser().getEmail(), b.getUser().getFirstName());
+            mailService.sendEmailForAdminBookingChanged(b.getUser());
             return b;
         }
 
@@ -63,6 +65,8 @@ public class BookingController {
         @PutMapping(path = "/cancel/{booking_id}")
         public BookingDTO cancelBooking(@PathVariable("booking_id") Long booking_id, @RequestBody BookingStatusChangeRequest request) {
             BookingDTO b =bookingService.cancelBooking(request, booking_id);
+            mailService.sendEmailForUserBookingCanceled(b.getUser().getEmail());
+            mailService.sendEmailForAdminBookingCanceled(b.getUser());
             return b;
         }
 

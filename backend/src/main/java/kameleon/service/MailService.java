@@ -43,15 +43,6 @@ public class MailService {
         mailSender.send(email);
     }
 
-    public void sendEmailForUserBookingCreated(String recipientAddress ) {
-
-        String text = "Köszönjük a foglalást!\n \n Foglalásod sikeresen elmentettük, jelenleg feldolgozás alatt van. " +
-                "A nyaraló tulajdonosa 1-2 napon belül visszajelez, erről emailben is értesíteni fogunk! " +
-                "A foglalásod adatait a weboldalunkon keresztül tudod részletesen nyomon követni a bejelentkezést követően:\n"
-                + frontendURL +"/#/user-booking \n \n Üdvözlettel, \n Kaméleon apartmanház";
-        this.sendEmail(recipientAddress, "Sikeres foglalás", text);
-    }
-
     public void sendEmail(String recipientAddress, String subject, String text ) {
         //String message = messages.getMessage("message.regSucc", null, event.getLocale());
         SimpleMailMessage email = new SimpleMailMessage();
@@ -60,6 +51,15 @@ public class MailService {
         email.setSubject(subject);
         email.setText(text);
         mailSender.send(email);
+    }
+
+    public void sendEmailForUserBookingCreated(String recipientAddress ) {
+
+        String text = "Köszönjük a foglalást!\n \n Foglalásod sikeresen elmentettük, jelenleg feldolgozás alatt van. " +
+                "A nyaraló tulajdonosa 1-2 napon belül visszajelez, erről emailben is értesíteni fogunk! " +
+                "A foglalásod adatait a weboldalunkon keresztül tudod részletesen nyomon követni a bejelentkezést követően:\n"
+                + frontendURL +"/#/user-booking \n \n Üdvözlettel, \n Kaméleon apartmanház";
+        this.sendEmail(recipientAddress, "Sikeres foglalás", text);
     }
 
     public void sendEmailForAdminBookingCreated(User user ) {
@@ -72,4 +72,35 @@ public class MailService {
     }
 
 
+    public void sendEmailForUserBookingChanged(String recipientAddress, String firstname) {
+        String text = "Kedves " + firstname + "!\n \n Foglalásod állapotát frissítette a nyaraló tulajdonosa. " +
+                "A foglalásod adatait a weboldalunkon keresztül tudod részletesen nyomon követni a bejelentkezést követően:\n"
+                + frontendURL +"/#/user-booking \n \n Üdvözlettel, \n Kaméleon apartmanház";
+        this.sendEmail(recipientAddress, "Foglalásod állapota módosult", text);
+    }
+
+    public void sendEmailForAdminBookingChanged(User user) {
+        List<User> alladmin = userService.findAllAdmin();
+        String text = "Kedves nyaralótulajdonos!\n \n Sikeresen módosítottad "+ user.getLastName()+" "+ user.getFirstName() + " (" + user.getEmail() + ") " +" foglalását. A foglalás pontos adatait a weblapon keresztül nézheted meg: \n"
+                + frontendURL+"/#/admin-booking \n \n Üdvözlettel, \n A Kaméleon apartmanház honlapja";
+        for (User admin : alladmin){
+            this.sendEmail(admin.getEmail(), "Módosított foglalás", text);
+        }
+    }
+
+    public void sendEmailForUserBookingCanceled(String recipientAddress) {
+        String text = "Foglalás lemondása\n \n Foglalásodat sikeresen lemondtad. Ha meggondolnád magad, bármikor újra foglalhatsz " +
+                "apartmant weboldalunkon keresztül a bejelentkezést követően:\n"
+                + frontendURL +"/#/booking \n \n Üdvözlettel, \n Kaméleon apartmanház";
+        this.sendEmail(recipientAddress, "Foglalásod állapota módosult", text);
+    }
+
+    public void sendEmailForAdminBookingCanceled(User user) {
+        List<User> alladmin = userService.findAllAdmin();
+        String text = "Kedves nyaralótulajdonos!\n \n "+ user.getLastName()+" "+ user.getFirstName() + " (" + user.getEmail() + ") " +" lemondta egy foglalását. A jelenleg aktuális és lemondott foglalások listáját a weblapon keresztül nézheted meg: \n"
+                + frontendURL+"/#/admin-booking \n \n Üdvözlettel, \n A Kaméleon apartmanház honlapja";
+        for (User admin : alladmin){
+            this.sendEmail(admin.getEmail(), "Lemondott foglalás", text);
+        }
+    }
 }
