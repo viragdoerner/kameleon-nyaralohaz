@@ -18,7 +18,7 @@
           <v-btn
             elevation="2"
             color="cgreen"
-            class="white--text mt-5 "
+            class="white--text mt-5"
             @click="savePictures"
             >FELTÖLTÉS
           </v-btn>
@@ -31,7 +31,7 @@
 <script>
 import vue2Dropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
-import ApiService from "../../services/api.service"
+import ApiService from "../../services/api.service";
 
 export default {
   name: "CFileUpload",
@@ -55,6 +55,46 @@ export default {
   computed: {},
   mounted() {},
   methods: {
+    uploadFileToCloudinary(file) {
+      return new Promise(function (resolve, reject) {
+        //Ideally these to lines would be in a .env file
+        const CLOUDINARY_URL =
+          "https://api.cloudinary.com/v1_1/dtqjqi3ii/upload";
+        const CLOUDINARY_UPLOAD_PRESET = "hsdguvou";
+
+        let formData = new FormData();
+        formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+        formData.append("folder", "kameleonbalaton");
+        formData.append("file", file);
+
+        let request = new XMLHttpRequest();
+        request.open("POST", CLOUDINARY_URL, true);
+        request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+        request.onreadystatechange = () => {
+          // File uploaded successfully
+          if (request.readyState === 4 && request.status === 200) {
+            let response = JSON.parse(request.responseText);
+            resolve(response);
+          }
+
+          // Not succesfull, let find our what happened
+          if (request.status !== 200) {
+            let response = JSON.parse(request.responseText);
+            let error = response.error.message;
+            alert("error, status code not 200 " + error);
+            reject(error);
+          }
+        };
+
+        request.onerror = (err) => {
+          alert("error: " + err);
+          reject(err);
+        };
+
+        request.send(formData);
+      });
+    },
     fileAdded(file) {
       this.$refs.myVueDropzone.processQueue();
       this.filesToUpload.push(file);
@@ -71,7 +111,8 @@ export default {
         formData.append("files", file);
       }
       formData.append("apartmentId", this.apartmentId);
-      ApiService.POST( "apartment/addpictures", formData)
+      this.uploadFileToCloudinary(this.filesToUpload[0]);
+      ApiService.POST("apartment/addpictures", formData)
         .then((response) => {
           this.$emit("uploaded-pictures", response.data);
           this.$store.commit("showMessage", {
