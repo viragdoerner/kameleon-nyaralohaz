@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+     <cld-image public-id="sample" />
     <div>
       <v-row>
         <LightGallery
