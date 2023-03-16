@@ -1,16 +1,5 @@
 package kameleon.dto;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sun.istack.NotNull;
-import kameleon.model.apartman.ApartmentProperty;
-import org.hibernate.annotations.NaturalId;
-
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.util.List;
-
 public class ApartmentDTO {
 
     private Long id;

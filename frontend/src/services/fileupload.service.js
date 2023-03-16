@@ -27,10 +27,13 @@ class FileuploadService {
             });
     }
     saveImages(files, apartmentId) {
+        console.log(files.length + " files to upload")
         var fileResponses = [];
         if (files.length > 0) {
             files.forEach((file, index, array) => {
+                console.log("upload image " + index)
                 this.uploadFileToCloudinary(file).then((fileResponse) => {
+                    console.log("finished uploading image " + index)
                     fileResponses.push(fileResponse);
                     if (index == array.length - 1) {
                         console.log("finished uploading files to cloudinary")

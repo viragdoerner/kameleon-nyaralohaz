@@ -1,14 +1,6 @@
 package kameleon.dto;
-
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.sun.istack.NotNull;
-import kameleon.model.booking.Booking;
 import kameleon.model.booking.BookingStatus;
 import kameleon.model.booking.StatusTransition;
-import serializer.CustomTransitionSerializer;
-
-import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class StatusTransitionDTO {

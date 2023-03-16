@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-     <cld-image public-id="sample" />
+     <cld-image public-id="sample" ></cld-image>
     <div>
       <v-row>
         <LightGallery
@@ -16,7 +16,7 @@
           class="d-flex child-flex col-md-4 col-6"
         >
           <v-img
-            :src="$store.state.imgPath + pic"
+            :src="pic"
             :lazy-src="`https://picsum.photos/10/6?image=${index * 5 + 10}`"
             aspect-ratio="1"
             class="grey lighten-2"
@@ -83,7 +83,7 @@ export default {
     pictureURLs() {
       var picURLs = [];
       this.pictures.forEach((pic) => {
-        picURLs.push(this.$store.state.imgPath + pic);
+        picURLs.push(pic);
       });
       return picURLs;
     },

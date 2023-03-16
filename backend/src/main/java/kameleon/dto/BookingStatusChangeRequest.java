@@ -1,6 +1,5 @@
 package kameleon.dto;
 
-import com.sun.istack.NotNull;
 import kameleon.model.booking.BookingStatus;
 
 import javax.persistence.EnumType;

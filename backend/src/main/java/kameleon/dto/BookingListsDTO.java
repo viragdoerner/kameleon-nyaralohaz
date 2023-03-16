@@ -1,7 +1,5 @@
 package kameleon.dto;
 
-import kameleon.model.booking.Booking;
-
 import java.util.ArrayList;
 import java.util.List;
 
