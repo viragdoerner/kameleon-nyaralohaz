@@ -8,6 +8,7 @@ import kameleon.model.auth.Role;
 import kameleon.model.auth.RoleName;
 import kameleon.model.auth.User;
 import kameleon.model.booking.Booking;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,10 @@ public class UserService {
     private final BookingService bookingService;
     @Autowired
     private final AuthService authService;
+    @Value("${kameleon.app.cloudinaryUploadPreset}")
+    private String cloudinaryUploadPreset;
+    @Value("${kameleon.app.cloudinaryName}")
+    private String cloudinaryName;
 
     @Autowired
     public UserService(UserRepository userRepository, RoleRepository roleRepository, BookingService bookingService, AuthService authService) {
@@ -203,6 +208,13 @@ public class UserService {
 
     public List<User> findAllAdmin() {
         return  userRepository.findAllAdmin(RoleName.ROLE_ADMIN);
+    }
+
+    public List<String> sendCloudinaryCredentials(){
+        List<String> cloudinary = new ArrayList<String>();
+        cloudinary.add(this.cloudinaryName);
+        cloudinary.add(this.cloudinaryUploadPreset);
+        return cloudinary;
     }
 }
 

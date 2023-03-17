@@ -9,9 +9,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*")
 @RequestMapping("/apartment")
@@ -60,29 +58,17 @@ public class ApartmentController {
 
     @PostMapping(path = "/addpictures")
     @Secured("ROLE_ADMIN")
-    public Apartment addApartmentPictures(@RequestParam("apartmentId") Long apartmentId, @RequestParam("files") MultipartFile[] files) {
+    public Apartment addApartmentPictures(@RequestParam("apartmentId") Long apartmentId, @RequestParam("imageURLs") List<String> imageURLs) {
         Apartment apartment = apartmentService.getApartmentById(apartmentId);
 
-        List<String> fileNames = Arrays.asList(files)
-                .stream()
-                .map(file -> {
-                    String fileName = fileStorageService.storeFile(file, "apartments");
-                    if (fileName == null) {
-                        throw new CustomMessageException("One or more of the uploaded files have invalid type");
-                    }
-                    return fileName;
-                })
-                .collect(Collectors.toList());
-
-        Apartment a = apartmentService.addApartmentPictures(apartment, fileNames);
+        Apartment a = apartmentService.addApartmentPictures(apartment, imageURLs);
         return a;
     }
 
     @Secured("ROLE_ADMIN")
-    @DeleteMapping(path = "/deletepic/{apartmentId}/{filename}")
-    public Apartment deleteApartmentPicture(@PathVariable("apartmentId") Long apartmentId, @PathVariable("filename") String filename ) {
-        fileStorageService.deleteFile(filename, "apartments");
-        Apartment a = apartmentService.deletePicture(apartmentId, filename);
+    @PostMapping(path = "/deletepicture")
+    public Apartment deleteApartmentPicture(@RequestParam("apartmentId") Long apartmentId, @RequestParam("imageURL") String imageURL ) {
+        Apartment a = apartmentService.deletePicture(apartmentId, imageURL);
         return a;
     }
 }

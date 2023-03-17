@@ -62,5 +62,11 @@ public class UserController {
         return this.userService.deleteUserById(id);
 
     }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping(path = "/cloudinary")
+    public Iterable<String> sendCloudinaryCredentials(){
+        return this.userService.sendCloudinaryCredentials();
+    }
 }
 

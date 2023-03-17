@@ -15,7 +15,7 @@
           class="d-flex child-flex col-md-4 col-6"
         >
           <v-img
-            :src="$store.state.imgPath + pic"
+            :src="pic"
             :lazy-src="`https://picsum.photos/10/6?image=${index * 5 + 10}`"
             aspect-ratio="1"
             class="grey lighten-2"
@@ -44,7 +44,6 @@
         </v-col>
       </v-row>
     </div>
-    
   </div>
 </template>
 
@@ -54,7 +53,7 @@ export default {
   name: "CGallery",
   props: ["pictures"],
   components: {
-    LightGallery
+    LightGallery,
   },
   data() {
     return {
@@ -65,6 +64,8 @@ export default {
   mounted() {},
   methods: {
     deletePicture() {
+      console.log("delete pic");
+      console.log(this.pictureToBeRemoved);
       this.$emit("delete-picture", this.pictureToBeRemoved);
     },
     openDialog(pic) {
@@ -72,8 +73,9 @@ export default {
         title: "Biztosan törölni szeretnéd?",
         confirmButton: "Törlés",
         onConfirm: () => {
+          console.log("confirm");
           return this.deletePicture();
-        }
+        },
       });
       this.pictureToBeRemoved = pic;
     },
@@ -82,7 +84,7 @@ export default {
     pictureURLs() {
       var picURLs = [];
       this.pictures.forEach((pic) => {
-        picURLs.push(this.$store.state.imgPath + pic);
+        picURLs.push(pic);
       });
       return picURLs;
     },

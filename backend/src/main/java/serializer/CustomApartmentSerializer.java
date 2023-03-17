@@ -5,9 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import kameleon.dto.ApartmentDTO;
-import kameleon.dto.UserDTO;
 import kameleon.model.apartman.Apartment;
-import kameleon.model.auth.User;
 
 import java.io.IOException;
 
