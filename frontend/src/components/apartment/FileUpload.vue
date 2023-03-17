@@ -27,6 +27,7 @@
             color="cgreen"
             class="white--text mt-5"
             @click="savePictures"
+            :disabled="filesToUpload.length==0"
             >FELTÖLTÉS
           </v-btn>
         </v-card-actions>
