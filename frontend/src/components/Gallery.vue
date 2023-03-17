@@ -64,8 +64,6 @@ export default {
   mounted() {},
   methods: {
     deletePicture() {
-      console.log("delete pic");
-      console.log(this.pictureToBeRemoved);
       this.$emit("delete-picture", this.pictureToBeRemoved);
     },
     openDialog(pic) {
@@ -73,7 +71,6 @@ export default {
         title: "Biztosan törölni szeretnéd?",
         confirmButton: "Törlés",
         onConfirm: () => {
-          console.log("confirm");
           return this.deletePicture();
         },
       });

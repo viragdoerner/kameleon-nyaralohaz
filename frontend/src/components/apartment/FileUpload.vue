@@ -89,7 +89,6 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          console.log(error);
           this.$refs.myVueDropzone.removeAllFiles(true);
           this.$store.commit("showMessage", {
             active: true,
