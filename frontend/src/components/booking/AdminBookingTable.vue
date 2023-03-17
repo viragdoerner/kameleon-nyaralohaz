@@ -7,6 +7,7 @@
       :expanded.sync="expanded"
       item-key="id"
       show-expand
+      :loading="loading"
       :custom-sort="customSort"
       class="elevation-1 col-12 pa-0 pa-sm-3"
     >
@@ -36,10 +37,14 @@
       <template v-slot:[`item.arrival`]="{ item }">
         {{ formatDate(item.arrival) }}
       </template>
-      <template v-slot:[`item.actions`]="{ item }" v-if="$vuetify.breakpoint.smAndUp">
+      <template
+        v-slot:[`item.actions`]="{ item }"
+        v-if="$vuetify.breakpoint.smAndUp"
+      >
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
+              :disabled="loading"
               v-if="item.status == 'TENTATIVE' || item.status == 'BOOKED'"
               fab
               v-bind="attrs"
@@ -60,6 +65,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
+              :disabled="loading"
               v-if="item.status == 'TENTATIVE' || item.status == 'BOOKED'"
               fab
               v-bind="attrs"
@@ -91,6 +97,7 @@
             ></booking-tabs>
             <div class="col-12 col-sm-2">
               <v-btn
+                :disabled="loading"
                 v-if="item.status == 'TENTATIVE' || item.status == 'BOOKED'"
                 large
                 text
@@ -103,6 +110,7 @@
                 {{ statusAttrs(item.status, item).action_admin_ok }}
               </v-btn>
               <v-btn
+                :disabled="loading"
                 v-if="item.status == 'TENTATIVE' || item.status == 'BOOKED'"
                 large
                 text
@@ -115,6 +123,7 @@
                 {{ statusAttrs(item.status, item).action_admin_cancel }}
               </v-btn>
               <v-btn
+                :disabled="loading"
                 large
                 text
                 class="d-flex justify-start caption"
@@ -124,6 +133,7 @@
                 Állapot módosítás
               </v-btn>
               <v-btn
+                :disabled="loading"
                 v-if="!active"
                 large
                 text
@@ -153,6 +163,7 @@ export default {
   components: { BookingTabs },
   props: ["bookings", "active"],
   data: () => ({
+    loading: false,
     expanded: [],
     singleExpand: true,
     headers: [
@@ -277,6 +288,7 @@ export default {
       return;
     },
     mouseClickDelete(item) {
+      console.log("mouse clikc on delete")
       this.actionType = "delete";
       this.selectedBooking = item;
       this.$store.commit("dialog/openSimpleDialog", {
@@ -284,17 +296,20 @@ export default {
         text: "Biztosan ki szeretnéd véglegesen törölni a foglalást? Ezt a műveletet nem lehet visszavonni, mivel az adatbázisból is törlődik a foglalás.",
         confirmButton: "TÖRLÉS",
         confirmButtonColor: "red",
+        onConfirm: () => {
+          return this.deleteBooking();
+        },
       });
       return;
     },
     dialogOkEvent(result) {
-      if (this.actionType === "delete") {
-        this.deleteBooking();
-      } else {
+      console.log("ok event")
+      if (this.actionType !== "delete") {
         if (this.actionType === "update") {
           this.payload.newStatus = result.newStatus;
         }
         this.payload.comment = result.comment;
+        this.loading = true;
         ApiService.PUT("booking/" + this.selectedBooking.id, this.payload)
           .then((response) => {
             this.$emit("statusChanged", response.data);
@@ -303,6 +318,7 @@ export default {
               color: "success", // You can create another actions for diferent color.
               message: "Foglalás státusza sikeresen módosítva",
             });
+            this.loading = false;
           })
           .catch((error) => {
             this.$store.commit("showMessage", {
@@ -311,11 +327,14 @@ export default {
               message:
                 "Nem sikerült lemondani a foglalást. Próbáld újra, vagy mondd le telefonon vagy emailben!",
             });
+            this.loading = false;
           });
       }
       return;
     },
     deleteBooking() {
+      console.log("deletebooking")
+      this.loading = true;
       ApiService.DELETE("booking/" + this.selectedBooking.id)
         .then((response) => {
           var that = this;
@@ -327,6 +346,7 @@ export default {
             color: "success", // You can create another actions for diferent color.
             message: "Foglalás sikeresen törölve",
           });
+          this.loading = false;
         })
         .catch((error) => {
           this.$store.commit("showMessage", {
@@ -334,6 +354,7 @@ export default {
             color: "error",
             message: "Nem sikerült törölni a foglalást",
           });
+          this.loading = false;
         });
     },
     formatDate(d) {
