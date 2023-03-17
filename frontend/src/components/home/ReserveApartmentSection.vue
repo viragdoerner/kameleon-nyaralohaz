@@ -32,7 +32,7 @@
       v-bind:class="{ 'order-md-1': index % 2 == 1 }"
       class="order-0 col-12 col-md-6"
     >
-      <v-parallax dark :src="$store.state.imgPath + apartment.pictures[0]">
+      <v-parallax dark :src="apartment.pictures[0]">
         <v-row align="center" justify="center">
           <v-col class="text-center" cols="12">
             <v-overlay absolute color="cgreen" class="d-flex flex-column">
