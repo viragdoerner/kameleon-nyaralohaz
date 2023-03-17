@@ -14,6 +14,13 @@
             v-on:vdropzone-removed-file="fileRemoved"
           ></vue-dropzone>
         </v-card-text>
+        <v-progress-linear
+          v-if="loading"
+          :indeterminate="loading"
+          absolute
+          bottom
+          color="cgreen"
+        ></v-progress-linear>
         <v-card-actions class="pa-0 pa-md-4">
           <v-btn
             elevation="2"
@@ -30,9 +37,8 @@
 
 <script>
 import vue2Dropzone from "vue2-dropzone";
-import FileuploadService from "../../services/fileupload.service"
+import CloudinaryService from "../../services/cloudinary.service";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
-import ApiService from "../../services/api.service";
 
 export default {
   name: "CFileUpload",
@@ -42,6 +48,7 @@ export default {
   props: ["apartmentId"],
   data() {
     return {
+      loading: false,
       dropzoneOptions: {
         url: "https://httpbin.org/post",
         uploadMultiple: true,
@@ -57,7 +64,7 @@ export default {
   mounted() {},
   methods: {
     fileAdded(file) {
-      this.$refs.myVueDropzone.processQueue();
+      //this.$refs.myVueDropzone.processQueue();
       this.filesToUpload.push(file);
     },
     fileRemoved(file) {
@@ -67,13 +74,36 @@ export default {
       }
     },
     savePictures() {
-      FileuploadService.saveImages(this.filesToUpload, this.apartmentId);
-      this.$refs.myVueDropzone.removeAllFiles(true);
+      this.loading = true;
+      CloudinaryService.saveImages(this.filesToUpload, this.apartmentId)
+        .then((response) => {
+          this.$emit("uploaded-pictures", response.data);
+          this.$store.commit("showMessage", {
+            active: true,
+            color: "cgreen",
+            message: "Sikeres képfeltöltés",
+          });
+          this.loading = false;
+          this.$refs.myVueDropzone.removeAllFiles(true);
+        })
+        .catch((error) => {
+          this.loading = false;
+          console.log(error);
+          this.$refs.myVueDropzone.removeAllFiles(true);
+          this.$store.commit("showMessage", {
+            active: true,
+            color: "error",
+            message: "Nem sikerült feltölteni a képeket. Próbáld újra!",
+          });
+        });
     },
   },
 };
 </script>
 <style lang="scss">
+#dropzone .dz-progress {
+  display: none;
+}
 #dropzone {
   outline: 2px dashed grey; /* the dash box */
   outline-offset: -10px;

@@ -17,7 +17,7 @@
 <script>
 import CFileUpload from "./FileUpload.vue";
 import CGallery from "../Gallery.vue";
-import ApiService from "../../services/api.service"
+import ApiService from "../../services/api.service";
 export default {
   name: "CGallerySection",
   props: ["apartment"],
@@ -36,11 +36,14 @@ export default {
       this.$emit("updateApartment", updatedApartment);
       //this.apartment = updatedApartment;
     },
-    onDeletePicture(pic) {
-      ApiService.DELETE( "apartment/deletepic/" + this.apartment.id + "/" + pic)
+    onDeletePicture(url) {
+      const formData = new FormData();
+      formData.append("imageURL", url);
+      formData.append("apartmentId", this.apartment.id);
+      console.log(FormData);
+      ApiService.POST("apartment/deletepicture", formData)
         .then((response) => {
           this.$emit("updateApartment", response.data);
-          //this.apartment = response.data;
           this.$store.commit("showMessage", {
             active: true,
             color: "cgreen",

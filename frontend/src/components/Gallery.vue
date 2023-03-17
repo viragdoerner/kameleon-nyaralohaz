@@ -1,6 +1,5 @@
 <template>
   <div class="app-container">
-     <cld-image public-id="sample" ></cld-image>
     <div>
       <v-row>
         <LightGallery
@@ -45,7 +44,6 @@
         </v-col>
       </v-row>
     </div>
-    
   </div>
 </template>
 
@@ -55,7 +53,7 @@ export default {
   name: "CGallery",
   props: ["pictures"],
   components: {
-    LightGallery
+    LightGallery,
   },
   data() {
     return {
@@ -66,6 +64,8 @@ export default {
   mounted() {},
   methods: {
     deletePicture() {
+      console.log("delete pic");
+      console.log(this.pictureToBeRemoved);
       this.$emit("delete-picture", this.pictureToBeRemoved);
     },
     openDialog(pic) {
@@ -73,8 +73,9 @@ export default {
         title: "Biztosan törölni szeretnéd?",
         confirmButton: "Törlés",
         onConfirm: () => {
+          console.log("confirm");
           return this.deletePicture();
-        }
+        },
       });
       this.pictureToBeRemoved = pic;
     },

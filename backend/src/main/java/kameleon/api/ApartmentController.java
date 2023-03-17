@@ -66,10 +66,9 @@ public class ApartmentController {
     }
 
     @Secured("ROLE_ADMIN")
-    @DeleteMapping(path = "/deletepic/{apartmentId}/{filename}")
-    public Apartment deleteApartmentPicture(@PathVariable("apartmentId") Long apartmentId, @PathVariable("filename") String filename ) {
-        fileStorageService.deleteFile(filename, "apartments");
-        Apartment a = apartmentService.deletePicture(apartmentId, filename);
+    @PostMapping(path = "/deletepicture")
+    public Apartment deleteApartmentPicture(@RequestParam("apartmentId") Long apartmentId, @RequestParam("imageURL") String imageURL ) {
+        Apartment a = apartmentService.deletePicture(apartmentId, imageURL);
         return a;
     }
 }
