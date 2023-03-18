@@ -44,7 +44,9 @@ services:
         "spring.mail.password": "$SPRING_MAIL_PASSWORD",
         "spring.mail.properties.mail.smtp.auth": "true",
         "spring.mail.properties.mail.smtp.starttls.enable": "true",
-        "kameleon.app.backendURL": "http://localhost:8080"
+        "kameleon.app.backendURL": "http://localhost:8080",
+        "kameleon.app.cloudinaryUploadPreset": "$CLOUDINARY_UPLOAD_PRESET"
+        "kameleon.app.cloudinaryName": "$PASTE_HERE_THE_NAME"
       }'
     volumes:
       - .m2:/root/.m2

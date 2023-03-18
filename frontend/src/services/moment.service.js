@@ -46,13 +46,20 @@ class MomentService {
         var dateB = moment(B);
         if (isDesc) {
             if (dateA.isBefore(dateB)) return 1;
-            if (dateA.isAfter(dateB) ) return -1;
+            if (dateA.isAfter(dateB)) return -1;
             return 0;
         } else {
             if (dateA.isBefore(dateB)) return -1;
-            if (dateA.isAfter(dateB) ) return 1;
+            if (dateA.isAfter(dateB)) return 1;
             return 0;
         }
+    }
+    removeDayOfDepartureFromBookingDates(departures) {
+        var modifiedDates = [];
+        departures.forEach(departure => {
+            modifiedDates.push(moment(departure).subtract(1, 'days').format("YYYY-MM-DD"))
+        })
+        return modifiedDates
     }
 }
 export default new MomentService();

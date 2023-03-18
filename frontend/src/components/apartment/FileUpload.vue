@@ -27,6 +27,7 @@
             color="cgreen"
             class="white--text mt-5"
             @click="savePictures"
+            :disabled="filesToUpload.length==0"
             >FELTÖLTÉS
           </v-btn>
         </v-card-actions>
@@ -88,7 +89,6 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          console.log(error);
           this.$refs.myVueDropzone.removeAllFiles(true);
           this.$store.commit("showMessage", {
             active: true,

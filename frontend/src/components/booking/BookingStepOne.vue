@@ -133,12 +133,16 @@ export default {
       this.loading = true;
       BookingService.getDisabledDates(this.selectedApartment, this.dogIncluded)
         .then((data) => {
-          this.disabled_dates = data;
+          this.disabled_dates =
+            MomentService.removeDayOfDepartureFromBookingDates(data);
           this.loading = false;
         })
-        .catch((data) => {
-          this.disabled_dates = data;
-          this.loading = false;
+        .catch(() => {
+          this.$store.commit("showMessage", {
+            active: true,
+            color: "error",
+            message: "Hiba történt az elérhető dátumok betöltésénél",
+          });
         });
     },
     allowedDates(val) {
@@ -187,7 +191,9 @@ export default {
       this.dates = bookingData.dates;
       this.selectedApartment = bookingData.selectedApartment;
       this.apartments = bookingData.apartments;
-      this.disabled_dates = bookingData.disabled_dates;
+      this.disabled_dates = MomentService.removeDayOfDepartureFromBookingDates(
+        bookingData.disabled_dates
+      );
     } else {
       this.getApartments();
     }

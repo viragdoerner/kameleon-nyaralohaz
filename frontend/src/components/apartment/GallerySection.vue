@@ -40,7 +40,6 @@ export default {
       const formData = new FormData();
       formData.append("imageURL", url);
       formData.append("apartmentId", this.apartment.id);
-      console.log(FormData);
       ApiService.POST("apartment/deletepicture", formData)
         .then((response) => {
           this.$emit("updateApartment", response.data);
