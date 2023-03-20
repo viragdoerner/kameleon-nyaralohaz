@@ -52,8 +52,10 @@ public class UserService {
         return allDTO;
     }
 
+    
     public UserDTO convertUser(User user) {
-        UserDTO dto = new UserDTO(user.getId(), user.getLastName(), user.getFirstName(), user.getEmail(), user.getPhonenumber());
+        
+        UserDTO dto = new UserDTO(user.getId(), user.getLastName(), user.getFirstName(), user.getEmail(), user.getPhonenumber(), user.hasAdminRole());
         return dto;
     }
 
@@ -126,6 +128,44 @@ public class UserService {
        return new ResponseEntity<>("Felhasználó sikeresen törölve",
                HttpStatus.OK);
     }
+
+    public ResponseEntity<String> changeUserRole(long id) throws CustomMessageException{
+        User user = userRepository.findById(id).orElseThrow(() -> new CustomMessageException("Nincs felhasználó ilyen id-val!"));
+        Set<Role> roles =user.getRoles();
+        Role isAdmin = roles.stream().filter(x -> x.getName().equals(RoleName.ROLE_ADMIN)).findFirst().orElse(null);
+
+        UserDTO current = this.getCurrentUser();
+        if(current.getId()== user.getId()){
+            return new ResponseEntity<>("Nem tudod törölni saját magad admin jogosultságát!",
+                        HttpStatus.BAD_REQUEST);
+        }
+        //ha admin a felhasznalo
+        if (isAdmin != null) {
+            List<User> admins = this.findAllAdmin();
+            if (admins.size() == 1) {
+                return new ResponseEntity<>("Nem lehet kitörölni az utolsó admint!",
+                        HttpStatus.BAD_REQUEST);
+            } else{
+                Set<Role> newroles = new HashSet<>();
+                Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                    .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find. Run POST request /api/auth/setup/roles first!"));
+                newroles.add(userRole);
+                user.setRoles(newroles);
+                userRepository.save(user);
+                return new ResponseEntity<>("Felhasználó admin jogosultága sikeresen törölve", HttpStatus.OK);
+            }
+        } else{
+            Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                    .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Admin Role not find. Run POST request /api/auth/setup/roles first!"));
+            roles.add(adminRole);
+            user.setRoles(roles);
+            userRepository.save(user);
+            return new ResponseEntity<>("Felhasználó admin jogosultága sikeresen hozzáadva",
+            HttpStatus.OK);
+        }
+    }
+
+    
 
     public UserDTO getUserByEmail(String email) {
         User user = getFullUserByEmail(email);
