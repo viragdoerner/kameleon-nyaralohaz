@@ -60,6 +60,13 @@ public class UserController {
     @DeleteMapping ("{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable("id") long id){
         return this.userService.deleteUserById(id);
+    }
+
+    @Secured("ROLE_ADMIN")
+    @Transactional
+    @PutMapping ("/changerole/{id}")
+    public ResponseEntity<?> changeUserRole(@PathVariable("id") long id){
+        return this.userService.changeUserRole(id);
 
     }
 

@@ -6,8 +6,8 @@
       <v-toolbar-title>Kaméleon apartmanház</v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <v-btn depressed to="/booking" color="corange" class="d-none d-sm-flex"> Foglalás </v-btn>
-      <v-btn depressed to="/login" color="clightgreen" v-if="!loggedIn" class="ml-3 d-none d-sm-flex" > Bejelentkezés </v-btn>
+      <v-btn depressed v-if="isAdmin" to="/booking" color="corange" class="d-none d-sm-flex"> Foglalás </v-btn>
+      <v-btn depressed to="/login" color="clightgreen" v-if="!loggedIn &&isAdmin" class="ml-3 d-none d-sm-flex" > Bejelentkezés </v-btn>
 
       <v-menu bottom left v-if="loggedIn">
         <template v-slot:activator="{ on, attrs }">
@@ -17,7 +17,7 @@
         </template>
         <v-list>
           <v-list-item>
-            <v-btn text to="/user-booking"> Foglalásaim</v-btn>
+            <v-btn text v-if="isAdmin" to="/user-booking"> Foglalásaim</v-btn>
           </v-list-item>
           <v-list-item v-if="loggedIn" >
             <v-btn text @click="logout"> Kijelentkezés </v-btn>
@@ -50,7 +50,7 @@
             <v-list-item-title class="text-body-1 text-sm-body-2">{{ route.name }}</v-list-item-title>
           </v-list-item>
 
-           <v-list-item to="/user-booking" v-if="loggedIn">
+           <v-list-item  to="/user-booking" v-if="loggedIn && isAdmin">
             <v-list-item-icon>
               <v-icon>mdi-list-box-outline</v-icon>
             </v-list-item-icon>
@@ -79,7 +79,7 @@
       </v-list>
       <template v-slot:append>
         <div class="pa-2 mb-3">
-           <v-btn block color="corange" dark to="booking" class="mb-3" :x-large="$vuetify.breakpoint.mobile">
+           <v-btn v-if="isAdmin" block color="corange" dark to="booking" class="mb-3" :x-large="$vuetify.breakpoint.mobile">
             Foglalás
            <v-icon right dark> mdi-calendar </v-icon>
           </v-btn>
@@ -87,7 +87,7 @@
             Kijelentkezés
             <v-icon right dark> mdi-logout </v-icon>
           </v-btn>
-          <v-btn block color="clightgreen" dark v-if="!loggedIn" to="/login" :x-large="$vuetify.breakpoint.mobile">
+          <v-btn block color="clightgreen" dark v-if="!loggedIn && isAdmin" to="/login" :x-large="$vuetify.breakpoint.mobile">
             Bejelentkezés
             <v-icon right dark> mdi-login </v-icon>
           </v-btn>
