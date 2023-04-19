@@ -42,14 +42,22 @@
                 >
               </v-row>
               <v-row>
-                <v-btn
-                  @click="toBooking()"
-                  elevation="2"
-                  x-large
-                  color="corange"
-                  class="ma-2"
-                  >FOGLALÁS
-                </v-btn>
+                <v-tooltip bottom max-width="200">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      v-bind="attrs"
+                      v-on="on"
+                      @click="bookingAlert()"
+                      elevation="2"
+                      x-large
+                      color="corange"
+                      class="ma-2"
+                      >FOGLALÁS
+                    </v-btn>
+                  </template>
+                  <span>Az online foglalás jelenleg fejlesztés alatt áll.</span>
+                </v-tooltip>
+
                 <v-btn
                   :to="getRoute"
                   elevation="2"
@@ -100,6 +108,14 @@ export default {
     toBooking() {
       this.$store.commit("selectApartmentId", this.apartment.id);
       this.$router.push("/booking");
+    },
+    bookingAlert() {
+      this.$store.commit("showMessage", {
+        active: true,
+        color: "warning",
+        message:
+          "Még nem elérhető az online foglalás. Jelenleg foglalni az oldal alján található elérhetőségeken lehet.",
+      });
     },
   },
   computed: {

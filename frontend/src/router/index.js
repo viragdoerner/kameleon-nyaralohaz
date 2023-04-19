@@ -51,8 +51,8 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const adminPages = ['/user-management', '/admin-booking'];
-  const userPages = ['/booking', '/user-management', '/user-booking'];
+  const adminPages = ['/user-management', '/admin-booking','/booking', '/user-booking'];
+  const userPages = ['/booking', '/user-booking'];
   const adminAuthRequired = adminPages.includes(to.path);
   const authRequired = userPages.includes(to.path);
 

@@ -1,101 +1,21 @@
 <template>
   <v-card
-    class="
-      pa-md-10 pa-4
-      ma-md-10 ma-0
-      mt-5 mt-md-10
-      col-12 col-sm-8 col-md-6
-      align-self-center
-    "
+    class="pa-md-10 pa-4 ma-md-10 ma-0 mt-5 mt-md-10 col-12 col-sm-8 col-md-6 align-self-center"
   >
-    <v-card-text>
-      <v-row>
-        <v-combobox
-          class="my-0"
-          v-model="selectedApartment"
-          :items="apartments"
-          item-text="name"
-          prepend-inner-icon="mdi-home"
-          label="Apartman"
-          solo
-          :disabled="disable_apartment"
-          color="cgreen"
-          @change="dataChanged()"
-        ></v-combobox>
-      </v-row>
-      <v-row>
-        <v-menu
-          ref="menu"
-          v-model="menu"
-          :close-on-content-click="false"
-          :return-value.sync="dates"
-          transition="scale-transition"
-          offset-y
-          min-width="auto"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-text-field
-              v-model="dates"
-              :disabled="!!!selectedApartment"
-              label="Date range"
-              prepend-inner-icon="mdi-calendar"
-              readonly
-              solo
-              v-bind="attrs"
-              v-on="on"
-              @click="dateClick"
-            ></v-text-field>
-          </template>
-          <v-date-picker
-            v-model="dates"
-            range
-            no-title
-            scrollable
-            color="cgreen"
-            :disabled="!!!selectedApartment || disabled_dates === -1"
-            :allowed-dates="allowedDates"
-            show-adjacent-months
-            full-width
-            @input="dateClick"
-          >
-            <v-progress-linear
-              :active="loading"
-              :indeterminate="loading"
-              absolute
-              bottom
-              color="cgreen"
-            >
-            </v-progress-linear>
-            <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="menu = false"> Cancel </v-btn>
-            <v-btn text color="primary" @click="$refs.menu.save(dates)">
-              OK
-            </v-btn>
-          </v-date-picker>
-        </v-menu>
-      </v-row>
-
-      <v-row>
-        <v-checkbox
-          class="my-0"
-          v-model="dogIncluded"
-          label="Kutyussal jövünk"
-          hint="Plusz költséggel nem jár, de korlátozhatja az elérhető dátumok számát."
-          :persistent-hint="dogIncluded"
-          color="cgreen"
-          @change="dataChanged()"
-        ></v-checkbox>
-      </v-row>
-      <v-row>
-        <v-btn
-          elevation="2"
-          x-large
-          color="corange"
-          class="white--text mt-3"
-          @click="submit()"
-          >FOGLALÁS
-        </v-btn>
-      </v-row>
+    <v-card-title class="text-h3 cgreen--text">Foglalás</v-card-title>
+    <v-card-text
+      >Nemsokára a weboldalon is lehet majd online foglalni! Addig ez az alábbi
+      telefonszámok egyikén vagy emailben lehetséges.
+    </v-card-text>
+    <v-card-text
+      class="d-flex justify-content-center align-items-center py-1"
+      max-width="100%"
+    >
+      <v-chip class="mr-1 white--text" color="corange">+36302460637</v-chip>
+      <v-chip class="mr-1 white--text" color="corange">+36304032377</v-chip>
+    </v-card-text>
+    <v-card-text class="d-flex justify-content-center pt-1" max-width="100%">
+      <v-chip color="clightgreen white--text">mail.dorner.eva@gmail.com</v-chip>
     </v-card-text>
   </v-card>
 </template>
@@ -119,7 +39,8 @@ export default {
       this.loading = true;
       BookingService.getDisabledDates(this.selectedApartment, this.dogIncluded)
         .then((data) => {
-          this.disabled_dates = MomentService.removeDayOfDepartureFromBookingDates(data);
+          this.disabled_dates =
+            MomentService.removeDayOfDepartureFromBookingDates(data);
           this.loading = false;
         })
         .catch(() => {
@@ -147,6 +68,14 @@ export default {
       this.$store.commit("saveBookingData", bookingData);
       this.$router.push("/booking");
     },
+    bookingAlert() {
+      this.$store.commit("showMessage", {
+        active: true,
+        color: "warning",
+        message:
+          "Még nem elérhető az online foglalás. Jelenleg foglalni az oldal alján található elérhetőségeken lehet.",
+      });
+    },
   },
   computed: {
     dateRangeText() {
@@ -154,7 +83,7 @@ export default {
     },
   },
   mounted() {
-    if(this.apartments.length==1){
+    if (this.apartments.length == 1) {
       this.selectedApartment = this.apartments[0];
       this.disable_apartment = true;
     }
