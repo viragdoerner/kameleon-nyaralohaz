@@ -70,3 +70,7 @@ frontend/dist/
 .m2/
 
 .env
+
+.env.beta
+
+.env.prod
