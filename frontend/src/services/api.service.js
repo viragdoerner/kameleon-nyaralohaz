@@ -1,8 +1,9 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = 'http://localhost:8080/';
+//const API_URL = 'http://localhost:8080/';
 //const API_URL = 'https://api.kameleonbalaton.hu/';
+const API_URL = 'https://beta.api.kameleonbalaton.hu/';
 
 class ApiService {
     API_URL = API_URL
