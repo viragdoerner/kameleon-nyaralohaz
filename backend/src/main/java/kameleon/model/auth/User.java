@@ -79,6 +79,9 @@ public class User{
         this.password = password;
         this.bookings = bookings;
     }
+    public Boolean hasAdminRole(){
+        return roles.stream().filter(r -> r.getName().equals(RoleName.ROLE_ADMIN)).findFirst().isPresent();
+    }
 
     public Long getId() {
         return id;

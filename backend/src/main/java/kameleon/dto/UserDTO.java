@@ -29,15 +29,26 @@ public class UserDTO {
     @Size(max = 50)
     private String phonenumber;
 
+    private Boolean isAdmin;
+
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String lastname, String firstname, String email, String phonenumber) {
+    public UserDTO(Long id, String lastname, String firstname, String email, String phonenumber, Boolean isAdmin) {
         this.id = id;
         this.lastname = lastname;
         this.firstname = firstname;
         this.email = email;
         this.phonenumber = phonenumber;
+        this.isAdmin=isAdmin;
+    }
+
+    public Boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     public Long getId() {

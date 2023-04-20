@@ -29,7 +29,7 @@ public class CustomUserSerializer extends StdSerializer<User> {
         UserDTO dto = new UserDTO(
                 user.getId(), user.getLastName(),
                 user.getFirstName(), user.getEmail(),
-                user.getPhonenumber());
+                user.getPhonenumber(), user.hasAdminRole() );
 
         generator.writeObject(dto);
     }
